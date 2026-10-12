@@ -122,10 +122,10 @@ export function Ecosystem({ highlight = [], className }: { highlight?: string[];
   return (
     <div className={cn("relative [container-type:inline-size]", className)}>
       {/* title */}
-      <p aria-hidden className="overflow-hidden font-heading text-[11.2cqw] leading-[0.95] font-bold tracking-[-0.05em] whitespace-nowrap text-brand/[0.07] lg:text-[7cqw]">
+      <h3 className="overflow-hidden font-heading text-[11.2cqw] leading-[1] font-bold tracking-[-0.05em] whitespace-nowrap text-brand lg:text-[7cqw]">
         {ecosystem.title}
-      </p>
-      <p className="relative -mt-[5cqw] max-w-[760px] text-[18px] leading-snug text-ink md:text-[19px] lg:-mt-[3.2cqw]">{ecosystem.intro}</p>
+      </h3>
+      <p className="mt-3 max-w-[760px] text-[18px] leading-snug text-body md:text-[19px]">{ecosystem.intro}</p>
 
       <div ref={wrap} className="relative mt-6">
         {/* arrows */}
