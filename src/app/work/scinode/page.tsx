@@ -23,7 +23,6 @@ const label = "mb-2 text-[11px] font-semibold tracking-[0.12em] text-soft upperc
 const sections = [
   { id: "glance", label: "Project at a glance" },
   { id: "problem", label: "The problem" },
-  { id: "ecosystem", label: "How it works" },
   { id: "role", label: "My role" },
   { id: "design-system", label: "Design system" },
   { id: "learnings", label: "Learnings" },
@@ -89,6 +88,12 @@ export default function ScinodePage() {
           </div>
         </section>
 
+        {/* how it works: one row, full width, fits one screen */}
+        <section id="ecosystem" className={`${shell} mt-24 scroll-mt-24 lg:mt-32`}>
+          <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">How it works</p>
+          <Ecosystem highlight={litSteps} className="mt-2" />
+        </section>
+
         <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-20`}>
           <aside className="hidden lg:block">
             <Toc items={sections} />
@@ -116,18 +121,14 @@ export default function ScinodePage() {
               </Placeholder>
             </WireSection>
 
-            <WireSection id="ecosystem" n={3} eyebrow="How it works" title="How the ecosystem works">
-              <Ecosystem highlight={litSteps} />
-            </WireSection>
-
-            <WireSection id="role" n={4} eyebrow="My role" title="My part of the ecosystem">
+            <WireSection id="role" n={3} eyebrow="My role" title="My part of the ecosystem">
               <Placeholder label="My role" hint="One honest line: I designed these modules end to end; the other modules were designed by teammates.">
                 <Lines n={2} />
               </Placeholder>
             </WireSection>
 
 
-            <WireSection id="design-system" n={5} eyebrow="Design system" title="One visual language across all portals">
+            <WireSection id="design-system" n={4} eyebrow="Design system" title="One visual language across all portals">
               <div className="grid gap-4 md:grid-cols-3">
                 {["Typography", "Colour", "Components"].map((t) => (
                   <Placeholder key={t} label={t} className="min-h-[160px]">
@@ -137,7 +138,7 @@ export default function ScinodePage() {
               </div>
             </WireSection>
 
-            <WireSection id="learnings" n={6} eyebrow="Learnings" title="What I learned">
+            <WireSection id="learnings" n={5} eyebrow="Learnings" title="What I learned">
               <div className="grid gap-4 md:grid-cols-2">
                 {[1, 2].map((i) => (
                   <Placeholder key={i} label={`Learning ${i}`} hint={i === 1 ? "Designing one part of a connected system: hand-offs between portals and shared states." : undefined}>
