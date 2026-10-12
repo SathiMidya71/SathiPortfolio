@@ -65,7 +65,7 @@ export default async function ModulePage({ params }: Params) {
           </p>
           <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[76px] lg:leading-none">{m.name}</h1>
           <p className="mt-5 max-w-[720px] text-[19px] leading-snug text-body">{m.summary}</p>
-          {m.tbc && <p className="mt-4 inline-block rounded-full bg-[#fff1e6] px-3 py-1 text-[12px] font-bold text-[#b8461a]">CONTENT TO COME</p>}
+          {m.tbc && <p className="mt-4 inline-block rounded-full bg-[#ece9fd] px-3 py-1 text-[12px] font-bold text-[#5b4fd1]">CONTENT TO COME</p>}
         </header>
 
         <div className={`${shell} mt-10`}>

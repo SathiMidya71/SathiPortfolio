@@ -13,9 +13,9 @@ import { cn } from "@/lib/utils"
 
 const bands: { key: string; label: string; name: string; span: number; icon: LucideIcon; tint: string; ink: string }[] = [
   { key: "customer", label: "Customer side", name: "Customer Portal", span: 1, icon: Users, tint: "#ece9fd", ink: "#6e62e5" },
-  { key: "admin", label: "Business & admin side", name: "Business & Admin Portal", span: 2, icon: Cog, tint: "#e3f3fa", ink: "#1f86ad" },
-  { key: "supplier", label: "Supplier side", name: "Supplier Portal", span: 2, icon: FlaskConical, tint: "#fdeee0", ink: "#c2621c" },
-  { key: "execution", label: "Execution", name: "Delivery", span: 1, icon: Truck, tint: "#e4f1eb", ink: "#02594e" },
+  { key: "admin", label: "Business & admin side", name: "Business & Admin Portal", span: 2, icon: Cog, tint: "#f2ece3", ink: "#6b7f7c" },
+  { key: "supplier", label: "Supplier side", name: "Supplier Portal", span: 2, icon: FlaskConical, tint: "#e4f1eb", ink: "#02594e" },
+  { key: "execution", label: "Execution", name: "Delivery", span: 1, icon: Truck, tint: "#f2ece3", ink: "#6b7f7c" },
 ]
 const bandOf = Object.fromEntries(bands.map((b) => [b.key, b])) as Record<string, (typeof bands)[number]>
 const valueIcons: LucideIcon[] = [Puzzle, Target, Rocket]

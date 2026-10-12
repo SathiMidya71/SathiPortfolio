@@ -54,19 +54,19 @@ export default function ScinodePage() {
             <div>
               <dt className={label}>My role</dt>
               <dd className="text-[17px] leading-[1.55] font-medium text-ink">
-                <span className="rounded bg-[#fff1e6] px-1 text-[#b8461a]">Placeholder</span> Role title and the modules I owned end to end.
+                <span className="rounded bg-[#ece9fd] px-1 text-[#5b4fd1]">Placeholder</span> Role title and the modules I owned end to end.
               </dd>
             </div>
             <div>
               <dt className={label}>Team</dt>
               <dd className="text-[17px] leading-[1.55] font-medium text-ink">
-                <span className="rounded bg-[#fff1e6] px-1 text-[#b8461a]">Placeholder</span> Designers, PM, engineering
+                <span className="rounded bg-[#ece9fd] px-1 text-[#5b4fd1]">Placeholder</span> Designers, PM, engineering
               </dd>
             </div>
             <div>
               <dt className={label}>Timeline</dt>
               <dd className="text-[17px] leading-[1.55] font-medium text-ink">
-                <span className="rounded bg-[#fff1e6] px-1 text-[#b8461a]">Placeholder</span> Year · duration
+                <span className="rounded bg-[#ece9fd] px-1 text-[#5b4fd1]">Placeholder</span> Year · duration
               </dd>
             </div>
           </dl>
@@ -76,22 +76,22 @@ export default function ScinodePage() {
           <ImageBox label="Hero image: SCINODE across its three portals" ratio="16 / 8" />
         </div>
 
+        {/* how it works: one row, full width, fits one screen */}
+        <section id="ecosystem" className={`${shell} mt-20 scroll-mt-24 lg:mt-28`}>
+          <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">How it works</p>
+          <Ecosystem highlight={litSteps} className="mt-2" />
+        </section>
+
         {/* the clickable ecosystem map, full width */}
-        <section id="map" className={`${shell} mt-20 scroll-mt-28 lg:mt-28`}>
+        <section id="map" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Ecosystem map</p>
-          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">One platform, three portals</h2>
+          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">What I designed, by user</h2>
           <p className="mt-4 max-w-[720px] text-[17px] leading-relaxed text-body">
-            I designed the customer CVP and the whole supplier side, one case study per user type. Click a card to open it.
+            I designed the customer CVP and the whole supplier side. Each user type is its own case study: click a card to open it.
           </p>
           <div className="mt-12">
             <EcosystemMap />
           </div>
-        </section>
-
-        {/* how it works: one row, full width, fits one screen */}
-        <section id="ecosystem" className={`${shell} mt-24 scroll-mt-24 lg:mt-32`}>
-          <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">How it works</p>
-          <Ecosystem highlight={litSteps} className="mt-2" />
         </section>
 
         <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-20`}>

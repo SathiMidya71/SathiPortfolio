@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils"
 export function Placeholder({ label, hint, className, children }: { label: string; hint?: string; className?: string; children?: React.ReactNode }) {
   return (
     <div className={cn("rounded-[18px] border-2 border-dashed border-[#d6cbb9] bg-white/50 p-5", className)}>
-      <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] text-[#b8461a] uppercase">
-        <span className="rounded-full bg-[#fff1e6] px-2 py-0.5">Placeholder</span>
+      <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] text-[#5b4fd1] uppercase">
+        <span className="rounded-full bg-[#ece9fd] px-2 py-0.5">Placeholder</span>
         {label}
       </p>
       {hint && <p className="mt-2 text-[14.5px] leading-snug text-soft">{hint}</p>}

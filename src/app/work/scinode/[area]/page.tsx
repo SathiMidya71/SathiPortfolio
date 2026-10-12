@@ -56,7 +56,7 @@ export default async function AreaPage({ params }: Params) {
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">SCINODE · {portalNames[a.portal]}</p>
           <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[80px] lg:leading-none">{label}</h1>
           <p className="mt-5 max-w-[720px] text-[19px] leading-snug text-body">{a.audience}</p>
-          {a.tbc && <p className="mt-4 inline-block rounded-full bg-[#fff1e6] px-3 py-1 text-[12px] font-bold text-[#b8461a]">CONTENT TO COME</p>}
+          {a.tbc && <p className="mt-4 inline-block rounded-full bg-[#ece9fd] px-3 py-1 text-[12px] font-bold text-[#5b4fd1]">CONTENT TO COME</p>}
           <div className="mt-10 rounded-[20px] border border-line bg-white/60 p-5">
             <p className="mb-3 text-[11px] font-semibold tracking-[0.12em] text-soft uppercase">
               Where it sits in the ecosystem: {a.steps.map((n) => `${n} ${ecosystem.steps.find((s) => s.n === n)?.title}`).join(" · ")}
@@ -105,7 +105,7 @@ export default async function AreaPage({ params }: Params) {
                     </span>
                     <span className="mt-4 block text-[19px] font-semibold text-ink">{m.name}</span>
                     <span className="mt-1.5 block text-[14.5px] leading-snug text-body">{m.summary}</span>
-                    {m.tbc && <span className="mt-3 inline-block rounded-full bg-[#fff1e6] px-2 py-0.5 text-[10.5px] font-bold text-[#b8461a]">CONTENT TO COME</span>}
+                    {m.tbc && <span className="mt-3 inline-block rounded-full bg-[#ece9fd] px-2 py-0.5 text-[10.5px] font-bold text-[#5b4fd1]">CONTENT TO COME</span>}
                   </Link>
                 ))}
               </div>

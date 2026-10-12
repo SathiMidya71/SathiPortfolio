@@ -16,8 +16,8 @@ type NodeId = "root" | PortalKey | string
 
 const portals: { key: Exclude<PortalKey, "internal">; name: string; side: string; icon: LucideIcon; tint: string; ink: string; mine: boolean }[] = [
   { key: "customer", name: "Customer Portal", side: "Customer side", icon: Users, tint: "#ece9fd", ink: "#6e62e5", mine: true },
-  { key: "admin", name: "Business & Admin Portal", side: "Business & admin side", icon: Cog, tint: "#e3f3fa", ink: "#1f86ad", mine: false },
-  { key: "supplier", name: "Supplier Portal", side: "Supplier side", icon: FlaskConical, tint: "#fdeee0", ink: "#c2621c", mine: true },
+  { key: "admin", name: "Business & Admin Portal", side: "Business & admin side", icon: Cog, tint: "#f2ece3", ink: "#6b7f7c", mine: false },
+  { key: "supplier", name: "Supplier Portal", side: "Supplier side", icon: FlaskConical, tint: "#e4f1eb", ink: "#02594e", mine: true },
 ]
 
 const areaIcon: Record<string, LucideIcon> = { cvp: Users, manufacturer: Factory, cro: Microscope, scientist: Beaker }
@@ -143,7 +143,7 @@ export function EcosystemMap() {
                 <path d={d} stroke="#e2d9ca" strokeWidth={2} strokeDasharray="2 6" />
                 <path
                   d={d}
-                  stroke={grey ? "#b7beb9" : "var(--brand)"}
+                  stroke={grey ? "#c9c1b3" : "var(--brand)"}
                   strokeWidth={2.4}
                   pathLength={1}
                   strokeDasharray="1 1"
@@ -155,31 +155,30 @@ export function EcosystemMap() {
         </svg>
       )}
 
-      <div className="relative grid gap-y-6 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-16">
+      <div className="relative grid gap-y-5 lg:grid-cols-5 lg:gap-x-4 lg:gap-y-12">
         {/* root */}
         <div className="lg:col-span-5 lg:flex lg:justify-center">
-          <div ref={ref("root")} style={pop("root")} className="inline-flex items-center gap-3 rounded-full bg-brand py-3 pr-6 pl-3 text-white shadow-[0_18px_40px_-18px_rgba(2,89,78,0.8)]">
+          <div ref={ref("root")} className="inline-block">
+          <div style={pop("root")} className="inline-flex items-center gap-3 rounded-full bg-brand py-2.5 pr-6 pl-2.5 text-white shadow-[0_18px_40px_-18px_rgba(2,89,78,0.8)]">
             <span className="grid size-10 place-items-center rounded-full bg-white/15 font-heading text-[15px] font-bold">S</span>
             <span>
               <span className="block font-heading text-[22px] leading-none font-semibold tracking-[-0.01em]">SCINODE</span>
               <span className="mt-1 block text-[12.5px] text-white/75">R&amp;D opportunity platform</span>
             </span>
           </div>
+          </div>
         </div>
 
         {/* portals */}
         {portals.map((p) => (
           <div key={p.key} className={cn("lg:row-start-2 lg:flex lg:justify-center", portalCol[p.key], mobileOrder[p.key], "max-lg:pl-6")}>
-            <div ref={ref(p.key)} style={pop(p.key)} className={cn("inline-flex items-center gap-3 rounded-[18px] px-4 py-3", !p.mine && "opacity-70")}>
-              <span className="grid size-11 shrink-0 place-items-center rounded-[14px]" style={{ background: p.tint, color: p.ink }}>
-                <p.icon className="size-6" strokeWidth={1.8} aria-hidden />
-              </span>
-              <span>
-                <span className="block text-[11.5px] font-semibold tracking-[0.12em] whitespace-nowrap uppercase" style={{ color: p.ink }}>
-                  {p.side}
+            <div ref={ref(p.key)} className="inline-block">
+              <div style={pop(p.key)} className="inline-flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5" >
+                <span className="grid size-8 shrink-0 place-items-center rounded-full" style={{ background: p.tint, color: p.ink }}>
+                  <p.icon className="size-4" strokeWidth={2} aria-hidden />
                 </span>
-                <span className="block text-[18px] leading-tight font-semibold whitespace-nowrap text-ink">{p.name}</span>
-              </span>
+                <span className={cn("text-[15px] font-semibold whitespace-nowrap", p.mine ? "text-ink" : "text-soft")}>{p.name}</span>
+              </div>
             </div>
           </div>
         ))}
@@ -190,45 +189,44 @@ export function EcosystemMap() {
           const p = portals.find((x) => x.key === a.portal)!
           return (
             <div key={a.slug} className={cn("min-w-0 lg:row-start-3", areaCol[a.slug], mobileOrder[a.slug], "max-lg:pl-14")}>
+              <div ref={ref(a.slug)} className="h-full">
               <Link
-                ref={ref(a.slug)}
                 href={`/work/scinode/${a.slug}`}
                 style={pop(a.slug)}
-                className="group block h-full rounded-[22px] border border-line bg-white p-5 shadow-[0_18px_40px_-28px_rgba(16,24,40,0.45)] transition-[translate,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-[0_26px_50px_-28px_rgba(2,89,78,0.5)]"
+                className="group relative flex h-full flex-col rounded-[18px] border border-line bg-white p-4 shadow-[0_14px_32px_-24px_rgba(16,24,40,0.45)] transition-[translate,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-[0_22px_44px_-24px_rgba(2,89,78,0.5)]"
               >
-                <span className="flex items-start justify-between">
-                  <span className="grid size-11 place-items-center rounded-[14px]" style={{ background: p.tint, color: p.ink }}>
-                    <Icon className="size-6" strokeWidth={1.8} aria-hidden />
+                <span className="flex items-center gap-2.5">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-[11px]" style={{ background: p.tint, color: p.ink }}>
+                    <Icon className="size-[18px]" strokeWidth={1.9} aria-hidden />
                   </span>
-                  <span className="grid size-9 place-items-center rounded-full bg-sand text-ink transition-colors group-hover:bg-brand group-hover:text-white">
-                    <ArrowUpRight className="size-4" aria-hidden />
-                  </span>
+                  <span className="min-w-0 flex-1 pr-4 font-heading text-[18px] leading-tight font-semibold text-ink">{a.name}</span>
+                  <ArrowUpRight className="absolute top-3 right-3 size-4 text-soft transition-[color,translate] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand" aria-hidden />
                 </span>
-                <span className="mt-4 flex flex-wrap items-center gap-2 text-[11.5px] font-semibold tracking-[0.12em] uppercase" style={{ color: p.ink }}>
-                  {a.portal === "customer" ? "Customer" : "Supplier"}
-                  {a.tbc && <span className="rounded-full bg-[#fff1e6] px-1.5 py-0.5 text-[9.5px] tracking-[0.06em] text-[#b8461a]">Content to come</span>}
+                <span className="mt-2.5 block text-[13.5px] leading-snug text-body">{a.audience}</span>
+                <span className="mt-auto flex flex-wrap gap-1 pt-3">
+                  {a.tbc ? (
+                    <span className="rounded-full bg-[#ece9fd] px-2 py-0.5 text-[11px] font-semibold text-[#5b4fd1]">Content to come</span>
+                  ) : (
+                    a.modules.map((m) => (
+                      <span key={m.slug} className="rounded-full bg-[#e4f1eb] px-2 py-0.5 text-[11px] font-medium text-brand">
+                        {m.name.replace(/ module$/, "").replace("Internal project management", "Project management")}
+                      </span>
+                    ))
+                  )}
                 </span>
-                <span className="mt-0.5 block font-heading text-[24px] leading-tight font-semibold text-ink">{a.name}</span>
-                <span className="mt-1.5 block text-[14px] leading-snug text-body">{a.audience}</span>
-                <span className="mt-3 flex flex-wrap gap-1.5">
-                  {a.modules.map((m) => (
-                    <span key={m.slug} className="rounded-full bg-sand px-2.5 py-1 text-[12px] font-medium text-ink">
-                      {m.name.replace(/ module$/, "")}
-                    </span>
-                  ))}
-                </span>
-                <span className="mt-4 block border-t border-line pt-3 text-[12.5px] font-semibold text-brand">● Designed by me</span>
               </Link>
+              </div>
             </div>
           )
         })}
 
         {/* admin: teammates */}
         <div className={cn("min-w-0 lg:col-start-2 lg:row-start-3 max-lg:pl-14", mobileOrder["admin-team"])}>
-          <div ref={ref("admin-team")} style={pop("admin-team")} className="h-full rounded-[22px] border border-dashed border-[#d6cbb9] p-5">
-            <span className="text-[11.5px] font-semibold tracking-[0.12em] text-[#1f86ad] uppercase">Business &amp; admin</span>
-            <span className="mt-1 block text-[17px] font-semibold text-[#8a9592]">Orchestration &amp; collaboration</span>
-            <span className="mt-1.5 block text-[14px] leading-snug text-[#9aa3a1]">Designed by teammates. Shown for context.</span>
+          <div ref={ref("admin-team")} className="h-full">
+            <div style={pop("admin-team")} className="h-full rounded-[18px] border border-dashed border-[#d6cbb9] p-4">
+              <span className="block font-heading text-[17px] leading-tight font-semibold text-[#8a9592]">Orchestration &amp; collaboration</span>
+              <span className="mt-2.5 block text-[13.5px] leading-snug text-[#9aa3a1]">Designed by teammates. Shown for context.</span>
+            </div>
           </div>
         </div>
       </div>
