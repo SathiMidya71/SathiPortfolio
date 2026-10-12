@@ -8,6 +8,7 @@ import { ImageBox } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { EcosystemMap } from "@/components/scinode/ecosystem-map"
+import { cn } from "@/lib/utils"
 import { areas, litSteps, problem, visualLanguage } from "@/lib/scinode"
 
 // SCINODE ecosystem page (low-fidelity architecture). The ecosystem diagram uses Sathi's real copy;
@@ -22,8 +23,8 @@ const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
 const label = "mb-2 text-[11px] font-semibold tracking-[0.12em] text-soft uppercase"
 
 // the parts she designed, each opening its own case study
-const workCards: { eyebrow: string; title: string; text: string; icon: LucideIcon; logo?: { src: string; alt: string }; image: string; tint: string; ink: string; href?: string; links?: { label: string; href: string }[] }[] = [
-  { eyebrow: "Customer portal · module", title: "CVP", text: "The customer module I designed inside the customer portal.", icon: LayoutGrid, image: "CVP image", tint: "#ece9fd", ink: "#6e62e5", href: "/work/scinode/cvp" },
+const workCards: { eyebrow: string; title: string; text: string; icon: LucideIcon; logo?: { src: string; alt: string; h?: number }; image: string; tint: string; ink: string; href?: string; links?: { label: string; href: string }[] }[] = [
+  { eyebrow: "Customer portal · module", title: "CVP", text: "The customer module I designed inside the customer portal.", icon: LayoutGrid, logo: { src: "/case-studies/scinode/logo-customers.png", alt: "Scinode by Scimplify", h: 200 }, image: "CVP image", tint: "#ece9fd", ink: "#6e62e5", href: "/work/scinode/cvp" },
   { eyebrow: "Supplier portal · sign-up", title: "Manufacturer", text: "Sign-up and portal for manufacturers who take on scale-up and production work.", icon: Factory, logo: { src: "/case-studies/scinode/logo-manufacturers.png", alt: "Scinode for Manufacturers by Scimplify" }, image: "Manufacturer image", tint: "#e4f1eb", ink: "#02594e", href: "/work/scinode/manufacturer" },
   {
     eyebrow: "Supplier portal · sign-up",
@@ -154,7 +155,9 @@ export default function ScinodePage() {
                 className="group relative flex flex-col rounded-[22px] border border-line bg-white p-6 shadow-[0_18px_40px_-28px_rgba(16,24,40,0.45)] transition-[translate,box-shadow,border-color] duration-300 has-[a:hover]:-translate-y-1 has-[a:hover]:border-brand/40 has-[a:hover]:shadow-[0_26px_50px_-28px_rgba(2,89,78,0.5)]"
               >
                 {c.logo ? (
-                  <Image src={c.logo.src} alt={c.logo.alt} width={800} height={249} className="h-11 w-auto self-start" />
+                  <span className="flex h-11 items-center">
+                    <Image src={c.logo.src} alt={c.logo.alt} width={800} height={c.logo.h ?? 249} className={cn("w-auto", c.logo.h ? "h-9" : "h-11")} />
+                  </span>
                 ) : (
                   <span className="grid size-11 place-items-center rounded-[13px]" style={{ background: c.tint, color: c.ink }}>
                     <c.icon className="size-5" strokeWidth={1.9} aria-hidden />
