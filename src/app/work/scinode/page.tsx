@@ -29,15 +29,16 @@ const workCards: { eyebrow: string; title: string; text: string; icon: LucideIco
   {
     eyebrow: "Supplier portal · sign-up",
     title: "Researcher",
-    text: "One sign-up for two user types: CROs that run R&D projects, and independent scientists.",
+    text: "One sign-up and one case study for two user types: CROs that run R&D projects, and independent scientists.",
     icon: GraduationCap,
     logo: { src: "/case-studies/scinode/logo-researchers.png", alt: "Scinode for Researchers by Scimplify" },
     image: "Researcher image",
     tint: "#e4f1eb",
     ink: "#02594e",
+    href: "/work/scinode/researcher",
     links: [
-      { label: "CRO", href: "/work/scinode/cro" },
-      { label: "Scientist", href: "/work/scinode/scientist" },
+      { label: "CRO", href: "/work/scinode/researcher?user=cro" },
+      { label: "Scientist", href: "/work/scinode/researcher?user=scientist" },
     ],
   },
 ]
@@ -184,7 +185,7 @@ export default function ScinodePage() {
                       <Link
                         key={l.href}
                         href={l.href}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-brand/25 px-3.5 py-1.5 text-[14px] font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
+                        className="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-brand/25 bg-white px-3.5 py-1.5 text-[14px] font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
                       >
                         {l.label} <ArrowUpRight className="size-4" aria-hidden />
                       </Link>

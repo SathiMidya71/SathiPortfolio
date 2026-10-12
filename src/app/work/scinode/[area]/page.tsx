@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { ArrowLeft, ArrowUpRight, ChevronRight } from "lucide-react"
 import { Toc } from "@/components/case-study/toc"
 import { StepStrip } from "@/components/scinode/ecosystem"
@@ -36,7 +36,9 @@ const sections = [
 export default async function AreaPage({ params }: Params) {
   const a = getArea((await params).area)
   if (!a) notFound()
-  const others = areas.filter((x) => x.slug !== a.slug)
+  // CRO and scientist share one case study: Scinode for Researchers
+  if (a.track === "researcher") redirect(`/work/scinode/researcher?user=${a.slug}`)
+  const others = areas.filter((x) => x.slug !== a.slug && x.track !== "researcher")
   const label = a.portal === "supplier" ? `${a.name} portal` : a.name
 
   return (
@@ -51,12 +53,6 @@ export default async function AreaPage({ params }: Params) {
             <ChevronRight className="size-3.5 text-soft" aria-hidden />
             <span>{portalNames[a.portal]}</span>
             <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            {a.track === "researcher" && (
-              <>
-                <span>Researcher</span>
-                <ChevronRight className="size-3.5 text-soft" aria-hidden />
-              </>
-            )}
             <span className="text-ink">{a.name}</span>
           </nav>
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">SCINODE · {portalNames[a.portal]}</p>

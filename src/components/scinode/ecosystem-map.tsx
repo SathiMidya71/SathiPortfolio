@@ -144,7 +144,7 @@ export function EcosystemMap() {
       <div className={cell(a.slug)} style={{ order: byId[a.slug].order }}>
         <div ref={ref(a.slug)} className="h-full">
           <Link
-            href={`/work/scinode/${a.slug}`}
+            href={a.track === "researcher" ? `/work/scinode/researcher?user=${a.slug}` : `/work/scinode/${a.slug}`}
             style={pop(a.slug)}
             className="group relative flex h-full flex-col rounded-[16px] border border-brand/25 bg-white p-3.5 shadow-[0_14px_30px_-24px_rgba(16,24,40,0.45)] transition-[translate,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_22px_44px_-24px_rgba(2,89,78,0.5)]"
           >

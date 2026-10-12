@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { ArrowLeft, ArrowUpRight, ChevronRight } from "lucide-react"
 import { Toc } from "@/components/case-study/toc"
 import { FlowSkeleton, ImageBox, Lines, Placeholder, WireSection } from "@/components/scinode/wire"
@@ -40,6 +40,7 @@ export default async function ModulePage({ params }: Params) {
   const a = getArea(p.area)
   const m = getAreaModule(p.area, p.module)
   if (!a || !m) notFound()
+  if (a.track === "researcher") redirect(`/work/scinode/researcher?user=${a.slug}#modules`)
   const siblings = a.modules.filter((x) => x.slug !== m.slug)
 
   return (
@@ -54,12 +55,6 @@ export default async function ModulePage({ params }: Params) {
             <ChevronRight className="size-3.5 text-soft" aria-hidden />
             <span>{portalNames[a.portal]}</span>
             <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            {a.track === "researcher" && (
-              <>
-                <span>Researcher</span>
-                <ChevronRight className="size-3.5 text-soft" aria-hidden />
-              </>
-            )}
             <Link href={`/work/scinode/${a.slug}`} className="inline-flex items-center gap-1 hover:text-brand">
               <ArrowLeft className="size-3.5" /> {a.name}
             </Link>
