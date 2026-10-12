@@ -51,6 +51,12 @@ export default async function AreaPage({ params }: Params) {
             <ChevronRight className="size-3.5 text-soft" aria-hidden />
             <span>{portalNames[a.portal]}</span>
             <ChevronRight className="size-3.5 text-soft" aria-hidden />
+            {a.track === "researcher" && (
+              <>
+                <span>Researcher</span>
+                <ChevronRight className="size-3.5 text-soft" aria-hidden />
+              </>
+            )}
             <span className="text-ink">{a.name}</span>
           </nav>
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">SCINODE · {portalNames[a.portal]}</p>

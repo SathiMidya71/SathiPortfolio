@@ -53,6 +53,10 @@ export type Area = {
   audience: string
   /** ecosystem steps this area covers */
   steps: string[]
+  /** supplier sign-up track the area belongs to (suppliers sign up as a manufacturer or as a researcher) */
+  track?: "manufacturer" | "researcher"
+  /** what kind of thing it is, shown on its card */
+  kind: string
   modules: AreaModule[]
   tbc?: boolean
 }
@@ -62,6 +66,7 @@ export const areas: Area[] = [
     slug: "cvp",
     name: "CVP",
     portal: "customer",
+    kind: "Customer module",
     audience: "Placeholder: customers who raise R&D and manufacturing needs.",
     steps: ["01"],
     modules: [{ slug: "overview", name: "CVP modules", summary: "Placeholder: the CVP modules and flows.", tbc: true }],
@@ -71,6 +76,8 @@ export const areas: Area[] = [
     slug: "manufacturer",
     name: "Manufacturer",
     portal: "supplier",
+    track: "manufacturer",
+    kind: "Manufacturer portal",
     audience: "Manufacturers who take on scale-up and production work.",
     steps: ["04", "05", "06"],
     modules: [{ slug: "modules", name: "Manufacturer modules", summary: "Placeholder: modules and flows for manufacturers.", tbc: true }],
@@ -80,6 +87,8 @@ export const areas: Area[] = [
     slug: "cro",
     name: "CRO",
     portal: "supplier",
+    track: "researcher",
+    kind: "Researcher · CRO",
     audience: "Contract research organisations that run R&D projects for customers.",
     steps: ["04", "05", "06"],
     modules: [
@@ -97,12 +106,23 @@ export const areas: Area[] = [
     slug: "scientist",
     name: "Scientist",
     portal: "supplier",
+    track: "researcher",
+    kind: "Researcher · Scientist",
     audience: "Independent researchers who take on scientific work.",
     steps: ["04", "05", "06"],
     modules: [{ slug: "modules", name: "Scientist modules", summary: "Placeholder: modules and flows for scientists.", tbc: true }],
     tbc: true,
   },
 ]
+
+/** Supplier sign-up tracks: a supplier signs up either as a manufacturer or as a researcher (CRO or scientist). */
+export const supplierTracks = [
+  { key: "manufacturer", name: "Manufacturer sign-up" },
+  { key: "researcher", name: "Researcher sign-up" },
+] as const
+
+/** Customer portal modules designed by teammates (context only). Placeholder until Sathi names them. */
+export const customerTeamModules = "Other customer modules"
 
 export const getArea = (slug: string) => areas.find((a) => a.slug === slug)
 export const getAreaModule = (area: string, mod: string) => getArea(area)?.modules.find((m) => m.slug === mod)

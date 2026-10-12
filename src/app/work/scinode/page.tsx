@@ -87,7 +87,7 @@ export default function ScinodePage() {
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Ecosystem map</p>
           <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">What I designed, by user</h2>
           <p className="mt-4 max-w-[720px] text-[17px] leading-relaxed text-body">
-            I designed the customer CVP and the whole supplier side. Each user type is its own case study: click a card to open it.
+            In the customer portal I designed the CVP module. On the supplier side I designed everything: suppliers sign up as a manufacturer or as a researcher (a CRO or a scientist), and each has its own case study. Click a green card to open it.
           </p>
           <div className="mt-12">
             <EcosystemMap />
