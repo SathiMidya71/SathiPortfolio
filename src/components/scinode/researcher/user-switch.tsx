@@ -1,8 +1,8 @@
 "use client"
 
 import { createContext, useContext, useEffect, useRef, useState } from "react"
-import { Beaker, CircleAlert, Microscope, Sparkles, Target, type LucideIcon } from "lucide-react"
-import { journey, personas, profileFields, users, type UserKey } from "@/lib/scinode-researcher"
+import { ArrowRight, Beaker, CircleAlert, EyeOff, Microscope, Sparkles, Target, type LucideIcon } from "lucide-react"
+import { journey, personas, pilotLogic, users, type UserKey } from "@/lib/scinode-researcher"
 import { cn } from "@/lib/utils"
 
 // Scinode for Researchers: one case study, two user types. A CRO / Scientist switch at the top (and a
@@ -115,16 +115,16 @@ export function UserTag() {
   )
 }
 
-// ---------------- persona ----------------
+// ---------------- persona (goals, pains, gains) ----------------
 
 function Persona({ k }: { k: UserKey }) {
   const p = personas[k]
   const u = users[k]
   const Icon = icons[k]
-  const cols: { title: string; icon: LucideIcon; items: string[] }[] = [
-    { title: "Goals", icon: Target, items: p.goals },
-    { title: "Frustrations", icon: CircleAlert, items: p.frustrations },
-    { title: "Needs", icon: Sparkles, items: p.needs },
+  const cols: { title: string; icon: LucideIcon; items: string[]; tone: string }[] = [
+    { title: "Goals", icon: Target, items: p.goals, tone: u.ink },
+    { title: "Pain points", icon: CircleAlert, items: p.pains, tone: "#b4533a" },
+    { title: "Gains", icon: Sparkles, items: p.gains, tone: "#02594e" },
   ]
   return (
     <article className="grid gap-8 rounded-[28px] border border-line bg-white p-6 shadow-[0_24px_60px_-40px_rgba(16,24,40,0.5)] md:p-9">
@@ -136,33 +136,42 @@ function Persona({ k }: { k: UserKey }) {
           </span>
           <div>
             <p className="text-[11px] font-semibold tracking-[0.12em] uppercase" style={{ color: u.ink }}>
-              Proto-persona · {u.name}
+              {p.name ? `Persona · ${u.name}` : `Proto-persona · ${u.name}`}
             </p>
-            <h3 className="mt-1 font-heading text-[28px] leading-tight font-semibold text-ink">{p.title}</h3>
+            <h3 className="mt-1 font-heading text-[28px] leading-tight font-semibold text-ink">{p.name ?? p.title}</h3>
+            {p.role && <p className="mt-1 text-[14px] leading-snug text-body">{p.role}</p>}
           </div>
         </div>
         <div>
-        <p className="text-[16px] leading-relaxed text-body">{p.who}</p>
-        <p className="mt-6 text-[12px] font-semibold tracking-[0.1em] text-soft uppercase">Brings to the profile</p>
-        <ul className="mt-2.5 flex flex-wrap gap-1.5">
-          {p.brings.map((b) => (
-            <li key={b} className="rounded-full px-3 py-1 text-[13px] font-medium" style={{ background: u.tint, color: u.ink }}>
-              {b}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 text-[12.5px] leading-snug text-soft">Built from the product brief and the supplier value proposition. To be validated with researchers.</p>
+          {p.facts && (
+            <ul className="mb-3 flex flex-wrap gap-x-4 gap-y-1">
+              {p.facts.map((f) => (
+                <li key={f} className="flex items-center gap-1.5 text-[13.5px] font-semibold text-ink">
+                  <span className="size-1.5 rounded-full" style={{ background: u.ink }} aria-hidden /> {f}
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="text-[16px] leading-relaxed text-body">{p.who}</p>
+          <p className="mt-5 text-[12px] font-semibold tracking-[0.1em] text-soft uppercase">Brings to the platform</p>
+          <ul className="mt-2.5 flex flex-wrap gap-1.5">
+            {p.brings.map((b) => (
+              <li key={b} className="rounded-full px-3 py-1 text-[13px] font-medium" style={{ background: u.tint, color: u.ink }}>
+                {b}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="grid gap-6 border-t border-line pt-7 sm:grid-cols-3 sm:gap-8">
         {cols.map((c) => (
           <div key={c.title}>
             <p className="flex items-center gap-2 font-heading text-[17px] font-semibold text-ink">
-              <c.icon className="size-4.5" style={{ color: u.ink }} strokeWidth={2} aria-hidden /> {c.title}
+              <c.icon className="size-4.5" style={{ color: c.tone }} strokeWidth={2} aria-hidden /> {c.title}
             </p>
             <ul className="mt-3 grid gap-2.5">
               {c.items.map((it) => (
-                <li key={it} className="border-l-2 pl-3 text-[14.5px] leading-snug text-body" style={{ borderColor: `${u.ink}55` }}>
+                <li key={it} className="border-l-2 pl-3 text-[14.5px] leading-snug text-body" style={{ borderColor: `${c.tone}55` }}>
                   {it}
                 </li>
               ))}
@@ -170,6 +179,7 @@ function Persona({ k }: { k: UserKey }) {
           </div>
         ))}
       </div>
+      <p className="-mt-2 text-[12.5px] leading-snug text-soft">{p.source}{p.name ? "" : ". To be validated with scientists"}.</p>
     </article>
   )
 }
@@ -178,56 +188,66 @@ export function PersonaView() {
   return <ForUser cro={<Persona k="cro" />} scientist={<Persona k="scientist" />} />
 }
 
-// ---------------- journey ----------------
-
-const phases = [
-  { name: "Onboard", span: 2 },
-  { name: "Find", span: 1 },
-  { name: "Propose", span: 2 },
-  { name: "Deliver", span: 3 },
-] as const
+// ---------------- journey: what they do → pain → design response, per stage ----------------
 
 function Journey({ k }: { k: UserKey }) {
   const u = users[k]
+  const rows: { label: string; get: (s: (typeof journey)[number]) => string; tone: string }[] = [
+    { label: "They do", get: (s) => s.does[k], tone: u.ink },
+    { label: "Pain point", get: (s) => s.pain[k], tone: "#b4533a" },
+    { label: "I designed", get: (s) => s.design, tone: "#02594e" },
+  ]
   return (
     <div>
-      {/* lg: phases on top, 8 stages on one line */}
+      {/* lg: one column per stage, three rows */}
       <div className="hidden lg:block">
-        <div className="grid grid-cols-8 gap-3">
-          {phases.map((ph) => (
-            <p key={ph.name} className="border-b-2 pb-2 text-[12px] font-semibold tracking-[0.12em] uppercase" style={{ gridColumn: `span ${ph.span}`, color: u.ink, borderColor: `${u.ink}33` }}>
-              {ph.name}
-            </p>
-          ))}
-        </div>
-        <ol className="relative mt-6 grid grid-cols-8 gap-3">
-          <span aria-hidden className="absolute top-4 right-[6%] left-[6%] border-t-2 border-dashed" style={{ borderColor: `${u.ink}55` }} />
+        <ol className="relative grid grid-cols-7 gap-3">
+          <span aria-hidden className="absolute top-4 right-[7%] left-[7%] border-t-2 border-dashed" style={{ borderColor: `${u.ink}55` }} />
           {journey.map((s, i) => (
             <li key={s.key} className="relative">
               <span className="relative grid size-8 place-items-center rounded-full font-heading text-[13px] font-bold text-white ring-4 ring-cream" style={{ background: u.ink }}>
                 {i + 1}
               </span>
               <p className="mt-3 font-heading text-[16px] leading-tight font-semibold text-ink">{s.title}</p>
-              <p className="mt-1.5 text-[13.5px] leading-snug text-body">{s[k]}</p>
-              {s.offline && <p className="mt-2 rounded-[10px] border border-dashed border-[#d6cbb9] px-2 py-1 text-[11.5px] leading-snug text-soft">{s.offline}</p>}
+              <p className="mt-0.5 text-[11px] font-semibold tracking-[0.08em] text-soft uppercase">{s.module}</p>
             </li>
           ))}
         </ol>
+        {rows.map((r) => (
+          <div key={r.label} className="mt-5 border-t border-line pt-4">
+            <p className="mb-2.5 text-[11px] font-semibold tracking-[0.12em] uppercase" style={{ color: r.tone }}>
+              {r.label}
+            </p>
+            <div className="grid grid-cols-7 gap-3">
+              {journey.map((s) => (
+                <p key={s.key} className="text-[13px] leading-snug text-body">
+                  {r.get(s)}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
       {/* phones and tablets: vertical timeline */}
-      <ol className="relative grid gap-6 pl-12 lg:hidden">
+      <ol className="relative grid gap-7 pl-12 lg:hidden">
         <span aria-hidden className="absolute top-2 bottom-2 left-4 border-l-2 border-dashed" style={{ borderColor: `${u.ink}55` }} />
         {journey.map((s, i) => (
           <li key={s.key} className="relative">
             <span className="absolute top-0 -left-12 grid size-8 place-items-center rounded-full font-heading text-[13px] font-bold text-white ring-4 ring-cream" style={{ background: u.ink }}>
               {i + 1}
             </span>
-            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase" style={{ color: u.ink }}>
-              {s.phase}
-            </p>
+            <p className="text-[11px] font-semibold tracking-[0.12em] text-soft uppercase">{s.module}</p>
             <p className="font-heading text-[18px] leading-tight font-semibold text-ink">{s.title}</p>
-            <p className="mt-1 text-[14.5px] leading-snug text-body">{s[k]}</p>
-            {s.offline && <p className="mt-2 inline-block rounded-full border border-dashed border-[#d6cbb9] px-2 py-0.5 text-[12px] text-soft">{s.offline}</p>}
+            <dl className="mt-2 grid gap-1.5">
+              {rows.map((r) => (
+                <div key={r.label} className="text-[14.5px] leading-snug">
+                  <dt className="inline font-semibold" style={{ color: r.tone }}>
+                    {r.label}:{" "}
+                  </dt>
+                  <dd className="inline text-body">{r.get(s)}</dd>
+                </div>
+              ))}
+            </dl>
           </li>
         ))}
       </ol>
@@ -239,48 +259,63 @@ export function JourneyView() {
   return <ForUser cro={<Journey k="cro" />} scientist={<Journey k="scientist" />} />
 }
 
-// ---------------- profile field map (highlights what the active user brings) ----------------
+// ---------------- CRO profile: the pilot plant question reshapes the form ----------------
 
-export function ProfileFields() {
-  const { user } = useUser()
-  const u = users[user]
-  const brings = new Set(personas[user].brings)
-  const group = (title: string, items: string[]) => (
-    <div>
-      <p className="text-[12px] font-semibold tracking-[0.1em] text-soft uppercase">{title}</p>
-      <ul className="mt-2.5 flex flex-wrap gap-1.5">
-        {items.map((f) => {
-          const on = brings.has(f)
-          return (
-            <li
-              key={f}
-              className="rounded-full border px-3 py-1 text-[13px] font-medium transition-colors duration-300"
-              style={on ? { background: u.tint, color: u.ink, borderColor: "transparent" } : { borderColor: "var(--line)", color: "var(--body)", background: "white" }}
-            >
-              {f}
-            </li>
-          )
-        })}
-      </ul>
-    </div>
-  )
+export function PilotPlantToggle() {
+  const [plant, setPlant] = useState(false)
+  const groups = ["Equipment", "Facility & EHS"]
   return (
-    <div className="grid gap-5">
-      {group("Organisation", profileFields.organisation)}
-      {group("Science", profileFields.science)}
-      <p className="flex items-center gap-2 text-[13px] text-soft">
-        <span className="size-2.5 rounded-full" style={{ background: u.ink }} aria-hidden /> Highlighted: what a {u.name.toLowerCase()} typically brings
-      </p>
-      <div className="border-t border-line pt-4">
-        <p className="text-[12px] font-semibold tracking-[0.1em] text-soft uppercase">A complete profile unlocks</p>
-        <ul className="mt-2.5 flex flex-wrap gap-1.5">
-          {profileFields.unlocks.map((f) => (
-            <li key={f} className="rounded-full bg-brand px-3 py-1 text-[13px] font-medium text-white">
-              {f}
-            </li>
+    <div className="rounded-[24px] border border-line bg-white p-5 md:p-7">
+      <div className="flex flex-wrap items-center gap-3">
+        <p className="font-heading text-[18px] font-semibold text-ink">Do you have a pilot plant?</p>
+        <div role="radiogroup" aria-label="Pilot plant" className="inline-flex rounded-full bg-sand p-1">
+          {[
+            { v: false, l: "No (CRO)" },
+            { v: true, l: "Yes (CDMO)" },
+          ].map((o) => (
+            <button
+              key={o.l}
+              role="radio"
+              aria-checked={plant === o.v}
+              onClick={() => setPlant(o.v)}
+              className={cn("rounded-full px-4 py-1.5 text-[14px] font-semibold transition-colors", plant === o.v ? "bg-brand text-white" : "text-body hover:text-ink")}
+            >
+              {o.l}
+            </button>
           ))}
-        </ul>
+        </div>
+        <span className="text-[13px] text-soft">Try it</span>
       </div>
+      <div className="mt-6 grid gap-6 sm:grid-cols-2">
+        {groups.map((g) => (
+          <div key={g}>
+            <p className="text-[12px] font-semibold tracking-[0.1em] text-soft uppercase">{g}</p>
+            <ul className="mt-2.5 grid gap-1.5">
+              {pilotLogic
+                .filter((x) => x.group === g)
+                .map((x) => {
+                  const hidden = x.plantOnly && !plant
+                  return (
+                    <li
+                      key={x.section}
+                      className={cn(
+                        "flex items-center justify-between gap-2 rounded-[10px] border px-3 py-2 text-[14px] transition-all duration-300",
+                        hidden ? "border-dashed border-[#d6cbb9] text-soft line-through decoration-[#c9c1b3]" : "border-line bg-[#f7fbf9] font-medium text-ink"
+                      )}
+                    >
+                      {x.section}
+                      {hidden ? <EyeOff className="size-4 shrink-0" aria-label="hidden" /> : <span className="size-2 shrink-0 rounded-full bg-brand" aria-hidden />}
+                    </li>
+                  )
+                })}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p className="mt-5 flex items-center gap-2 text-[13.5px] text-body">
+        <ArrowRight className="size-4 text-brand" aria-hidden />
+        One answer in Company profile decides which sections appear later. A CRO without a plant never sees ETP, distillation or filter & dryer.
+      </p>
     </div>
   )
 }

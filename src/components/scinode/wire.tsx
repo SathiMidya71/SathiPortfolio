@@ -71,7 +71,7 @@ export function WireSection({ id, n, eyebrow, title, children }: { id: string; n
         {String(n).padStart(2, "0")} · {eyebrow}
       </p>
       <h2 className="mt-3 max-w-[760px] text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">{title}</h2>
-      <div className="mt-8 grid gap-7">{children}</div>
+      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-7">{children}</div>
     </section>
   )
 }

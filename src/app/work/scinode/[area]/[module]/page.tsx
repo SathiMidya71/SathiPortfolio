@@ -40,7 +40,7 @@ export default async function ModulePage({ params }: Params) {
   const a = getArea(p.area)
   const m = getAreaModule(p.area, p.module)
   if (!a || !m) notFound()
-  if (a.track === "researcher") redirect(`/work/scinode/researcher?user=${a.slug}#modules`)
+  if (a.track === "researcher") redirect(`/work/scinode/researcher?user=${a.slug}#architecture`)
   const siblings = a.modules.filter((x) => x.slug !== m.slug)
 
   return (
