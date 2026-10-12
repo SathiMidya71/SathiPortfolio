@@ -1,12 +1,13 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowLeft, ArrowUpRight } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { Toc } from "@/components/case-study/toc"
 import { Ecosystem } from "@/components/scinode/ecosystem"
 import { ImageBox, Lines, Placeholder, WireSection } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
-import { portalNames, scinodeModules, teamModules, type PortalKey } from "@/lib/scinode"
+import { EcosystemMap } from "@/components/scinode/ecosystem-map"
+import { areas, litSteps } from "@/lib/scinode"
 
 // SCINODE ecosystem page (low-fidelity architecture). The ecosystem diagram uses Sathi's real copy;
 // every other section is a placeholder until she sends content.
@@ -18,19 +19,16 @@ export const metadata: Metadata = {
 
 const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
 const label = "mb-2 text-[11px] font-semibold tracking-[0.12em] text-soft uppercase"
-const lit = [...new Set(scinodeModules.flatMap((m) => m.steps))]
 
 const sections = [
   { id: "glance", label: "Project at a glance" },
   { id: "problem", label: "The problem" },
   { id: "ecosystem", label: "How it works" },
   { id: "role", label: "My role" },
-  { id: "modules", label: "Modules I designed" },
   { id: "design-system", label: "Design system" },
   { id: "learnings", label: "Learnings" },
 ]
 
-const portalOrder: PortalKey[] = ["customer", "admin", "supplier", "internal"]
 
 export default function ScinodePage() {
   return (
@@ -79,6 +77,18 @@ export default function ScinodePage() {
           <ImageBox label="Hero image: SCINODE across its three portals" ratio="16 / 8" />
         </div>
 
+        {/* the clickable ecosystem map, full width */}
+        <section id="map" className={`${shell} mt-20 scroll-mt-28 lg:mt-28`}>
+          <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Ecosystem map</p>
+          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">One platform, three portals</h2>
+          <p className="mt-4 max-w-[720px] text-[17px] leading-relaxed text-body">
+            I designed the customer CVP and the whole supplier side, one case study per user type. Click a card to open it.
+          </p>
+          <div className="mt-12">
+            <EcosystemMap />
+          </div>
+        </section>
+
         <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-20`}>
           <aside className="hidden lg:block">
             <Toc items={sections} />
@@ -89,7 +99,7 @@ export default function ScinodePage() {
                 {[
                   ["3", "connected portals"],
                   ["6", "steps from request to delivery"],
-                  [String(scinodeModules.length), "modules I designed"],
+                  [String(areas.length), "user types I designed for"],
                   ["?", "placeholder fact"],
                 ].map(([v, l]) => (
                   <div key={l} className="rounded-[18px] border-2 border-dashed border-[#d6cbb9] bg-white/50 p-5">
@@ -102,12 +112,12 @@ export default function ScinodePage() {
 
             <WireSection id="problem" n={2} eyebrow="The problem" title="Why R&D sourcing is slow">
               <Placeholder label="Problem statement" hint="Why finding and working with the right R&D partner is hard today: unclear needs, scattered suppliers, conversations lost between email and calls.">
-                <Lines n={4} />
+                <Lines n={3} />
               </Placeholder>
             </WireSection>
 
             <WireSection id="ecosystem" n={3} eyebrow="How it works" title="How the ecosystem works">
-              <Ecosystem highlight={lit} />
+              <Ecosystem highlight={litSteps} />
             </WireSection>
 
             <WireSection id="role" n={4} eyebrow="My role" title="My part of the ecosystem">
@@ -116,45 +126,8 @@ export default function ScinodePage() {
               </Placeholder>
             </WireSection>
 
-            <WireSection id="modules" n={5} eyebrow="Modules I designed" title="Modules I designed">
-              <p className="text-[17px] text-body">Green modules open their own page. Grey ones were designed by teammates and are shown for context.</p>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {portalOrder.map((pk) => {
-                  const mine = scinodeModules.filter((m) => m.portal === pk)
-                  const team = teamModules.filter((m) => m.portal === pk)
-                  return (
-                    <div key={pk} className="rounded-[20px] border-2 border-dashed border-[#d6cbb9] p-4">
-                      <p className="text-[11.5px] font-bold tracking-[0.14em] text-soft uppercase">{portalNames[pk]}</p>
-                      <div className="mt-3 grid gap-3">
-                        {mine.map((m) => (
-                          <Link
-                            key={m.slug}
-                            href={`/work/scinode/${m.slug}`}
-                            className="group rounded-[14px] border-2 border-brand bg-[#e4f1eb] p-3.5 transition-transform hover:-translate-y-0.5"
-                          >
-                            <span className="flex items-start justify-between gap-2 text-[15px] font-semibold text-brand">
-                              {m.name}
-                              <ArrowUpRight className="size-4 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
-                            </span>
-                            <span className="mt-1 block text-[12.5px] text-body">Steps {m.steps.join(", ")}</span>
-                            {m.tbc && <span className="mt-1.5 inline-block rounded-full bg-[#fff1e6] px-2 py-0.5 text-[10.5px] font-bold text-[#b8461a]">TO CONFIRM</span>}
-                          </Link>
-                        ))}
-                        {team.map((m) => (
-                          <span key={m.name} className="rounded-[14px] border border-line bg-white/40 p-3.5 text-[14px] text-[#9aa3a1]">
-                            {m.name}
-                            <span className="mt-1 block text-[12px]">Designed by teammates</span>
-                          </span>
-                        ))}
-                        {mine.length + team.length === 0 && <span className="text-[13px] text-soft">None yet</span>}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </WireSection>
 
-            <WireSection id="design-system" n={6} eyebrow="Design system" title="One visual language across all portals">
+            <WireSection id="design-system" n={5} eyebrow="Design system" title="One visual language across all portals">
               <div className="grid gap-4 md:grid-cols-3">
                 {["Typography", "Colour", "Components"].map((t) => (
                   <Placeholder key={t} label={t} className="min-h-[160px]">
@@ -164,7 +137,7 @@ export default function ScinodePage() {
               </div>
             </WireSection>
 
-            <WireSection id="learnings" n={7} eyebrow="Learnings" title="What I learned">
+            <WireSection id="learnings" n={6} eyebrow="Learnings" title="What I learned">
               <div className="grid gap-4 md:grid-cols-2">
                 {[1, 2].map((i) => (
                   <Placeholder key={i} label={`Learning ${i}`} hint={i === 1 ? "Designing one part of a connected system: hand-offs between portals and shared states." : undefined}>

@@ -38,30 +38,74 @@ export const portalNames: Record<PortalKey, string> = {
   internal: "Internal tools",
 }
 
-export type ScinodeModule = {
+// ---------------- hierarchy: SCINODE → portal → area (user type) → modules ----------------
+// Sathi designed the customer-side CVP and the WHOLE supplier side (Manufacturer, CRO, Scientist).
+// The business & admin portal was designed by teammates (shown for context only).
+// Everything marked tbc is a placeholder until she sends content.
+
+export type AreaModule = { slug: string; name: string; summary: string; tbc?: boolean }
+
+export type Area = {
   slug: string
   name: string
   portal: PortalKey
-  /** Ecosystem steps this module covers (lights them up). TBC: placement to be confirmed by Sathi. */
+  /** who this area is for (one line) */
+  audience: string
+  /** ecosystem steps this area covers */
   steps: string[]
-  summary: string
-  /** true until Sathi confirms what the module is called and where it sits */
+  modules: AreaModule[]
   tbc?: boolean
 }
 
-// Modules Sathi designed end to end. Names, portals and steps are her first notes; marked TBC.
-export const scinodeModules: ScinodeModule[] = [
-  { slug: "cvp", name: "CVP", portal: "customer", steps: ["01"], summary: "Placeholder: what CVP stands for and the job it does for customers.", tbc: true },
-  { slug: "dashboard", name: "Dashboard", portal: "admin", steps: ["02"], summary: "Placeholder: the overview the admin team starts their day from.", tbc: true },
-  { slug: "opportunity", name: "Opportunity module", portal: "admin", steps: ["02", "03"], summary: "Placeholder: how incoming demand becomes a structured opportunity.", tbc: true },
-  { slug: "proposal", name: "Proposal module", portal: "admin", steps: ["05"], summary: "Placeholder: how proposals are reviewed and committed.", tbc: true },
-  { slug: "experiment-management", name: "Internal experiment management", portal: "internal", steps: ["06"], summary: "Placeholder: how internal experiments are planned and tracked.", tbc: true },
+export const areas: Area[] = [
+  {
+    slug: "cvp",
+    name: "CVP",
+    portal: "customer",
+    audience: "Placeholder: customers who raise R&D and manufacturing needs.",
+    steps: ["01"],
+    modules: [{ slug: "overview", name: "CVP modules", summary: "Placeholder: the CVP modules and flows.", tbc: true }],
+    tbc: true,
+  },
+  {
+    slug: "manufacturer",
+    name: "Manufacturer",
+    portal: "supplier",
+    audience: "Manufacturers who take on scale-up and production work.",
+    steps: ["04", "05", "06"],
+    modules: [{ slug: "modules", name: "Manufacturer modules", summary: "Placeholder: modules and flows for manufacturers.", tbc: true }],
+    tbc: true,
+  },
+  {
+    slug: "cro",
+    name: "CRO",
+    portal: "supplier",
+    audience: "Contract research organisations that run R&D projects for customers.",
+    steps: ["04", "05", "06"],
+    modules: [
+      { slug: "opportunity", name: "Opportunity module", summary: "Placeholder: how a CRO finds and reviews matched opportunities.", tbc: true },
+      { slug: "proposal", name: "Proposal module", summary: "Placeholder: how a CRO prepares and sends a proposal.", tbc: true },
+      {
+        slug: "project-management",
+        name: "Internal project management",
+        summary: "Placeholder: how a CRO tracks its projects by adding experiments and batch experiments.",
+        tbc: true,
+      },
+    ],
+  },
+  {
+    slug: "scientist",
+    name: "Scientist",
+    portal: "supplier",
+    audience: "Independent researchers who take on scientific work.",
+    steps: ["04", "05", "06"],
+    modules: [{ slug: "modules", name: "Scientist modules", summary: "Placeholder: modules and flows for scientists.", tbc: true }],
+    tbc: true,
+  },
 ]
 
-/** Modules designed by teammates, shown greyed out for context only (no page). Placeholder names. */
-export const teamModules: { name: string; portal: PortalKey }[] = [
-  { name: "Other customer modules", portal: "customer" },
-  { name: "Supplier modules", portal: "supplier" },
-]
+export const getArea = (slug: string) => areas.find((a) => a.slug === slug)
+export const getAreaModule = (area: string, mod: string) => getArea(area)?.modules.find((m) => m.slug === mod)
 
-export const getScinodeModule = (slug: string) => scinodeModules.find((m) => m.slug === slug)
+/** Steps covered by Sathi's work (customer CVP + supplier side), lit on the journey diagram. */
+export const litSteps = ["01", "04", "05"]

@@ -1,195 +1,210 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Cog, FlaskConical, Rocket, Puzzle, Target, Users, type LucideIcon } from "lucide-react"
+import { Cog, FlaskConical, Puzzle, Rocket, Target, Users, type LucideIcon } from "lucide-react"
 import { ecosystem, type PortalKey } from "@/lib/scinode"
 import { cn } from "@/lib/utils"
 
-// SCINODE "Platform Ecosystem": a dark board with the three portals, steps 01–05 inside them and
-// step 06 (execution) below, joined by dashed connectors that draw in on scroll and then keep
-// flowing. Steps covered by Sathi's modules glow ("Designed by me"). Below lg the columns stack and
-// the connectors are hidden. `compact` drops the title, journey and value props (used as a strip).
+// SCINODE "Platform Ecosystem", presented like a Behance board straight on the page background:
+// a huge faint title, the three portals as column headers, and the six steps as one journey line
+// that draws itself step by step (01 → 06) when scrolled into view; each step's node pops in as the
+// line reaches it. Steps Sathi designed are filled brand green with a "Designed by me" tag.
+// On phones the steps become a vertical timeline (same line, measured from the nodes).
 
-const portalIcon: Partial<Record<PortalKey, { icon: LucideIcon; bg: string; fg: string }>> = {
-  customer: { icon: Users, bg: "#2b2558", fg: "#b79cec" },
-  admin: { icon: Cog, bg: "#163a4a", fg: "#6ce3ff" },
-  supplier: { icon: FlaskConical, bg: "#3b2a16", fg: "#ffb27a" },
+const portalStyle: Record<"customer" | "admin" | "supplier", { icon: LucideIcon; tint: string; ink: string }> = {
+  customer: { icon: Users, tint: "#ece9fd", ink: "#6e62e5" },
+  admin: { icon: Cog, tint: "#e3f3fa", ink: "#1f86ad" },
+  supplier: { icon: FlaskConical, tint: "#fdeee0", ink: "#c2621c" },
 }
-const valueIcons = [
-  { icon: Puzzle, bg: "#2b2558", fg: "#b79cec" },
-  { icon: Target, bg: "#3b1f1f", fg: "#ff8a80" },
-  { icon: Rocket, bg: "#16334a", fg: "#7ab8ff" },
-]
+const valueIcons: LucideIcon[] = [Puzzle, Target, Rocket]
 
-// connectors as [from, to, from side, to side]
-const links: [string, string, "r" | "b" | "l", "l" | "t" | "r"][] = [
-  ["01", "02", "r", "l"],
-  ["02", "03", "b", "t"],
-  ["02", "04", "r", "l"],
-  ["04", "05", "b", "t"],
-  ["05", "03", "l", "r"],
-  ["03", "06", "b", "t"],
-]
+// lg grid placement for each step (3 columns = portals, rows go down the journey)
+// staggered so every connector runs through empty space: same-column moves go straight down the
+// node gutter, column changes drop into the row gap and come into the next node from above
+const place: Record<string, string> = {
+  "01": "lg:col-start-1 lg:row-start-2",
+  "02": "lg:col-start-2 lg:row-start-3",
+  "03": "lg:col-start-2 lg:row-start-4",
+  "04": "lg:col-start-3 lg:row-start-5",
+  "05": "lg:col-start-3 lg:row-start-6",
+  "06": "lg:col-start-2 lg:row-start-7",
+}
+
+const SEG = 650 // ms to draw one segment
 
 export function Ecosystem({ highlight = [], className }: { highlight?: string[]; className?: string }) {
-  const box = useRef<HTMLDivElement>(null)
-  const refs = useRef<Record<string, HTMLDivElement | null>>({})
-  const [paths, setPaths] = useState<string[]>([])
+  const wrap = useRef<HTMLDivElement>(null)
+  const nodes = useRef<Record<string, HTMLSpanElement | null>>({})
+  const [pts, setPts] = useState<[number, number][]>([])
   const [size, setSize] = useState({ w: 0, h: 0 })
   const [shown, setShown] = useState(false)
+  const [instant, setInstant] = useState(false)
 
   useEffect(() => {
-    const el = box.current
+    const el = wrap.current
     if (!el) return
     const measure = () => {
       const b = el.getBoundingClientRect()
       setSize({ w: b.width, h: b.height })
-      const r = (n: string) => {
-        const e = refs.current[n]!.getBoundingClientRect()
-        return { l: e.left - b.left, r: e.right - b.left, t: e.top - b.top, b: e.bottom - b.top, cx: (e.left + e.right) / 2 - b.left, cy: (e.top + e.bottom) / 2 - b.top }
-      }
-      setPaths(
-        links.map(([f, t, fs, ts]) => {
-          const a = r(f)
-          const z = r(t)
-          const p1 = fs === "r" ? [a.r, a.cy] : fs === "l" ? [a.l, a.cy] : [a.cx, a.b]
-          const p2 = ts === "l" ? [z.l, z.cy] : ts === "r" ? [z.r, z.cy] : [z.cx, z.t]
-          if (fs === "b") return `M${p1[0]},${p1[1]} L${p2[0]},${p2[1]}`
-          const dx = (p2[0] - p1[0]) / 2
-          return `M${p1[0]},${p1[1]} C${p1[0] + dx},${p1[1]} ${p2[0] - dx},${p2[1]} ${p2[0]},${p2[1]}`
+      setPts(
+        ecosystem.steps.map((s) => {
+          const r = nodes.current[s.n]!.getBoundingClientRect()
+          return [(r.left + r.right) / 2 - b.left, (r.top + r.bottom) / 2 - b.top]
         })
       )
     }
     measure()
     const ro = new ResizeObserver(measure)
     ro.observe(el)
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduce) setShown(true)
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setInstant(true)
+      setShown(true)
+    }
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) return
         setShown(true)
         io.disconnect()
       },
-      { threshold: 0.2 }
+      { rootMargin: "0px 0px -30% 0px" }
     )
-    if (!reduce) io.observe(el)
+    io.observe(el)
     return () => {
       ro.disconnect()
       io.disconnect()
     }
   }, [])
 
-  const steps = ecosystem.steps
-  const Step = ({ n, wide }: { n: string; wide?: boolean }) => {
-    const s = steps.find((x) => x.n === n)!
-    const me = highlight.includes(n)
-    const i = Number(n)
-    return (
-      <div
-        ref={(el) => {
-          refs.current[n] = el
-        }}
-        className={cn(
-          "relative rounded-[14px] border px-4 py-3.5 transition-[opacity,translate] duration-700",
-          me ? "border-[#7fd4a8] bg-[#1b3328] shadow-[0_0_0_5px_rgba(127,212,168,0.12),0_0_36px_-6px_rgba(127,212,168,0.55)]" : "border-[#7fd4a8]/25 bg-[#1b3328]",
-          wide && "bg-gradient-to-br from-[#21463a] to-[#173126]"
-        )}
-        style={{ opacity: shown ? 1 : 0, translate: shown ? "0 0" : "0 14px", transitionDelay: `${150 + i * 110}ms` }}
-      >
-        {me && <span className="absolute -top-2.5 right-3 rounded-full bg-[#7fd4a8] px-2 py-0.5 text-[10.5px] font-extrabold text-[#0f1f19]">● Designed by me</span>}
-        <p className="flex items-baseline gap-3">
-          <span className="font-heading text-[28px] leading-none font-bold text-[#7fd4a8]">{n}</span>
-          <span className="text-[13.5px] font-semibold tracking-[0.06em] text-white uppercase">{s.title}</span>
-        </p>
-        <p className="mt-1.5 text-[13.5px] leading-[1.45] text-[#b9cdc2]">{s.text}</p>
-      </div>
-    )
+  // straight down the node gutter, or: down into the gap above the next node, across, then down
+  const seg = ([x1, y1]: [number, number], [x2, y2]: [number, number]) => {
+    if (Math.abs(x1 - x2) < 4) return `M${x1},${y1} L${x2},${y2}`
+    const gy = y2 - 58
+    const r = 22
+    const dir = x2 > x1 ? 1 : -1
+    return `M${x1},${y1} L${x1},${gy - r} Q${x1},${gy} ${x1 + dir * r},${gy} L${x2 - dir * r},${gy} Q${x2},${gy} ${x2},${gy + r} L${x2},${y2}`
   }
+  const delay = (i: number) => (instant ? 0 : 300 + i * SEG) // when segment i starts drawing
+  const nodeDelay = (i: number) => (instant ? 0 : i === 0 ? 200 : delay(i - 1) + SEG - 120)
 
   return (
-    <div
-      className={cn("relative overflow-hidden rounded-[28px] bg-[#0f1f19] px-5 py-8 text-[#e7efe9] [container-type:inline-size] sm:px-10 sm:py-11", className)}
-      style={{
-        backgroundImage: "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-      }}
-    >
-      <p aria-hidden className="font-heading text-[11cqw] leading-[0.9] font-bold tracking-[-0.04em] whitespace-nowrap text-[#6eb48c]/15">
-        {ecosystem.title}
-      </p>
-      <p className="relative -mt-[4.5cqw] max-w-[820px] text-[16px] leading-snug text-[#cfe0d6] sm:text-[19px]">{ecosystem.intro}</p>
-      <div className="mt-6 flex flex-wrap items-center gap-2">
-        {ecosystem.journey.map((j, i) => (
-          <span key={j} className="flex items-center gap-2">
-            <span className="rounded-full border border-[#b79cec]/50 px-3 py-1.5 text-[11.5px] font-semibold tracking-[0.06em] text-[#d9ccf6] uppercase">{j}</span>
-            {i < ecosystem.journey.length - 1 && <span className="text-[#7fd4a8]">→</span>}
-          </span>
-        ))}
+    <div className={cn("relative [container-type:inline-size]", className)}>
+      {/* title */}
+      <div className="relative">
+        <p aria-hidden className="overflow-hidden font-heading text-[12.5cqw] leading-[0.95] font-bold tracking-[-0.05em] whitespace-nowrap text-brand/[0.07]">
+          {ecosystem.title}
+        </p>
+        <p className="relative -mt-[5.5cqw] max-w-[760px] text-[18px] leading-snug text-ink md:text-[22px]">{ecosystem.intro}</p>
       </div>
 
-      <div ref={box} className="relative mt-8">
-        {size.w > 0 && (
-          <svg aria-hidden className="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible lg:block" viewBox={`0 0 ${size.w} ${size.h}`}>
-            {paths.map((d, i) => (
-              <g key={i} fill="none" stroke="#7fd4a8" strokeWidth={2}>
-                <path d={d} strokeOpacity={0.3} pathLength={1} strokeDasharray="1 1" style={{ strokeDashoffset: shown ? 0 : 1, transition: `stroke-dashoffset 800ms ease ${600 + i * 140}ms` }} />
-                <path d={d} strokeDasharray="5 7" className="motion-safe:animate-[ia-flow_1.4s_linear_infinite]" style={{ opacity: shown ? 1 : 0, transition: `opacity 400ms ${1300 + i * 140}ms` }} />
-              </g>
-            ))}
+      {/* journey */}
+      <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-semibold tracking-[0.12em] text-soft uppercase">
+        {ecosystem.journey.map((j, i) => (
+          <span key={j} className="flex items-center gap-2">
+            {j}
+            {i < ecosystem.journey.length - 1 && <span className="text-brand">→</span>}
+          </span>
+        ))}
+      </p>
+
+      <div ref={wrap} className="relative mt-12">
+        {/* the journey line */}
+        {size.w > 0 && pts.length === 6 && (
+          <svg aria-hidden className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${size.w} ${size.h}`}>
+            {pts.slice(1).map((p, i) => {
+              const d = seg(pts[i], p)
+              return (
+                <g key={i} fill="none" strokeLinecap="round">
+                  <path d={d} stroke="#d9cfbf" strokeWidth={2} strokeDasharray="2 7" />
+                  <path
+                    d={d}
+                    stroke="var(--brand)"
+                    strokeWidth={2.5}
+                    pathLength={1}
+                    strokeDasharray="1 1"
+                    style={{ strokeDashoffset: shown ? 0 : 1, transition: instant ? "none" : `stroke-dashoffset ${SEG}ms cubic-bezier(.55,.1,.45,1) ${delay(i)}ms` }}
+                  />
+                </g>
+              )
+            })}
           </svg>
         )}
-        <div className="grid gap-5 lg:grid-cols-[1fr_1.15fr_1fr] lg:gap-7">
-          {ecosystem.portals.map((p) => {
-            const I = portalIcon[p.key]!
+
+        <div className="relative grid gap-9 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-[88px]">
+          {/* portal headers (lg) */}
+          {ecosystem.portals.map((p, i) => {
+            const st = portalStyle[p.key as "customer" | "admin" | "supplier"]
             return (
-              <div key={p.key} className="rounded-[20px] border border-white/10 bg-white/[0.035] p-5">
-                <p className="text-[11.5px] font-bold tracking-[0.16em] text-[#8fb3a1] uppercase">{p.side}</p>
-                <p className="mt-2 flex items-center gap-2.5 text-[20px] font-bold text-white">
-                  <span className="grid size-9 place-items-center rounded-[11px]" style={{ background: I.bg, color: I.fg }}>
-                    <I.icon className="size-5" aria-hidden />
-                  </span>
-                  {p.name}
+              <div key={p.key} className={cn("hidden lg:row-start-1 lg:block", ["lg:col-start-1", "lg:col-start-2", "lg:col-start-3"][i])}>
+                <span className="grid size-14 place-items-center rounded-[18px]" style={{ background: st.tint, color: st.ink }}>
+                  <st.icon className="size-7" strokeWidth={1.8} aria-hidden />
+                </span>
+                <p className="mt-4 text-[12px] font-semibold tracking-[0.14em] uppercase" style={{ color: st.ink }}>
+                  {p.side}
                 </p>
-                <p className="mt-2 mb-4 text-[14px] leading-[1.45] text-[#b9cdc2] lg:min-h-[42px]">{p.text}</p>
-                <div className="grid gap-4">
-                  {ecosystem.steps
-                    .filter((s) => s.portal === p.key)
-                    .map((s) => (
-                      <Step key={s.n} n={s.n} />
-                    ))}
+                <p className="mt-1 font-heading text-[26px] leading-tight font-semibold text-ink">{p.name}</p>
+                <p className="mt-2 text-[15.5px] leading-snug text-body">{p.text}</p>
+              </div>
+            )
+          })}
+
+          {/* steps */}
+          {ecosystem.steps.map((s, i) => {
+            const me = highlight.includes(s.n)
+            const pk = s.portal === "execution" ? null : (s.portal as "customer" | "admin" | "supplier")
+            const st = pk ? portalStyle[pk] : null
+            const final = s.portal === "execution"
+            // steps sit one row lower on lg, under the portal headers
+            const lgPlace = place[s.n]
+            return (
+              <div key={s.n} className={cn("relative flex gap-4", lgPlace, final && "lg:col-span-1")}>
+                <span
+                  ref={(el) => {
+                    nodes.current[s.n] = el
+                  }}
+                  className={cn(
+                    "relative z-10 grid shrink-0 place-items-center rounded-full font-heading font-bold transition-[scale,opacity] duration-500 ease-[cubic-bezier(.34,1.56,.64,1)]",
+                    final ? "size-16 text-[20px]" : "size-14 text-[18px]",
+                    me ? "bg-brand text-white shadow-[0_0_0_7px_rgba(2,89,78,0.12)]" : "border-2 border-[#d9cfbf] bg-cream text-soft"
+                  )}
+                  style={{ scale: shown ? "1" : "0.4", opacity: shown ? 1 : 0, transitionDelay: `${nodeDelay(i)}ms` }}
+                >
+                  {s.n}
+                </span>
+                <div
+                  className="pt-1 transition-[opacity,translate] duration-500"
+                  style={{ opacity: shown ? 1 : 0, translate: shown ? "0 0" : "0 10px", transitionDelay: `${nodeDelay(i) + 120}ms` }}
+                >
+                  <p className="flex flex-wrap items-center gap-2">
+                    {st && (
+                      <span className="rounded-full px-2 py-0.5 text-[11px] font-semibold lg:hidden" style={{ background: st.tint, color: st.ink }}>
+                        {ecosystem.portals.find((p) => p.key === pk)?.name}
+                      </span>
+                    )}
+                    {final && <span className="rounded-full bg-sand px-2 py-0.5 text-[11px] font-semibold text-body">Execution &amp; delivery</span>}
+                    {me && <span className="rounded-full bg-[#e4f1eb] px-2 py-0.5 text-[11px] font-bold text-brand">Designed by me</span>}
+                  </p>
+                  <p className="mt-1.5 text-[17px] leading-tight font-semibold text-ink">{s.title}</p>
+                  <p className="mt-1.5 text-[15px] leading-snug text-body">{s.text}</p>
                 </div>
               </div>
             )
           })}
         </div>
-        <div className="mx-auto mt-6 lg:mt-8 lg:w-[58%]">
-          <p className="mb-2 text-[11.5px] font-bold tracking-[0.16em] text-[#7fd4a8] uppercase">Execution &amp; delivery · From opportunity to execution</p>
-          <Step n="06" wide />
-        </div>
       </div>
 
-      <div className="mt-9 grid gap-6 border-t border-white/10 pt-7 md:grid-cols-3">
+      {/* value propositions */}
+      <div className="mt-16 grid gap-8 md:grid-cols-3">
         {ecosystem.values.map((v, i) => {
           const I = valueIcons[i]
           return (
-            <div key={v.title} className="flex gap-3.5">
-              <span className="grid size-9 shrink-0 place-items-center rounded-[11px]" style={{ background: I.bg, color: I.fg }}>
-                <I.icon className="size-5" aria-hidden />
-              </span>
-              <div>
-                <p className="text-[13.5px] font-semibold tracking-[0.07em] text-white uppercase">{v.title}</p>
-                <p className="mt-1 text-[14px] leading-[1.45] text-[#b9cdc2]">{v.text}</p>
-              </div>
+            <div key={v.title}>
+              <I className="size-7 text-brand" strokeWidth={1.6} aria-hidden />
+              <p className="mt-3 text-[17px] font-semibold text-ink">{v.title}</p>
+              <p className="mt-1.5 text-[15px] leading-snug text-body">{v.text}</p>
             </div>
           )
         })}
       </div>
-      {highlight.length > 0 && (
-        <p className="mt-6 text-[13px] text-[#8fb3a1]">
-          <span className="text-[#7fd4a8]">●</span> Glowing steps are the parts I designed. The rest of the platform was designed by teammates.
-        </p>
-      )}
     </div>
   )
 }
@@ -210,3 +225,5 @@ export function StepStrip({ lit }: { lit: string[] }) {
     </div>
   )
 }
+
+export type { PortalKey }

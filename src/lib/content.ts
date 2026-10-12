@@ -127,7 +127,7 @@ export const caseStudies: CaseStudy[] = [
     year: "Scimplify",
     title: "SCINODE R&D Opportunity Platform",
     summary: "One ecosystem, three portals: customers raise R&D needs, the admin team orchestrates them, suppliers propose and deliver. The modules I designed end to end.",
-    result: "3 connected portals · 6 steps from request to delivery · 5 modules designed",
+    result: "3 connected portals · customer CVP + the whole supplier side · 4 user types",
     tags: ["B2B SaaS", "Ecosystem", "Chemistry R&D"],
     // placeholder cover until Sathi sends the SCINODE visuals
     cover: "linear-gradient(135deg,#21463a,#0f1f19)",
