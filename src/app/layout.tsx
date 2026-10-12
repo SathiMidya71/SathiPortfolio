@@ -34,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${heading.variable} ${figtree.variable} ${hand.variable}`}>
+    <html data-scroll-behavior="smooth" lang="en" className={`${heading.variable} ${figtree.variable} ${hand.variable}`}>
       <body className="antialiased">
         {children}
         <Toaster position="bottom-center" theme="light" />

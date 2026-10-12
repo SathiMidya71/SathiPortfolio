@@ -123,6 +123,17 @@ export const caseStudies: CaseStudy[] = [
     logo: { src: "/logos/scinode-deep-research.svg", alt: "SCINODE Deep Research", width: 3699, height: 558 },
   },
   {
+    slug: "scinode",
+    year: "Scimplify",
+    title: "SCINODE R&D Opportunity Platform",
+    summary: "One ecosystem, three portals: customers raise R&D needs, the admin team orchestrates them, suppliers propose and deliver. The modules I designed end to end.",
+    result: "3 connected portals · 6 steps from request to delivery · 5 modules designed",
+    tags: ["B2B SaaS", "Ecosystem", "Chemistry R&D"],
+    // placeholder cover until Sathi sends the SCINODE visuals
+    cover: "linear-gradient(135deg,#21463a,#0f1f19)",
+    href: "/work/scinode",
+  },
+  {
     slug: "biwaze-vent",
     year: "ABM Respiratory Care",
     title: "BiWaze Vent Ventilator UI",
