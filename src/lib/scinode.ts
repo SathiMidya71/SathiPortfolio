@@ -3,6 +3,8 @@
 // The ecosystem copy below is Sathi's own wording. Everything marked TBC is a placeholder:
 // the pages are low-fidelity wireframes until she sends the real content, screens and flows.
 
+import type { Block } from "@/lib/case-studies/types"
+
 export type PortalKey = "customer" | "admin" | "supplier" | "internal"
 
 export type Step = { n: string; title: string; text: string; portal: PortalKey | "execution" }
@@ -129,3 +131,52 @@ export const getAreaModule = (area: string, mod: string) => getArea(area)?.modul
 
 /** Steps covered by Sathi's work (customer CVP + supplier side), lit on the journey diagram. */
 export const litSteps = ["01", "04", "05"]
+
+// ---------------- page sections drafted from Sathi's ecosystem copy (to confirm) ----------------
+// The problem restates the gaps her own value propositions close; no research or numbers added.
+// The visual language is shared with SCINODE Deep Research (same type and colours, per Sathi).
+
+export const problem: Extract<Block, { type: "problemSolution" }> = {
+  type: "problemSolution",
+  problem: {
+    text: "R&D needs exist. Getting each one to the right partner, and on to a delivered project, is the hard part.",
+    items: [
+      { big: "No clear start", text: "Customers have scientific and manufacturing needs, but no structured way to turn them into an opportunity." },
+      { big: "Hard to match", text: "Finding the right researcher, CRO or manufacturer by expertise and capacity takes time." },
+      { big: "Lost continuity", text: "Discussions, proposals and project tracking live in different places, so context drops between request and delivery." },
+    ],
+  },
+  solution: {
+    text: "Scinode: three connected portals that move an R&D need from first request to a delivered project.",
+    chips: ["Customer portal", "Business & admin portal", "Supplier portal", "Proposals", "Project tracking"],
+  },
+}
+
+export const visualLanguage: Block[] = [
+  {
+    type: "typeHierarchy",
+    font: "Inter",
+    levels: [
+      { name: "Display", size: "48–56px", weight: "Bold / Semibold", use: "Product statements" },
+      { name: "H1", size: "32–40px", weight: "Semibold", use: "Page headings" },
+      { name: "H2", size: "24–28px", weight: "Semibold", use: "Sections" },
+      { name: "H3", size: "18–20px", weight: "Semibold", use: "Cards" },
+      { name: "Body", size: "14–16px", weight: "Regular", use: "Opportunity and project details" },
+      { name: "Metadata", size: "12–13px", weight: "Regular / Medium", use: "Status, dates and IDs" },
+    ],
+  },
+  {
+    type: "palette",
+    intro: "The same warm, light base as Deep Research. Deep green carries primary actions; purple marks modes, steps and tools.",
+    items: [
+      { name: "Deep green", hex: "#1F392D", use: "Primary actions and selected states", featured: true },
+      { name: "Ink", hex: "#171717", use: "Headings and content", featured: true },
+      { name: "Purple", hex: "#4A307D", use: "Active modes and toggles", featured: true },
+      { name: "Lavender", hex: "#B79CEC", use: "Badges, steps and tools", featured: true },
+      { name: "Warm white", hex: "#FCFAF6", use: "Page background" },
+      { name: "Lavender tint", hex: "#EFEDFB", use: "Chips" },
+      { name: "Border", hex: "#E6E6E6", use: "Cards and dividers" },
+      { name: "Secondary text", hex: "#6B6B6B", use: "Labels and metadata" },
+    ],
+  },
+]

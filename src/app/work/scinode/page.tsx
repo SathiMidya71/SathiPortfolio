@@ -1,16 +1,16 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { Toc } from "@/components/case-study/toc"
+import { ArrowLeft, ArrowUpRight, Factory, GraduationCap, LayoutGrid, type LucideIcon } from "lucide-react"
+import { BlockView } from "@/components/case-study/blocks"
 import { Ecosystem } from "@/components/scinode/ecosystem"
-import { ImageBox, Lines, Placeholder, WireSection } from "@/components/scinode/wire"
+import { ImageBox } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { EcosystemMap } from "@/components/scinode/ecosystem-map"
-import { areas, litSteps } from "@/lib/scinode"
+import { areas, litSteps, problem, visualLanguage } from "@/lib/scinode"
 
 // SCINODE ecosystem page (low-fidelity architecture). The ecosystem diagram uses Sathi's real copy;
-// every other section is a placeholder until she sends content.
+// the problem and visual language are drafted from it (to confirm); header facts are scope only.
 
 export const metadata: Metadata = {
   title: "SCINODE R&D Opportunity Platform | Case Study | Sathi Midya",
@@ -20,20 +20,29 @@ export const metadata: Metadata = {
 const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
 const label = "mb-2 text-[11px] font-semibold tracking-[0.12em] text-soft uppercase"
 
-const sections = [
-  { id: "glance", label: "Project at a glance" },
-  { id: "problem", label: "The problem" },
-  { id: "role", label: "My role" },
-  { id: "design-system", label: "Design system" },
-  { id: "learnings", label: "Learnings" },
+// the parts she designed, each opening its own case study
+const workCards: { eyebrow: string; title: string; text: string; icon: LucideIcon; tint: string; ink: string; href?: string; links?: { label: string; href: string }[] }[] = [
+  { eyebrow: "Customer portal · module", title: "CVP", text: "The customer module I designed inside the customer portal.", icon: LayoutGrid, tint: "#ece9fd", ink: "#6e62e5", href: "/work/scinode/cvp" },
+  { eyebrow: "Supplier portal · sign-up", title: "Manufacturer", text: "Sign-up and portal for manufacturers who take on scale-up and production work.", icon: Factory, tint: "#e4f1eb", ink: "#02594e", href: "/work/scinode/manufacturer" },
+  {
+    eyebrow: "Supplier portal · sign-up",
+    title: "Researcher",
+    text: "One sign-up for two user types: CROs that run R&D projects, and independent scientists.",
+    icon: GraduationCap,
+    tint: "#e4f1eb",
+    ink: "#02594e",
+    links: [
+      { label: "CRO", href: "/work/scinode/cro" },
+      { label: "Scientist", href: "/work/scinode/scientist" },
+    ],
+  },
 ]
-
 
 export default function ScinodePage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main style={{ "--tone-purple": "#B79CEC", "--tone-purple-ink": "#6B4CB8", "--accent-purple": "#F1EBFC", "--on-purple": "#2B2150", "--tone-orange": "#1F392D" } as React.CSSProperties}>
         <header className={`${shell} pt-6 md:pt-10`}>
           <Link href="/#work" className="inline-flex items-center gap-1.5 text-sm font-medium text-body hover:text-brand">
             <ArrowLeft className="size-4" /> All work
@@ -54,7 +63,7 @@ export default function ScinodePage() {
             <div>
               <dt className={label}>My role</dt>
               <dd className="text-[17px] leading-[1.55] font-medium text-ink">
-                <span className="rounded bg-[#ece9fd] px-1 text-[#5b4fd1]">Placeholder</span> Role title and the modules I owned end to end.
+                Designed the CVP module in the customer portal and the whole supplier side.
               </dd>
             </div>
             <div>
@@ -70,14 +79,37 @@ export default function ScinodePage() {
               </dd>
             </div>
           </dl>
+          {/* project at a glance: scope facts only */}
+          <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-line pt-8 md:grid-cols-4">
+            {[
+              ["3", "connected portals"],
+              ["6", "steps from request to delivery"],
+              ["2", "supplier sign-up tracks"],
+              [String(areas.length), "user areas I designed"],
+            ].map(([v, l]) => (
+              <li key={l}>
+                <p className="font-heading text-[40px] leading-none font-semibold text-brand md:text-[48px]">{v}</p>
+                <p className="mt-2 text-[14.5px] text-body">{l}</p>
+              </li>
+            ))}
+          </ul>
         </header>
 
         <div className={`${shell} mt-12 lg:mt-16`}>
           <ImageBox label="Hero image: SCINODE across its three portals" ratio="16 / 8" />
         </div>
 
+        {/* the problem: above the ecosystem */}
+        <section id="problem" className={`${shell} mt-20 scroll-mt-24 lg:mt-28`}>
+          <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">The problem</p>
+          <h2 className="mt-3 max-w-[820px] text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">R&amp;D needs get stuck between request and delivery</h2>
+          <div className="mt-10">
+            <BlockView block={problem} />
+          </div>
+        </section>
+
         {/* how it works: one row, full width, fits one screen */}
-        <section id="ecosystem" className={`${shell} mt-20 scroll-mt-24 lg:mt-28`}>
+        <section id="ecosystem" className={`${shell} mt-24 scroll-mt-24 lg:mt-32`}>
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">How it works</p>
           <Ecosystem highlight={litSteps} className="mt-2" />
         </section>
@@ -94,61 +126,67 @@ export default function ScinodePage() {
           </div>
         </section>
 
-        <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-20`}>
-          <aside className="hidden lg:block">
-            <Toc items={sections} />
-          </aside>
-          <article className="min-w-0">
-            <WireSection id="glance" n={1} eyebrow="Project at a glance" title="Project at a glance">
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                {[
-                  ["3", "connected portals"],
-                  ["6", "steps from request to delivery"],
-                  [String(areas.length), "user types I designed for"],
-                  ["?", "placeholder fact"],
-                ].map(([v, l]) => (
-                  <div key={l} className="rounded-[18px] border-2 border-dashed border-[#d6cbb9] bg-white/50 p-5">
-                    <p className="font-heading text-[40px] leading-none font-semibold text-brand">{v}</p>
-                    <p className="mt-2 text-[14px] text-soft">{l}</p>
-                  </div>
-                ))}
-              </div>
-            </WireSection>
+        {/* visual language, shared with Deep Research */}
+        <section id="visual-language" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
+          <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Visual language</p>
+          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">One visual language across all portals</h2>
+          <p className="mt-4 max-w-[720px] text-[17px] leading-relaxed text-body">
+            SCINODE uses the same type and colours as SCINODE Deep Research, so the customer, admin and supplier portals feel like one product family.
+          </p>
+          <div className="mt-10 grid gap-12">
+            {visualLanguage.map((b, i) => (
+              <BlockView key={i} block={b} />
+            ))}
+          </div>
+        </section>
 
-            <WireSection id="problem" n={2} eyebrow="The problem" title="Why R&D sourcing is slow">
-              <Placeholder label="Problem statement" hint="Why finding and working with the right R&D partner is hard today: unclear needs, scattered suppliers, conversations lost between email and calls.">
-                <Lines n={3} />
-              </Placeholder>
-            </WireSection>
-
-            <WireSection id="role" n={3} eyebrow="My role" title="My part of the ecosystem">
-              <Placeholder label="My role" hint="One honest line: I designed these modules end to end; the other modules were designed by teammates.">
-                <Lines n={2} />
-              </Placeholder>
-            </WireSection>
-
-
-            <WireSection id="design-system" n={4} eyebrow="Design system" title="One visual language across all portals">
-              <div className="grid gap-4 md:grid-cols-3">
-                {["Typography", "Colour", "Components"].map((t) => (
-                  <Placeholder key={t} label={t} className="min-h-[160px]">
-                    <Lines n={2} />
-                  </Placeholder>
-                ))}
-              </div>
-            </WireSection>
-
-            <WireSection id="learnings" n={5} eyebrow="Learnings" title="What I learned">
-              <div className="grid gap-4 md:grid-cols-2">
-                {[1, 2].map((i) => (
-                  <Placeholder key={i} label={`Learning ${i}`} hint={i === 1 ? "Designing one part of a connected system: hand-offs between portals and shared states." : undefined}>
-                    <Lines n={2} />
-                  </Placeholder>
-                ))}
-              </div>
-            </WireSection>
-          </article>
-        </div>
+        {/* the case studies she designed */}
+        <section id="my-work" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
+          <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Case studies</p>
+          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">Explore what I designed</h2>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {workCards.map((c) => (
+              <article
+                key={c.title}
+                className="group relative flex flex-col rounded-[22px] border border-line bg-white p-6 shadow-[0_18px_40px_-28px_rgba(16,24,40,0.45)] transition-[translate,box-shadow,border-color] duration-300 has-[a:hover]:-translate-y-1 has-[a:hover]:border-brand/40 has-[a:hover]:shadow-[0_26px_50px_-28px_rgba(2,89,78,0.5)]"
+              >
+                <span className="grid size-11 place-items-center rounded-[13px]" style={{ background: c.tint, color: c.ink }}>
+                  <c.icon className="size-5" strokeWidth={1.9} aria-hidden />
+                </span>
+                <p className="mt-5 text-[11px] font-semibold tracking-[0.12em] uppercase" style={{ color: c.ink }}>
+                  {c.eyebrow}
+                </p>
+                <h3 className="mt-1.5 font-heading text-[26px] leading-tight font-semibold text-ink">
+                  {c.href ? (
+                    <Link href={c.href} className="after:absolute after:inset-0 after:rounded-[22px] focus-visible:outline-none">
+                      {c.title}
+                    </Link>
+                  ) : (
+                    c.title
+                  )}
+                </h3>
+                <p className="mt-2 text-[15px] leading-snug text-body">{c.text}</p>
+                <div className="mt-auto flex flex-wrap items-center gap-2 pt-6">
+                  {c.links ? (
+                    c.links.map((l) => (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-brand/25 px-3.5 py-1.5 text-[14px] font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
+                      >
+                        {l.label} <ArrowUpRight className="size-4" aria-hidden />
+                      </Link>
+                    ))
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand">
+                      View case study <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+                    </span>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
       </main>
       <div className="mt-24">
         <SiteFooter />
