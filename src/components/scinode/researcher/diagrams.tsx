@@ -474,6 +474,109 @@ export function JourneyMap() {
 
 // ---------------- platform architecture: one flow, two profiles ----------------
 
+/** Desktop flowchart of the platform: start pill, decision diamonds, process boxes and arrowed connectors.
+ *  Steps and branches come from the flow data and the PM's docs (verification can send changes back;
+ *  proposals go from invitation to won). Everything after verification sits in a dashed "locked" zone. */
+function ArchitectureChart() {
+  const W = 1000
+  const H = 550
+  const ink = "#344054"
+  const body = "#4c6763"
+  const line = "#02594e"
+  const box = (x: number, y: number, w: number, h: number, title: string, items: readonly string[], tone?: { fill: string; text: string }) => (
+    <g key={title}>
+      <rect x={x} y={y} width={w} height={h} rx="16" fill={tone?.fill ?? "#fff"} stroke={tone ? "none" : "#02594e"} strokeOpacity="0.28" strokeWidth="1.5" />
+      <text x={x + 16} y={y + 28} className="font-heading" fontSize="16" fontWeight="600" fill={tone?.text ?? ink}>
+        {title}
+      </text>
+      {items.map((t, i) => (
+        <text key={t} x={x + 16} y={y + 52 + i * 20} fontSize="13" fill={tone ? tone.text : body} opacity={tone ? 0.85 : 1}>
+          {t}
+        </text>
+      ))}
+    </g>
+  )
+  const diamond = (cx: number, cy: number, hw: number, hh: number, label: string) => (
+    <g key={label}>
+      <path d={`M${cx} ${cy - hh} L${cx + hw} ${cy} L${cx} ${cy + hh} L${cx - hw} ${cy} Z`} fill="#f2ece3" stroke="#6b7f7c" strokeOpacity="0.55" strokeWidth="1.5" strokeLinejoin="round" />
+      <text x={cx} y={cy + 5} textAnchor="middle" fontSize="13.5" fontWeight="600" fill={ink}>
+        {label}
+      </text>
+    </g>
+  )
+  const arrow = (d: string, dashed?: boolean) => <path key={d} d={d} fill="none" stroke={line} strokeOpacity={dashed ? 0.55 : 0.8} strokeWidth="1.6" strokeDasharray={dashed ? "5 5" : undefined} markerEnd="url(#ar-head)" strokeLinejoin="round" />
+  const tag = (x: number, y: number, t: string, anchor: "start" | "middle" | "end" = "middle") => (
+    <text key={t + x} x={x} y={y} textAnchor={anchor} fontSize="12" fontWeight="600" fill={line}>
+      {t}
+    </text>
+  )
+  const [signup, , verify, opp, prop, proj, pm] = flow
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Flowchart: sign up, choose CRO or scientist, complete the profile, submit for review; if approved, find opportunities, send proposals, run won projects and manage them with experiments.">
+      <defs>
+        <marker id="ar-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 Z" fill={line} />
+        </marker>
+      </defs>
+
+      {/* 1 · get verified */}
+      <g>
+        <circle cx="12" cy="24" r="11" fill={line} />
+        <text x="12" y="28.5" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff">1</text>
+        <text x="32" y="29" fontSize="12.5" fontWeight="600" letterSpacing="1.6" fill="#6b7f7c">GET VERIFIED</text>
+      </g>
+      {/* start pill */}
+      <rect x="2" y="114" width="150" height="72" rx="36" fill={line} />
+      <text x="77" y="145" textAnchor="middle" className="font-heading" fontSize="16" fontWeight="600" fill="#fff">{signup.title}</text>
+      <text x="77" y="166" textAnchor="middle" fontSize="12" fill="#ffffff" opacity="0.8">{signup.items.join(" · ").replace("Email verification", "email")}</text>
+      {arrow("M152 150 L176 150")}
+      {diamond(240, 150, 62, 50, "CRO or")}
+      <text x="240" y="172" textAnchor="middle" fontSize="13.5" fontWeight="600" fill={ink}>scientist?</text>
+      {/* branches */}
+      {arrow("M302 150 L318 150 L318 88 L338 88")}
+      {arrow("M318 150 L318 214 L338 214")}
+      {tag(312, 112, "CRO", "end")}
+      {tag(312, 200, "Scientist", "end")}
+      {box(340, 58, 170, 60, "CRO profile", ["8 sections"], { fill: "#e4f1eb", text: "#02594e" })}
+      {box(340, 184, 170, 60, "Scientist profile", ["5 steps"], { fill: "#ece9fd", text: "#5b4fd1" })}
+      {/* merge */}
+      <path d="M510 88 L534 88 L534 214 L510 214" fill="none" stroke={line} strokeOpacity="0.8" strokeWidth="1.6" strokeLinejoin="round" />
+      {arrow("M534 150 L560 150")}
+      {box(562, 118, 150, 64, verify.title, ["Submit for review"])}
+      {arrow("M712 150 L736 150")}
+      {diamond(800, 150, 62, 48, "Approved?")}
+      {/* no: changes requested, back to the profile */}
+      {arrow("M800 102 L800 30 L425 30 L425 56", true)}
+      {tag(612, 22, "No · changes requested")}
+      {/* yes: unlocks the work */}
+      {arrow("M862 150 L986 150 L986 270 L106 270 L106 342")}
+      {tag(924, 140, "Yes")}
+
+      {/* 2 · win and run projects: locked until verification */}
+      <g transform="translate(0 -50)">
+      <rect x="2" y="350" width="996" height="246" rx="22" fill="#02594e" fillOpacity="0.03" stroke={line} strokeOpacity="0.35" strokeWidth="1.4" strokeDasharray="6 6" />
+      {box(22, 394, 170, 112, opp.title, opp.items)}
+      {arrow("M192 450 L222 450")}
+      {box(224, 394, 160, 112, prop.title, prop.items)}
+      {arrow("M384 450 L414 450")}
+      {diamond(468, 450, 52, 42, "Won?")}
+      {arrow("M468 492 L468 548 L106 548 L106 508", true)}
+      {tag(290, 540, "Not won · next opportunity")}
+      {arrow("M520 450 L552 450")}
+      {tag(536, 440, "Yes")}
+      {box(554, 394, 196, 112, proj.title, proj.items)}
+      {arrow("M750 450 L778 450")}
+      {box(780, 394, 204, 112, pm.title, pm.items)}
+      <g>
+        <circle cx="34" cy="574" r="11" fill={line} />
+        <text x="34" y="578.5" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff">2</text>
+        <text x="54" y="579" fontSize="12.5" fontWeight="600" letterSpacing="1.6" fill="#6b7f7c">WIN AND RUN PROJECTS · UNLOCKS AFTER VERIFICATION</text>
+      </g>
+      </g>
+    </svg>
+  )
+}
+
 export function Architecture() {
   const Node = ({ title, items, locked }: { title: string; items: readonly string[]; locked?: boolean }) => (
     <div className={cn("relative h-full rounded-[18px] border bg-white p-4", locked ? "border-dashed border-brand/40" : "border-brand/30")}>
@@ -495,7 +598,10 @@ export function Architecture() {
   ]
   return (
     <div>
-      <div className="grid gap-5">
+      <div className="hidden lg:block">
+        <ArchitectureChart />
+      </div>
+      <div className="grid gap-5 lg:hidden">
         {rows.map((r, ri) => (
           <div key={r.label}>
             <p className="mb-2.5 flex items-center gap-2 text-[12px] font-semibold tracking-[0.12em] text-soft uppercase">
@@ -531,10 +637,13 @@ export function Architecture() {
         ))}
       </div>
       <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-soft">
+        <span className="hidden items-center gap-1.5 lg:flex">
+          <span className="size-3 rotate-45 rounded-[2px] border border-[#6b7f7c]/55 bg-[#f2ece3]" /> Decision
+        </span>
         <span className="flex items-center gap-1.5">
           <span className="size-3 rounded-[4px] bg-[#e4f1eb]" /> <span className="size-3 rounded-[4px] bg-[#ece9fd]" /> The only step that differs by user
         </span>
-        <span className="flex items-center gap-1.5">
+        <span className="flex items-center gap-1.5 lg:hidden">
           <Lock className="size-3.5" aria-hidden /> Unlocks after verification
         </span>
       </div>
