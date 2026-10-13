@@ -43,8 +43,7 @@ const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
 
 const sections = [
   { id: "overview", label: "Overview" },
-  { id: "problem", label: "Problem statement" },
-  { id: "objectives", label: "Research objectives" },
+  { id: "problem", label: "Problem & objectives" },
   { id: "methods", label: "Research methods" },
   { id: "research", label: "User research" },
   { id: "competitors", label: "Competitive analysis" },
@@ -96,12 +95,17 @@ export default function ResearcherPage() {
           <EditorialOverview serifClass={serif.className} />
         </section>
 
-        <EdSection id="problem" n={2} label="Problem statement" title={["Great labs, hidden behind", "emails"]}>
+        <EdSection id="problem" n={2} label="Problem statement & research objectives" title={["Great labs, hidden behind", "emails"]}>
           <ProblemVenn />
-        </EdSection>
-
-        <EdSection id="objectives" n={3} label="Research objectives" title={["Four questions", "to answer"]}>
-          <Objectives />
+          <div id="objectives" className="scroll-mt-24">
+            <p className="text-[16px] text-soft">Research objectives</p>
+            <h3 className="mt-1 font-sans text-[28px] leading-tight font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[34px]">
+              Four questions <span className={cn(serif.className, "text-ink/60 italic")}>to answer</span>
+            </h3>
+            <div className="mt-8">
+              <Objectives />
+            </div>
+          </div>
         </EdSection>
 
         <EdSection id="methods" n={4} label="Research methods" title={["Seven research", "methods"]}>
