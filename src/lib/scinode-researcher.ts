@@ -149,6 +149,15 @@ export const personas = [
     source: "Persona from my research",
     goals: ["Win projects that fit his chemistry", "Turn trial batches into scale-ups", "Show his lab without site visits"],
     pains: ["Vague briefs", "Asked for tests his lab can't run", "Competing on price"],
+    // quote from the CRO interviews (also in `insights`); the words in `highlight` are coloured
+    quote: "If I gave you 101% purity when you asked for 100%, show that. Showcase my quality and facilities.",
+    highlight: ["show that", "my quality and facilities"],
+    quoteSource: "From the CRO interviews",
+    about:
+      "Rajeev runs science and business development at a 30-member CRO focused on heterocyclic chemistry and new chemical entities. He screens projects for chemistry fit, sends quotes after the NDA, and shares weekly progress updates and COAs at each milestone.",
+    needs: ["Briefs with purity, reports and scale", "Leads tagged by chemistry", "A lab showcase: team, videos, case studies", "Milestone payments and one update dashboard"],
+    tools: ["Gantt charts", "SciFinder"],
+    profileSize: { n: 8, unit: "profile sections" },
   },
   {
     key: "scientist",
@@ -159,6 +168,15 @@ export const personas = [
     source: "Proto-persona from the research and the onboarding requirements",
     goals: ["Show research and IP to industry", "Find projects that match expertise", "Bring the group onto the platform"],
     pains: ["Re-typing what's on Google Scholar", "Long forms, easy to abandon", "Worries about IP"],
+    // no scientist interviews yet, so a goal statement instead of a quote
+    quote: "Show the group's research and IP to industry, without re-typing what is already online.",
+    highlight: ["research and IP", "without re-typing"],
+    quoteSource: "Proto-persona: main goal, not an interview quote",
+    about:
+      "Heads a research group at an institution, with publications, patents and technologies at different readiness levels. Wants industry partners to find that work and the team behind it, in a profile that takes minutes, not an afternoon.",
+    needs: ["Publications filled from Google Scholar and ORCID", "Time badges on every step", "Auto-save between steps", "Invite the research group"],
+    tools: ["Google Scholar", "ORCID", "LinkedIn"],
+    profileSize: { n: 5, unit: "onboarding steps" },
   },
 ] as const
 

@@ -225,61 +225,178 @@ export function Empathy() {
 
 // ---------------- personas, side by side, plus "same use cases, different profile" ----------------
 
+/** Semicircle gauge made of one segment per profile section/step (the only part that differs). */
+function ProfileGauge({ n, unit, ink }: { n: number; unit: string; ink: string }) {
+  const cx = 60, cy = 58, r = 44, gap = 5
+  const seg = (180 - gap * (n - 1)) / n
+  const pt = (a: number) => [cx + r * Math.cos((a * Math.PI) / 180), cy + r * Math.sin((a * Math.PI) / 180)]
+  return (
+    <svg viewBox="0 0 120 72" className="w-[132px]" aria-hidden>
+      {Array.from({ length: n }, (_, i) => {
+        const a0 = 180 + i * (seg + gap)
+        const [x0, y0] = pt(a0)
+        const [x1, y1] = pt(a0 + seg)
+        return <path key={i} d={`M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1}`} fill="none" stroke={ink} strokeWidth="9" strokeLinecap="round" opacity={0.35 + (0.65 * (i + 1)) / n} />
+      })}
+      <text x={cx} y={cy - 4} textAnchor="middle" className="font-heading" fontSize="26" fontWeight="700" fill="#1d1d1f">
+        {n}
+      </text>
+      <text x={cx} y={cy + 8} textAnchor="middle" fontSize="8.5" fill="#6b7f7c">
+        {unit}
+      </text>
+    </svg>
+  )
+}
+
+/** Splits a quote so the highlighted phrases can be coloured. */
+function Highlighted({ text, words, ink }: { text: string; words: readonly string[]; ink: string }) {
+  const parts = text.split(new RegExp(`(${words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`))
+  return (
+    <>
+      {parts.map((p, i) =>
+        words.includes(p) ? (
+          <span key={i} style={{ color: ink }}>
+            {p}
+          </span>
+        ) : (
+          p
+        )
+      )}
+    </>
+  )
+}
+
+// Persona boards in the style of Sathi's UX persona reference: quote top left, profile and needs cards top right,
+// goals / pain points / about cards below, joined by dashed curves on a dot grid. Real content only.
 export function Personas() {
   return (
-    <div className="grid gap-6">
-      <div className="grid gap-4 md:grid-cols-2">
-        {personas.map((p) => {
-          const cro = p.key === "cro"
-          const ink = cro ? green : purple
-          const tint = cro ? "#e4f1eb" : "#ece9fd"
-          const Icon = cro ? Microscope : Beaker
-          return (
-            <article key={p.key} className="flex flex-col rounded-[26px] bg-white p-6 shadow-[0_18px_40px_-30px_rgba(16,24,40,0.45)]">
-              <div className="flex items-center gap-4">
-                <span className="relative grid size-16 shrink-0 place-items-center rounded-full" style={{ background: tint, color: ink }}>
-                  <span aria-hidden className="absolute -inset-1.5 rounded-full border-2 border-dashed" style={{ borderColor: `${ink}40` }} />
-                  <Icon className="size-7" strokeWidth={1.6} aria-hidden />
-                </span>
-                <div>
-                  <p className="text-[11px] font-semibold tracking-[0.12em] uppercase" style={{ color: ink }}>
-                    {p.label}
+    <div className="grid gap-16">
+      {personas.map((p) => {
+        const cro = p.key === "cro"
+        const ink = cro ? green : purple
+        const tint = cro ? "#e4f1eb" : "#ece9fd"
+        const soft = cro ? "#f1f8f4" : "#f5f3fe"
+        const Icon = cro ? Microscope : Beaker
+        return (
+          <article key={p.key} className="relative">
+            {/* dot grid and dashed curves behind the cards */}
+            <div aria-hidden className="pointer-events-none absolute -inset-4 rounded-[32px] opacity-60 [background-image:radial-gradient(#d9cfbf_1.2px,transparent_1.2px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_80%)]" />
+            <svg aria-hidden viewBox="0 0 100 100" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block">
+              {["M18 46 C 14 58, 16 64, 22 70", "M66 30 C 62 46, 56 56, 52 68", "M90 40 C 93 52, 90 58, 84 66"].map((d) => (
+                <path key={d} d={d} fill="none" stroke={ink} strokeOpacity="0.35" strokeWidth="1.4" strokeDasharray="3 5" vectorEffect="non-scaling-stroke" />
+              ))}
+            </svg>
+
+            <div className="relative grid items-start gap-5 md:grid-cols-2 lg:grid-cols-12">
+              {/* quote */}
+              <div className="md:col-span-2 lg:col-span-6 lg:pt-4 lg:pr-4">
+                <p className="text-[14px] font-medium text-body">
+                  UX persona: <span style={{ color: ink }}>{p.label}</span>
+                </p>
+                <blockquote className="relative mt-4 pl-9">
+                  <span aria-hidden className="absolute top-[-6px] left-0 font-heading text-[54px] leading-none font-bold" style={{ color: ink, opacity: 0.3 }}>
+                    &ldquo;
+                  </span>
+                  <p className="font-heading text-[24px] leading-[1.22] font-semibold tracking-[-0.01em] text-[#1d1d1f] md:text-[27px]">
+                    <Highlighted text={p.quote} words={p.highlight} ink={ink} />
                   </p>
-                  <h3 className="font-heading text-[22px] leading-tight font-semibold text-ink">{p.name}</h3>
-                  <p className="text-[13.5px] leading-snug text-body">{p.role}</p>
+                  <footer className="mt-3 text-[12.5px] text-soft">{p.quoteSource}</footer>
+                </blockquote>
+              </div>
+
+              {/* profile card */}
+              <div className="relative flex flex-col items-center rounded-[24px] bg-white px-5 py-6 text-center shadow-[0_22px_44px_-30px_rgba(16,24,40,0.5)] lg:col-span-3">
+                <span className="relative grid size-[92px] place-items-center rounded-full" style={{ background: `radial-gradient(circle at 35% 30%, #ffffff 0%, ${tint} 70%)`, color: ink }}>
+                  <span aria-hidden className="absolute -inset-2 rounded-full border-2 border-dashed" style={{ borderColor: `${ink}33` }} />
+                  <Icon className="size-10" strokeWidth={1.5} aria-hidden />
+                </span>
+                <h3 className="mt-4 font-heading text-[20px] leading-tight font-semibold text-ink">{p.name}</h3>
+                <p className="mt-1 text-[13px] leading-snug text-body">{p.role}</p>
+                <p className="mt-1.5 text-[12.5px] text-soft">{p.facts[0]}</p>
+                <ul className="mt-auto flex flex-wrap justify-center gap-1.5 pt-4">
+                  {p.tools.map((t) => (
+                    <li key={t} className="rounded-full border border-line px-2.5 py-0.5 text-[11.5px] font-medium text-body">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                {/* floating icon disc, like the reference */}
+                <span aria-hidden className="absolute top-6 -right-3 hidden size-9 place-items-center rounded-full bg-white shadow-[0_8px_18px_-8px_rgba(16,24,40,0.35)] lg:grid" style={{ color: ink }}>
+                  <Users className="size-4" />
+                </span>
+              </div>
+
+              {/* needs card */}
+              <div className="rounded-[24px] bg-white p-5 shadow-[0_22px_44px_-30px_rgba(16,24,40,0.5)] lg:col-span-3 lg:mt-12">
+                <span className="grid size-10 place-items-center rounded-full" style={{ background: tint, color: ink }}>
+                  <Sparkles className="size-[18px]" aria-hidden />
+                </span>
+                <p className="mt-3 text-[14px] font-semibold text-ink">Needs from the platform</p>
+                <ul className="mt-3 grid gap-2.5">
+                  {p.needs.map((x, i) => (
+                    <li key={x} className="text-[12.5px] leading-snug text-body">
+                      {x}
+                      <span aria-hidden className="mt-1.5 block h-[5px] rounded-full" style={{ background: i % 2 ? tint : ink, opacity: i % 2 ? 1 : 0.55 }} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* goals */}
+              <div className="rounded-[24px] p-6 lg:col-span-4 lg:mt-6" style={{ background: soft }}>
+                <p className="flex items-center gap-3 text-[16px] font-semibold text-ink">
+                  <span className="grid size-10 place-items-center rounded-full bg-white" style={{ color: ink }}>
+                    <Target className="size-[18px]" aria-hidden />
+                  </span>
+                  Goals
+                </p>
+                <ul className="mt-4 grid gap-2.5">
+                  {p.goals.map((x) => (
+                    <li key={x} className="flex gap-2.5 text-[13.5px] leading-snug text-body">
+                      <span aria-hidden className="mt-[6px] size-[7px] shrink-0 rotate-45" style={{ background: ink }} />
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* pain points */}
+              <div className="rounded-[24px] bg-[#fbf1ec] p-6 lg:col-span-4 lg:mt-6">
+                <p className="flex items-center gap-3 text-[16px] font-semibold text-ink">
+                  <span className="grid size-10 place-items-center rounded-full bg-white text-[#b4533a]">
+                    <FileWarning className="size-[18px]" aria-hidden />
+                  </span>
+                  Pain points
+                </p>
+                <ul className="mt-4 grid gap-2.5">
+                  {p.pains.map((x) => (
+                    <li key={x} className="flex gap-2.5 text-[13.5px] leading-snug text-body">
+                      <span aria-hidden className="mt-[6px] size-[7px] shrink-0 rotate-45 bg-[#b4533a]" />
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* about + profile gauge */}
+              <div className="relative md:col-span-2 lg:col-span-4">
+                <div className="rounded-[24px] p-6 pb-20 text-white shadow-[0_24px_44px_-28px_rgba(2,89,78,0.7)]" style={{ background: ink }}>
+                  <p className="text-[16px] font-semibold">About</p>
+                  <p className="mt-3 text-[13.5px] leading-[1.55] text-white/90">{p.about}</p>
+                </div>
+                <div className="relative -mt-14 ml-6 inline-flex flex-col items-center rounded-[20px] bg-white px-5 pt-3 pb-2 shadow-[0_18px_36px_-22px_rgba(16,24,40,0.5)]">
+                  <p className="text-[13px] font-semibold" style={{ color: ink }}>
+                    Profile
+                  </p>
+                  <ProfileGauge n={p.profileSize.n} unit={p.profileSize.unit} ink={ink} />
                 </div>
               </div>
-              <ul className="mt-4 flex flex-wrap gap-1.5">
-                {p.facts.map((f) => (
-                  <li key={f} className="rounded-full px-2.5 py-1 text-[12.5px] font-medium" style={{ background: tint, color: ink }}>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-5 grid grid-cols-2 gap-5 border-t border-line pt-4">
-                {[
-                  { t: "Goals", icon: Target, items: p.goals, tone: ink },
-                  { t: "Pain points", icon: FileWarning, items: p.pains, tone: "#b4533a" },
-                ].map((c) => (
-                  <div key={c.t}>
-                    <p className="flex items-center gap-1.5 text-[14px] font-semibold text-ink">
-                      <c.icon className="size-4" style={{ color: c.tone }} aria-hidden /> {c.t}
-                    </p>
-                    <ul className="mt-2 grid gap-1.5">
-                      {c.items.map((x) => (
-                        <li key={x} className="text-[13.5px] leading-snug text-body">
-                          {x}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-auto pt-4 text-[12px] text-soft">{p.source}</p>
-            </article>
-          )
-        })}
-      </div>
+            </div>
+            <p className="relative mt-4 text-[12px] text-soft">{p.source}</p>
+          </article>
+        )
+      })}
+
       {/* the one real difference */}
       <div className="grid items-stretch gap-4 rounded-[26px] border border-line bg-white p-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:p-7">
         <div className="rounded-[18px] bg-brand p-5 text-white">
