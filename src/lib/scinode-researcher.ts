@@ -39,11 +39,12 @@ export const overview = {
   text: "Scinode for Researchers is an AI-powered R&D platform. CROs and scientists build a verified profile, find projects that fit their chemistry, send proposals and run the work, from sign-up to closure.",
 } as const
 
-/** Problem & solution as two overlapping circles (Sathi's style reference). */
+/** Problem & solution as three overlapping circles (Sathi's style reference); her three original problems. */
 export const problemPair = {
   problems: [
-    { title: "Labs stay invisible", text: "CROs and scientists couldn't show their equipment, team or past work online, so good labs were hard to find and harder to trust." },
-    { title: "Work runs on email", text: "Projects arrived that didn't fit their chemistry, and briefs, updates and files lived in long email threads." },
+    { title: "Invisible", text: "Labs couldn't show their equipment, team or past work online." },
+    { title: "Mismatched", text: "Projects arrived that didn't fit the lab's chemistry." },
+    { title: "Scattered", text: "Briefs, updates and files lived in email threads." },
   ],
   solution: "Scinode for Researchers gives every lab a verified profile, matches projects by chemistry, and runs proposals and projects in one workspace.",
 }

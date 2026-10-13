@@ -675,65 +675,87 @@ export function ResearchQuotes({ serifClass }: { serifClass: string }) {
   )
 }
 
-// ---------------- problem & solution: two overlapping circles (Sathi's style reference) ----------------
+// ---------------- problem & solution: three overlapping circles (Sathi's style reference) ----------------
 
 export function ProblemVenn() {
-  // viewBox stage: two circles r=300 whose overlap (a lens) holds the solution
-  const W = 620
-  const H = 960
-  const pct = (y: number) => `${(y / H) * 100}%`
+  // three circles (r=250) around a centre point; the solution sits where all three overlap
+  const W = 860
+  const H = 780
+  const G = { x: 430, y: 350 }
+  const r = 250
+  const d = 127 // centre-to-circle distance
+  const angles = [210, 330, 90] // top-left, top-right, bottom
+  const centres = angles.map((a) => ({ x: G.x + d * Math.cos((a * Math.PI) / 180), y: G.y + d * Math.sin((a * Math.PI) / 180) }))
+  // each problem sits in the part of its circle that no other circle covers
+  const labels = angles.map((a, i) => {
+    const dist = i === 2 ? 268 : 292
+    return { x: G.x + dist * Math.cos((a * Math.PI) / 180), y: G.y + dist * Math.sin((a * Math.PI) / 180) }
+  })
+  const px = (x: number) => `${(x / W) * 100}%`
+  const py = (y: number) => `${(y / H) * 100}%`
   const Pill = ({ children, solid }: { children: React.ReactNode; solid?: boolean }) => (
-    <span className={cn("inline-block rounded-full px-4 py-1.5 text-[14px] font-semibold", solid ? "bg-white text-brand shadow-[0_8px_20px_-12px_rgba(0,0,0,0.5)]" : "bg-[#ece9fd] text-[#5b4fd1]")}>{children}</span>
+    <span className={cn("inline-block rounded-full px-3.5 py-1 text-[13px] font-semibold", solid ? "bg-white text-brand shadow-[0_8px_20px_-12px_rgba(0,0,0,0.5)]" : "bg-[#ece9fd] text-[#5b4fd1]")}>{children}</span>
   )
   const Problem = ({ i }: { i: number }) => (
     <>
       <Pill>Problem {String(i + 1).padStart(2, "0")}</Pill>
-      <p className="mt-4 font-heading text-[21px] leading-tight font-semibold text-ink">{problemPair.problems[i].title}</p>
-      <p className="mt-2.5 text-[14.5px] leading-relaxed text-body">{problemPair.problems[i].text}</p>
+      <p className="mt-3 font-heading text-[22px] leading-tight font-semibold text-ink">{problemPair.problems[i].title}</p>
+      <p className="mt-2 text-[14.5px] leading-snug text-body">{problemPair.problems[i].text}</p>
     </>
   )
   return (
     <div>
-      {/* md and up: the two circles */}
-      <div className="relative mx-auto hidden w-full max-w-[620px] md:block" style={{ aspectRatio: `${W} / ${H}` }}>
+      {/* md and up: three circles */}
+      <div className="relative mx-auto hidden w-full max-w-[860px] md:block" style={{ aspectRatio: `${W} / ${H}` }}>
         <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full" aria-hidden>
           <defs>
-            <linearGradient id="pv-lens" x1="0" y1="0" x2="0" y2="1">
+            {centres.map((c, i) => (
+              <clipPath key={i} id={`pv3-c${i}`}>
+                <circle cx={c.x} cy={c.y} r={r} />
+              </clipPath>
+            ))}
+            <linearGradient id="pv3-lens" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="#0b6b5d" />
               <stop offset="1" stopColor="#02594e" />
             </linearGradient>
-            <filter id="pv-glow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="14" />
+            <filter id="pv3-glow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="16" />
             </filter>
           </defs>
-          <circle cx="310" cy="300" r="300" fill="none" stroke="#b9ae9c" strokeWidth="1.5" strokeDasharray="7 8" />
-          <circle cx="310" cy="660" r="300" fill="none" stroke="#b9ae9c" strokeWidth="1.5" strokeDasharray="7 8" />
-          <path d="M70,480 A300,300 0 0 1 550,480 A300,300 0 0 1 70,480 Z" fill="#2fae74" opacity="0.35" filter="url(#pv-glow)" />
-          <path d="M70,480 A300,300 0 0 1 550,480 A300,300 0 0 1 70,480 Z" fill="url(#pv-lens)" />
+          {centres.map((c, i) => (
+            <circle key={i} cx={c.x} cy={c.y} r={r} fill="none" stroke="#b9ae9c" strokeWidth="1.5" strokeDasharray="7 8" />
+          ))}
+          {/* the shared centre: a rect clipped by all three circles */}
+          <g clipPath="url(#pv3-c0)">
+            <g clipPath="url(#pv3-c1)">
+              <g clipPath="url(#pv3-c2)">
+                <rect x="0" y="0" width={W} height={H} fill="#2fae74" opacity="0.35" filter="url(#pv3-glow)" />
+                <rect x="0" y="0" width={W} height={H} fill="url(#pv3-lens)" />
+              </g>
+            </g>
+          </g>
         </svg>
-        <div className="absolute left-1/2 w-[62%] -translate-x-1/2 text-center" style={{ top: pct(110) }}>
-          <Problem i={0} />
-        </div>
-        <div className="absolute left-1/2 w-[56%] -translate-x-1/2 text-center" style={{ top: pct(398) }}>
+        {labels.map((l, i) => (
+          <div key={i} className="absolute w-[21%] -translate-x-1/2 -translate-y-1/2 text-center" style={{ left: px(l.x), top: py(l.y) }}>
+            <Problem i={i} />
+          </div>
+        ))}
+        <div className="absolute w-[24%] -translate-x-1/2 -translate-y-1/2 text-center" style={{ left: px(G.x), top: py(G.y + 6) }}>
           <Pill solid>Solution</Pill>
-          <p className="mt-4 text-[15px] leading-relaxed text-white/90">{problemPair.solution}</p>
-        </div>
-        <div className="absolute left-1/2 w-[62%] -translate-x-1/2 text-center" style={{ top: pct(640) }}>
-          <Problem i={1} />
+          <p className="mt-2.5 text-[13px] leading-snug text-white/90 xl:text-[13.5px]">{problemPair.solution}</p>
         </div>
       </div>
 
       {/* phones: stacked */}
       <div className="grid gap-4 md:hidden">
-        <div className="rounded-[28px] border border-dashed border-[#b9ae9c] p-6 text-center">
-          <Problem i={0} />
-        </div>
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="rounded-[28px] border border-dashed border-[#b9ae9c] p-6 text-center">
+            <Problem i={i} />
+          </div>
+        ))}
         <div className="rounded-[28px] bg-brand p-6 text-center shadow-[0_20px_44px_-24px_rgba(2,89,78,0.8)]">
           <Pill solid>Solution</Pill>
           <p className="mt-4 text-[15px] leading-relaxed text-white/90">{problemPair.solution}</p>
-        </div>
-        <div className="rounded-[28px] border border-dashed border-[#b9ae9c] p-6 text-center">
-          <Problem i={1} />
         </div>
       </div>
     </div>
