@@ -562,9 +562,8 @@ const bubbles: Record<string, { icon: LucideIcon; bg: string; pos: string }> = {
 export function EditorialOverview({ serifClass }: { serifClass: string }) {
   return (
     <div>
-      {/* index · label · title */}
-      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,4fr)] md:items-start">
-        <p className={cn(serifClass, "pt-6 text-[40px] leading-none text-ink/60 italic md:text-[48px]")}>[01]</p>
+      {/* label · title */}
+      <div>
         <div>
           <p className="text-[16px] text-soft">Overview</p>
           <h2 className="mt-1 font-sans text-[34px] leading-[1.1] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[40px] xl:text-[44px]">
