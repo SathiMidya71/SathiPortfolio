@@ -343,7 +343,7 @@ export function Personas() {
               </div>
 
               {/* goals */}
-              <div className="rounded-[24px] p-6 lg:col-span-4 lg:mt-6" style={{ background: soft }}>
+              <div className="rounded-[24px] border-[1.5px] p-6 shadow-[0_18px_36px_-30px_rgba(16,24,40,0.45)] lg:col-span-4 lg:mt-6" style={{ background: soft, borderColor: `${ink}8c` }}>
                 <p className="flex items-center gap-3 text-[16px] font-semibold text-ink">
                   <span className="grid size-10 place-items-center rounded-full bg-white" style={{ color: ink }}>
                     <Target className="size-[18px]" aria-hidden />
@@ -361,7 +361,7 @@ export function Personas() {
               </div>
 
               {/* pain points */}
-              <div className="rounded-[24px] bg-[#fbf1ec] p-6 lg:col-span-4 lg:mt-6">
+              <div className="rounded-[24px] border-[1.5px] border-[#b4533a]/55 bg-[#fbf1ec] p-6 shadow-[0_18px_36px_-30px_rgba(16,24,40,0.45)] lg:col-span-4 lg:mt-6">
                 <p className="flex items-center gap-3 text-[16px] font-semibold text-ink">
                   <span className="grid size-10 place-items-center rounded-full bg-white text-[#b4533a]">
                     <FileWarning className="size-[18px]" aria-hidden />
