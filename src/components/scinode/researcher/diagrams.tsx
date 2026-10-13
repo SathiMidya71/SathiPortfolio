@@ -270,7 +270,7 @@ function Highlighted({ text, words, ink }: { text: string; words: readonly strin
 // goals / pain points / about cards below, joined by dashed curves on a dot grid. Real content only.
 export function Personas() {
   return (
-    <div className="grid gap-16">
+    <div className="grid gap-10">
       {personas.map((p) => {
         const cro = p.key === "cro"
         const ink = cro ? green : purple
@@ -305,7 +305,7 @@ export function Personas() {
               </div>
 
               {/* profile card */}
-              <div className="relative flex flex-col items-center rounded-[24px] bg-white px-5 py-6 text-center shadow-[0_22px_44px_-30px_rgba(16,24,40,0.5)] lg:col-span-3">
+              <div className="relative flex flex-col items-center rounded-[24px] bg-white px-5 py-5 text-center shadow-[0_22px_44px_-30px_rgba(16,24,40,0.5)] lg:col-span-3">
                 <span className="relative grid size-[92px] place-items-center rounded-full" style={{ background: `radial-gradient(circle at 35% 30%, #ffffff 0%, ${tint} 70%)`, color: ink }}>
                   <span aria-hidden className="absolute -inset-2 rounded-full border-2 border-dashed" style={{ borderColor: `${ink}33` }} />
                   <Icon className="size-10" strokeWidth={1.5} aria-hidden />
@@ -327,7 +327,7 @@ export function Personas() {
               </div>
 
               {/* needs card */}
-              <div className="rounded-[24px] bg-white p-5 shadow-[0_22px_44px_-30px_rgba(16,24,40,0.5)] lg:col-span-3 lg:mt-12">
+              <div className="rounded-[24px] bg-white p-5 shadow-[0_22px_44px_-30px_rgba(16,24,40,0.5)] lg:col-span-3 lg:mt-8">
                 <span className="grid size-10 place-items-center rounded-full" style={{ background: tint, color: ink }}>
                   <Sparkles className="size-[18px]" aria-hidden />
                 </span>
@@ -343,7 +343,7 @@ export function Personas() {
               </div>
 
               {/* goals */}
-              <div className="rounded-[24px] border-[1.5px] p-6 shadow-[0_18px_36px_-30px_rgba(16,24,40,0.45)] lg:col-span-4 lg:mt-6" style={{ background: soft, borderColor: `${ink}8c` }}>
+              <div className="rounded-[24px] border-[1.5px] p-5 shadow-[0_18px_36px_-30px_rgba(16,24,40,0.45)] lg:col-span-4 lg:mt-2" style={{ background: soft, borderColor: `${ink}8c` }}>
                 <p className="flex items-center gap-3 text-[16px] font-semibold text-ink">
                   <span className="grid size-10 place-items-center rounded-full bg-white" style={{ color: ink }}>
                     <Target className="size-[18px]" aria-hidden />
@@ -361,7 +361,7 @@ export function Personas() {
               </div>
 
               {/* pain points */}
-              <div className="rounded-[24px] border-[1.5px] border-[#b4533a]/55 bg-[#fbf1ec] p-6 shadow-[0_18px_36px_-30px_rgba(16,24,40,0.45)] lg:col-span-4 lg:mt-6">
+              <div className="rounded-[24px] border-[1.5px] border-[#b4533a]/55 bg-[#fbf1ec] p-6 shadow-[0_18px_36px_-30px_rgba(16,24,40,0.45)] lg:col-span-4 lg:mt-2">
                 <p className="flex items-center gap-3 text-[16px] font-semibold text-ink">
                   <span className="grid size-10 place-items-center rounded-full bg-white text-[#b4533a]">
                     <FileWarning className="size-[18px]" aria-hidden />
@@ -380,11 +380,11 @@ export function Personas() {
 
               {/* about + profile gauge */}
               <div className="relative md:col-span-2 lg:col-span-4">
-                <div className="rounded-[24px] p-6 pb-20 text-white shadow-[0_24px_44px_-28px_rgba(2,89,78,0.7)]" style={{ background: ink }}>
+                <div className="rounded-[24px] p-5 pb-16 text-white shadow-[0_24px_44px_-28px_rgba(2,89,78,0.7)]" style={{ background: ink }}>
                   <p className="text-[16px] font-semibold">About</p>
                   <p className="mt-3 text-[13.5px] leading-[1.55] text-white/90">{p.about}</p>
                 </div>
-                <div className="relative -mt-14 ml-6 inline-flex flex-col items-center rounded-[20px] bg-white px-5 pt-3 pb-2 shadow-[0_18px_36px_-22px_rgba(16,24,40,0.5)]">
+                <div className="relative -mt-12 ml-6 inline-flex flex-col items-center rounded-[20px] bg-white px-5 pt-3 pb-2 shadow-[0_18px_36px_-22px_rgba(16,24,40,0.5)]">
                   <p className="text-[13px] font-semibold" style={{ color: ink }}>
                     Profile
                   </p>
@@ -617,15 +617,15 @@ export function EditorialOverview({ serifClass }: { serifClass: string }) {
       {/* label · title */}
       <div>
         <div>
-          <p className="text-[16px] text-soft">Overview</p>
-          <h2 className="mt-1 font-sans text-[34px] leading-[1.1] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[40px] xl:text-[44px]">
+          <p className="text-[15px] text-soft">Overview</p>
+          <h2 className="mt-1 font-sans text-[30px] leading-[1.1] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[34px] xl:text-[38px]">
             {overview.title[0]} <span className={cn(serifClass, "text-ink/60 italic")}>{overview.title[1]}</span>
           </h2>
         </div>
       </div>
 
       {/* the statement */}
-      <p className="mt-16 max-w-[1100px] font-sans text-[40px] leading-[1.18] font-medium tracking-[-0.03em] text-[#1d1d1f] md:mt-20 md:text-[56px] lg:text-[60px]">
+      <p className="mt-10 max-w-[1100px] font-sans text-[34px] leading-[1.18] font-medium tracking-[-0.03em] text-[#1d1d1f] md:mt-12 md:text-[46px] lg:text-[50px]">
         {overview.statement.map((s, i) => {
           if (!("em" in s)) return <span key={i}>{s.t}</span>
           const b = bubbles[s.bubble]
@@ -634,7 +634,7 @@ export function EditorialOverview({ serifClass }: { serifClass: string }) {
               <span className={cn(serifClass, "font-normal tracking-[-0.01em] text-[#8a8a8a] italic")}>{s.t}</span>
               <span
                 aria-hidden
-                className={cn("absolute grid size-9 place-items-center rounded-full opacity-90 shadow-[0_12px_28px_-14px_rgba(16,24,40,0.45)] md:size-[72px]", b.pos)}
+                className={cn("absolute grid size-9 place-items-center rounded-full opacity-90 shadow-[0_12px_28px_-14px_rgba(16,24,40,0.45)] md:size-[60px]", b.pos)}
                 style={{ background: b.bg }}
               >
                 <b.icon className="size-4 text-ink/70 md:size-7" strokeWidth={1.6} />
@@ -645,16 +645,16 @@ export function EditorialOverview({ serifClass }: { serifClass: string }) {
       </p>
 
       {/* facts + paragraph */}
-      <div className="mt-16 grid gap-10 md:mt-20 md:grid-cols-2 md:items-start">
+      <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-2 md:items-start">
         <dl className="grid gap-3">
           {overview.facts.map((f) => (
-            <div key={f.label} className="flex gap-3 text-[17px] md:text-[19px]">
+            <div key={f.label} className="flex gap-3 text-[16px] md:text-[17px]">
               <dt className="text-soft">{f.label} /</dt>
               <dd className="text-ink">{f.value}</dd>
             </div>
           ))}
         </dl>
-        <p className="text-[17px] leading-relaxed text-soft md:text-[18px]">{overview.text}</p>
+        <p className="text-[16px] leading-relaxed text-soft">{overview.text}</p>
       </div>
     </div>
   )
@@ -667,7 +667,7 @@ const needIcons: LucideIcon[] = [Puzzle, FileWarning, Microscope, Route]
 export function UserNeeds() {
   // fixed-aspect stage so the half circle, dashed arc and connectors line up at every desktop width
   const W = 860
-  const H = 860
+  const H = 800
   const cx = 560
   const cy = 330
   const R = 230
@@ -769,7 +769,7 @@ export function ResearchQuotes({ serifClass }: { serifClass: string }) {
     <div className="grid gap-6 md:grid-cols-3">
       {insights.slice(0, 4).filter((_, i) => i !== 1).map((q) => (
         <figure key={q.title} className="border-t border-line pt-5">
-          <blockquote className={cn(serifClass, "text-[24px] leading-snug text-ink italic")}>&ldquo;{q.quote}&rdquo;</blockquote>
+          <blockquote className={cn(serifClass, "text-[21px] leading-snug text-ink italic")}>&ldquo;{q.quote}&rdquo;</blockquote>
           <figcaption className="mt-3 text-[13px] text-soft">From interviews · {q.title}</figcaption>
         </figure>
       ))}

@@ -74,18 +74,18 @@ export default function ResearcherPage() {
             <ChevronRight className="size-3.5 text-soft" aria-hidden />
             <span className="text-ink">Researcher sign-up</span>
           </nav>
-          <Image src="/case-studies/scinode/logo-researchers.png" alt="Scinode for Researchers by Scimplify" width={800} height={249} className="mt-10 h-14 w-auto" priority />
-          <h1 className="mt-6 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[80px] lg:leading-none">
+          <Image src="/case-studies/scinode/logo-researchers.png" alt="Scinode for Researchers by Scimplify" width={800} height={249} className="mt-8 h-12 w-auto" priority />
+          <h1 className="mt-5 text-[38px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[54px] lg:text-[64px] lg:leading-none">
             {meta.title}
             <span className="mt-3 block text-[0.5em] leading-tight text-ink/80">{meta.subtitle}</span>
           </h1>
         </header>
 
-        <div className={`${shell} mt-12`}>
-          <ImageBox label="Hero image: Scinode for Researchers" ratio="16 / 8" />
+        <div className={`${shell} mt-8`}>
+          <ImageBox label="Hero image: Scinode for Researchers" ratio="16 / 7" />
         </div>
 
-        <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-16`}>
+        <div className={`${shell} mt-10 lg:mt-14 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-14`}>
           <aside className="hidden lg:block">
             <Toc items={sections} />
           </aside>
@@ -142,17 +142,17 @@ export default function ResearcherPage() {
         </EdSection>
 
         <EdSection id="design" n={12} label="Key design decisions" title={["Where research became", "interface"]}>
-          <div className="grid gap-16">
+          <div className="grid gap-x-6 gap-y-10 md:grid-cols-2">
             {decisions.map((d, i) => (
-              <div key={d.title} className="grid gap-5">
-                <div className="flex items-start gap-4">
-                  <span className="font-heading text-[44px] leading-none font-semibold text-brand/20">{String(i + 1).padStart(2, "0")}</span>
+              <div key={d.title} className="grid content-start gap-4">
+                <div className="flex items-start gap-3">
+                  <span className="font-heading text-[32px] leading-none font-semibold text-brand/20">{String(i + 1).padStart(2, "0")}</span>
                   <div>
-                    <h3 className="font-sans text-[26px] leading-tight text-[#1d1d1f] md:text-[30px]">{d.title}</h3>
-                    <p className="mt-1.5 max-w-[640px] text-[16px] leading-snug text-body">{d.text}</p>
+                    <h3 className="font-sans text-[21px] leading-tight text-[#1d1d1f] md:text-[22px]">{d.title}</h3>
+                    <p className="mt-1 max-w-[640px] text-[14.5px] leading-snug text-body">{d.text}</p>
                   </div>
                 </div>
-                <div className={cn("grid gap-5", i === 1 && "lg:grid-cols-2")}>
+                <div className="grid gap-4">
                   {i === 1 && <PilotPlantToggle />}
                   <ImageBox label={`Screen: ${d.title}`} ratio="16 / 10" />
                 </div>
@@ -177,7 +177,7 @@ export default function ResearcherPage() {
           <Upcoming />
         </EdSection>
 
-            <section className="mt-20 border-t border-line pt-14">
+            <section className="mt-16 border-t border-line pt-10">
               <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">More from SCINODE</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 {[
@@ -198,7 +198,7 @@ export default function ResearcherPage() {
           </article>
         </div>
       </main>
-      <div className="mt-24">
+      <div className="mt-16">
         <SiteFooter />
       </div>
     </>
