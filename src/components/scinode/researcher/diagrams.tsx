@@ -88,8 +88,6 @@ export function Objectives() {
 // ---------------- competitive analysis ----------------
 
 export function Competitors() {
-  const others = competitors.rows.filter((r) => !("ours" in r && r.ours))
-  const coverage = competitors.features.map((f, i) => ({ f, n: others.reduce((s, r) => s + (r.cells[i] === 1 ? 1 : 0), 0) }))
   const mark = (v: number, ours?: boolean) =>
     v === 1 ? (
       <span className={cn("mx-auto grid size-5 place-items-center rounded-full", ours ? "bg-brand text-white" : "bg-[#e4f1eb] text-brand")}>
@@ -102,23 +100,9 @@ export function Competitors() {
     )
   return (
     <div className="grid gap-8">
-      {/* how many of the 10 competitors offer each feature */}
-      <ul className="grid gap-2.5">
-        {coverage
-          .slice()
-          .sort((a, b) => a.n - b.n)
-          .map((c) => (
-            <li key={c.f} className="grid grid-cols-[130px_minmax(0,1fr)_44px] items-center gap-3 sm:grid-cols-[170px_minmax(0,1fr)_56px]">
-              <span className="text-[14px] text-ink">{c.f}</span>
-              <span className="h-3 overflow-hidden rounded-full bg-sand">
-                <span className="block h-full rounded-full" style={{ width: `${Math.max(c.n * 10, 2)}%`, background: c.n < 2 ? "#b4533a" : green }} />
-              </span>
-              <span className={cn("text-right font-heading text-[15px] font-semibold", c.n < 2 ? "text-[#b4533a]" : "text-ink")}>{c.n}/10</span>
-            </li>
-          ))}
-      </ul>
-      {/* full matrix on large screens */}
-      <table className="hidden w-full table-fixed border-collapse rounded-[20px] bg-white text-left lg:table">
+      {/* the comparison matrix: fits the column on desktop, scrolls inside its own box on small screens */}
+      <div className="overflow-x-auto rounded-[20px] bg-white lg:overflow-visible">
+      <table className="w-full min-w-[760px] table-fixed border-collapse text-left lg:min-w-0">
         <thead>
           <tr className="border-b border-line">
             <th className="w-[170px] px-4 py-3 text-[12px] font-semibold text-soft">Platform</th>
@@ -145,6 +129,7 @@ export function Competitors() {
           })}
         </tbody>
       </table>
+      </div>
     </div>
   )
 }
