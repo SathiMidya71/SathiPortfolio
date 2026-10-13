@@ -117,7 +117,7 @@ export function Objectives() {
 export function Methods() {
   const icons: LucideIcon[] = [MessagesSquare, LayoutGrid, StickyNote, Heart, Users, MapIcon, Layers]
   return (
-    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-7">
       {methods.map((m, i) => {
         const Icon = icons[i]
         const lead = i === 0
@@ -567,14 +567,14 @@ export function EditorialOverview({ serifClass }: { serifClass: string }) {
         <p className={cn(serifClass, "pt-6 text-[40px] leading-none text-ink/60 italic md:text-[48px]")}>[01]</p>
         <div>
           <p className="text-[16px] text-soft">Overview</p>
-          <h2 className="mt-1 font-sans text-[34px] leading-[1.1] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[44px] lg:text-[52px]">
+          <h2 className="mt-1 font-sans text-[34px] leading-[1.1] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[40px] xl:text-[44px]">
             {overview.title[0]} <span className={cn(serifClass, "text-ink/60 italic")}>{overview.title[1]}</span>
           </h2>
         </div>
       </div>
 
       {/* the statement */}
-      <p className="mt-16 max-w-[1100px] font-sans text-[40px] leading-[1.18] font-medium tracking-[-0.03em] text-[#1d1d1f] md:mt-24 md:text-[64px] lg:text-[76px]">
+      <p className="mt-16 max-w-[1100px] font-sans text-[40px] leading-[1.18] font-medium tracking-[-0.03em] text-[#1d1d1f] md:mt-20 md:text-[56px] lg:text-[60px]">
         {overview.statement.map((s, i) => {
           if (!("em" in s)) return <span key={i}>{s.t}</span>
           const b = bubbles[s.bubble]
@@ -594,16 +594,16 @@ export function EditorialOverview({ serifClass }: { serifClass: string }) {
       </p>
 
       {/* facts + paragraph */}
-      <div className="mt-16 grid gap-10 md:mt-24 md:grid-cols-2 md:items-start">
+      <div className="mt-16 grid gap-10 md:mt-20 md:grid-cols-2 md:items-start">
         <dl className="grid gap-3">
           {overview.facts.map((f) => (
-            <div key={f.label} className="flex gap-3 text-[18px] md:text-[20px]">
+            <div key={f.label} className="flex gap-3 text-[17px] md:text-[19px]">
               <dt className="text-soft">{f.label} /</dt>
               <dd className="text-ink">{f.value}</dd>
             </div>
           ))}
         </dl>
-        <p className="text-[18px] leading-relaxed text-soft md:justify-self-end md:text-[20px] lg:max-w-[560px]">{overview.text}</p>
+        <p className="text-[17px] leading-relaxed text-soft md:text-[18px]">{overview.text}</p>
       </div>
     </div>
   )
@@ -615,13 +615,13 @@ const needIcons: LucideIcon[] = [Puzzle, FileWarning, Microscope, Route]
 
 export function UserNeeds() {
   // fixed-aspect stage so the half circle, dashed arc and connectors line up at every desktop width
-  const W = 1120
-  const H = 1060
-  const cx = 720
-  const cy = 440
-  const R = 300
-  const Rd = 372
-  const inner = 190
+  const W = 860
+  const H = 860
+  const cx = 560
+  const cy = 330
+  const R = 230
+  const Rd = 290
+  const inner = 146
   const stripes = Array.from({ length: 64 }, (_, i) => {
     const a = Math.PI / 2 + (Math.PI * (i + 0.5)) / 64
     return { x1: cx + inner * Math.cos(a), y1: cy - inner * Math.sin(a), x2: cx + R * Math.cos(a), y2: cy - R * Math.sin(a) }
@@ -640,7 +640,7 @@ export function UserNeeds() {
               <stop offset="0" stopColor="#7fcfa8" stopOpacity="0.9" />
               <stop offset="1" stopColor="#cfeedd" stopOpacity="0.9" />
             </radialGradient>
-            <linearGradient id="un-line" gradientUnits="userSpaceOnUse" x1="200" y1="0" x2={cx} y2="0">
+            <linearGradient id="un-line" gradientUnits="userSpaceOnUse" x1="170" y1="0" x2={cx} y2="0">
               <stop offset="0" stopColor={green} stopOpacity="0" />
               <stop offset="1" stopColor={green} stopOpacity="0.9" />
             </linearGradient>
@@ -648,7 +648,7 @@ export function UserNeeds() {
           {/* left half disc */}
           <path d={`M${cx},${cy - R} A${R},${R} 0 0 0 ${cx},${cy + R} Z`} fill="url(#un-core)" />
           {stripes.map((s, i) => (
-            <line key={i} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} stroke="#2fae74" strokeWidth="5" strokeLinecap="round" opacity="0.75" />
+            <line key={i} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} stroke="#2fae74" strokeWidth="4" strokeLinecap="round" opacity="0.75" />
           ))}
           <path d={`M${cx},${cy - inner} A${inner},${inner} 0 0 0 ${cx},${cy + inner} Z`} fill="#cfeedd" opacity="0.85" />
           {/* dashed arc */}
@@ -656,17 +656,17 @@ export function UserNeeds() {
           {/* connectors */}
           {lineY.map((y, i) => (
             <g key={i}>
-              <line x1={230} y1={y} x2={lineEnd[i]} y2={y} stroke="url(#un-line)" strokeWidth="3" />
+              <line x1={180} y1={y} x2={lineEnd[i]} y2={y} stroke="url(#un-line)" strokeWidth="3" />
               <circle cx={lineEnd[i]} cy={y} r="9" fill={green} />
             </g>
           ))}
         </svg>
         {/* stats */}
         {researchStats.map((s, i) => (
-          <div key={s.value} className="absolute left-0 w-[30%]" style={{ top: `${((lineY[i] - 40) / H) * 100}%` }}>
-            <p className="font-sans text-[72px] leading-none font-normal tracking-[-0.03em] text-[#1d1d1f]">{s.value}</p>
-            <p className="mt-6 text-[16.5px] leading-relaxed text-soft">{s.text}</p>
-            <span className="mt-4 inline-block rounded-full bg-white px-4 py-2 text-[14px] text-ink shadow-[0_8px_20px_-14px_rgba(16,24,40,0.4)]">{s.source}</span>
+          <div key={s.value} className="absolute left-0 w-[30%]" style={{ top: `${((lineY[i] - 32) / H) * 100}%` }}>
+            <p className="font-sans text-[56px] leading-none font-normal tracking-[-0.03em] text-[#1d1d1f] xl:text-[60px]">{s.value}</p>
+            <p className="mt-4 text-[15px] leading-snug text-soft">{s.text}</p>
+            <span className="mt-3 inline-block rounded-full bg-white px-3.5 py-1.5 text-[13px] text-ink shadow-[0_8px_20px_-14px_rgba(16,24,40,0.4)]">{s.source}</span>
           </div>
         ))}
         {/* needs */}
@@ -674,11 +674,11 @@ export function UserNeeds() {
           {researchNeeds.map((n, i) => {
             const Icon = needIcons[i]
             return (
-              <li key={n} className="relative flex items-end rounded-[28px] bg-white/55 p-6 backdrop-blur-md shadow-[0_18px_40px_-30px_rgba(16,24,40,0.45)]">
-                <span className="absolute top-5 right-5 grid size-14 place-items-center rounded-full bg-brand text-white">
-                  <Icon className="size-6" strokeWidth={1.8} aria-hidden />
+              <li key={n} className="relative flex items-end rounded-[24px] bg-white/55 p-4 backdrop-blur-md shadow-[0_18px_40px_-30px_rgba(16,24,40,0.45)]">
+                <span className="absolute top-3.5 right-3.5 grid size-11 place-items-center rounded-full bg-brand text-white">
+                  <Icon className="size-5" strokeWidth={1.8} aria-hidden />
                 </span>
-                <p className="max-w-[60%] font-sans text-[24px] leading-tight text-[#1d1d1f]">{n}</p>
+                <p className="max-w-[65%] font-sans text-[19px] leading-tight text-[#1d1d1f]">{n}</p>
               </li>
             )
           })}

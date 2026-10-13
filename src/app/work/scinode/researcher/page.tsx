@@ -21,6 +21,7 @@ import {
 } from "@/components/scinode/researcher/diagrams"
 import { serif } from "@/components/scinode/researcher/fonts"
 import { EvolutionFlip, PilotPlantToggle } from "@/components/scinode/researcher/interactive"
+import { Toc } from "@/components/case-study/toc"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { ImageBox } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
@@ -29,7 +30,7 @@ import { decisions, meta } from "@/lib/scinode-researcher"
 import { cn } from "@/lib/utils"
 
 // Scinode for Researchers: one research-led UX case study for CROs and scientists. Visual first, very little
-// text, editorial section headers at full width (Sathi's style references). CROs and scientists share every use case; only the profile differs (shown once, in Personas and in the
+// text, editorial section headers (Sathi's style references) in the content column beside the TOC. CROs and scientists share every use case; only the profile differs (shown once, in Personas and in the
 // platform architecture). Sources and publishing rules: src/lib/scinode-researcher.ts.
 
 export const metadata: Metadata = {
@@ -39,6 +40,25 @@ export const metadata: Metadata = {
 }
 
 const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
+
+const sections = [
+  { id: "overview", label: "Overview" },
+  { id: "problem", label: "Problem statement" },
+  { id: "objectives", label: "Research objectives" },
+  { id: "methods", label: "Research methods" },
+  { id: "research", label: "User research" },
+  { id: "competitors", label: "Competitive analysis" },
+  { id: "affinity", label: "Affinity mapping" },
+  { id: "empathy", label: "Empathy map" },
+  { id: "personas", label: "Personas" },
+  { id: "journey", label: "User journey map" },
+  { id: "architecture", label: "Platform architecture" },
+  { id: "design", label: "Key design decisions" },
+  { id: "visual", label: "Visual direction" },
+  { id: "outcome", label: "Outcome" },
+  { id: "evolution", label: "How it evolved" },
+  { id: "next", label: "What's next" },
+]
 
 export default function ResearcherPage() {
   return (
@@ -66,8 +86,13 @@ export default function ResearcherPage() {
           <ImageBox label="Hero image: Scinode for Researchers" ratio="16 / 8" />
         </div>
 
-        {/* editorial overview, full width (Sathi's style reference) */}
-        <section id="overview" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
+        <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-16`}>
+          <aside className="hidden lg:block">
+            <Toc items={sections} />
+          </aside>
+          <article className="min-w-0">
+        {/* editorial overview (Sathi's style reference) */}
+        <section id="overview" className="scroll-mt-28">
           <EditorialOverview serifClass={serif.className} />
         </section>
 
@@ -148,7 +173,6 @@ export default function ResearcherPage() {
           <Upcoming />
         </EdSection>
 
-        <div className={shell}>
             <section className="mt-20 border-t border-line pt-14">
               <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">More from SCINODE</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -167,6 +191,7 @@ export default function ResearcherPage() {
                 ))}
               </div>
             </section>
+          </article>
         </div>
       </main>
       <div className="mt-24">
