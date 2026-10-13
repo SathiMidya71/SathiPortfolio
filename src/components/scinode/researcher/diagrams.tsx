@@ -40,7 +40,7 @@ import {
   objectives,
   overview,
   personas,
-  problems,
+  problemPair,
   researchNeeds,
   researchStats,
   profiles,
@@ -55,30 +55,6 @@ import { cn } from "@/lib/utils"
 
 const green = "#02594e"
 const purple = "#5b4fd1"
-
-// ---------------- problem ----------------
-
-export function Problems() {
-  const icons: LucideIcon[] = [Eye, Shuffle, MailWarning]
-  return (
-    <div className="grid gap-4 md:grid-cols-3">
-      {problems.map((p, i) => {
-        const Icon = icons[i]
-        return (
-          <div key={p.title} className="flex gap-4 rounded-[24px] bg-white p-5 shadow-[0_18px_40px_-30px_rgba(16,24,40,0.45)] md:block md:p-6">
-            <span className="grid size-12 shrink-0 place-items-center rounded-[14px] bg-[#fbefe9] text-[#b4533a]">
-              <Icon className="size-6" strokeWidth={1.8} aria-hidden />
-            </span>
-            <div>
-              <p className="font-heading text-[24px] leading-none font-semibold text-ink md:mt-5 md:text-[30px]">{p.title}</p>
-              <p className="mt-2 text-[15px] leading-snug text-body md:mt-3 md:text-[15.5px]">{p.text}</p>
-            </div>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
 
 // ---------------- objectives ----------------
 
@@ -721,6 +697,71 @@ export function ResearchQuotes({ serifClass }: { serifClass: string }) {
           <figcaption className="mt-3 text-[13px] text-soft">From interviews · {q.title}</figcaption>
         </figure>
       ))}
+    </div>
+  )
+}
+
+// ---------------- problem & solution: two overlapping circles (Sathi's style reference) ----------------
+
+export function ProblemVenn() {
+  // viewBox stage: two circles r=300 whose overlap (a lens) holds the solution
+  const W = 620
+  const H = 960
+  const pct = (y: number) => `${(y / H) * 100}%`
+  const Pill = ({ children, solid }: { children: React.ReactNode; solid?: boolean }) => (
+    <span className={cn("inline-block rounded-full px-4 py-1.5 text-[14px] font-semibold", solid ? "bg-white text-brand shadow-[0_8px_20px_-12px_rgba(0,0,0,0.5)]" : "bg-[#ece9fd] text-[#5b4fd1]")}>{children}</span>
+  )
+  const Problem = ({ i }: { i: number }) => (
+    <>
+      <Pill>Problem {String(i + 1).padStart(2, "0")}</Pill>
+      <p className="mt-4 font-heading text-[21px] leading-tight font-semibold text-ink">{problemPair.problems[i].title}</p>
+      <p className="mt-2.5 text-[14.5px] leading-relaxed text-body">{problemPair.problems[i].text}</p>
+    </>
+  )
+  return (
+    <div>
+      {/* md and up: the two circles */}
+      <div className="relative mx-auto hidden w-full max-w-[620px] md:block" style={{ aspectRatio: `${W} / ${H}` }}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="pv-lens" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#0b6b5d" />
+              <stop offset="1" stopColor="#02594e" />
+            </linearGradient>
+            <filter id="pv-glow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="14" />
+            </filter>
+          </defs>
+          <circle cx="310" cy="300" r="300" fill="none" stroke="#b9ae9c" strokeWidth="1.5" strokeDasharray="7 8" />
+          <circle cx="310" cy="660" r="300" fill="none" stroke="#b9ae9c" strokeWidth="1.5" strokeDasharray="7 8" />
+          <path d="M70,480 A300,300 0 0 1 550,480 A300,300 0 0 1 70,480 Z" fill="#2fae74" opacity="0.35" filter="url(#pv-glow)" />
+          <path d="M70,480 A300,300 0 0 1 550,480 A300,300 0 0 1 70,480 Z" fill="url(#pv-lens)" />
+        </svg>
+        <div className="absolute left-1/2 w-[62%] -translate-x-1/2 text-center" style={{ top: pct(110) }}>
+          <Problem i={0} />
+        </div>
+        <div className="absolute left-1/2 w-[56%] -translate-x-1/2 text-center" style={{ top: pct(398) }}>
+          <Pill solid>Solution</Pill>
+          <p className="mt-4 text-[15px] leading-relaxed text-white/90">{problemPair.solution}</p>
+        </div>
+        <div className="absolute left-1/2 w-[62%] -translate-x-1/2 text-center" style={{ top: pct(640) }}>
+          <Problem i={1} />
+        </div>
+      </div>
+
+      {/* phones: stacked */}
+      <div className="grid gap-4 md:hidden">
+        <div className="rounded-[28px] border border-dashed border-[#b9ae9c] p-6 text-center">
+          <Problem i={0} />
+        </div>
+        <div className="rounded-[28px] bg-brand p-6 text-center shadow-[0_20px_44px_-24px_rgba(2,89,78,0.8)]">
+          <Pill solid>Solution</Pill>
+          <p className="mt-4 text-[15px] leading-relaxed text-white/90">{problemPair.solution}</p>
+        </div>
+        <div className="rounded-[28px] border border-dashed border-[#b9ae9c] p-6 text-center">
+          <Problem i={1} />
+        </div>
+      </div>
     </div>
   )
 }

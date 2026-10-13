@@ -13,7 +13,7 @@ import {
   EditorialOverview,
   Objectives,
   Personas,
-  Problems,
+  ProblemVenn,
   ResearchQuotes,
   Targets,
   Upcoming,
@@ -97,7 +97,7 @@ export default function ResearcherPage() {
         </section>
 
         <EdSection id="problem" n={2} label="Problem statement" title={["Great labs, hidden behind", "emails"]}>
-          <Problems />
+          <ProblemVenn />
         </EdSection>
 
         <EdSection id="objectives" n={3} label="Research objectives" title={["Four questions", "to answer"]}>
