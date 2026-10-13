@@ -1,50 +1,39 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowUpRight, Check, ChevronRight } from "lucide-react"
-import { BlockView } from "@/components/case-study/blocks"
+import { ArrowLeft, ArrowUpRight, ChevronRight } from "lucide-react"
 import { Toc } from "@/components/case-study/toc"
 import {
-  AccessGate,
   Affinity,
+  Architecture,
   ColourStudy,
-  CompetitorMatrix,
-  CroOnboarding,
-  Iterations,
-  JourneyMapBoard,
-  LabWorkflow,
-  Market,
+  Competitors,
+  Empathy,
+  Insights,
+  JourneyMap,
   Methods,
-  ModuleMap,
+  Metrics,
   Objectives,
-  Opportunities,
-  PainToDesign,
-  Patterns,
-  ProposalFlow,
-  ScientistProfile,
-  ScientistStepper,
-  Synthesis,
+  Personas,
+  Problems,
   Targets,
-  Themes,
-  TrustSignals,
   Upcoming,
 } from "@/components/scinode/researcher/diagrams"
-import { ForUser, JourneyView, PersonaView, PilotPlantToggle, UserProvider, UserSwitch, UserTag } from "@/components/scinode/researcher/user-switch"
-import { ImageBox, Placeholder, WireSection } from "@/components/scinode/wire"
+import { EvolutionFlip, PilotPlantToggle } from "@/components/scinode/researcher/interactive"
+import { ImageBox, WireSection } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
-import { empathy, glance, highlights, meta, problem, quotes, screens } from "@/lib/scinode-researcher"
+import { decisions, meta } from "@/lib/scinode-researcher"
+import { cn } from "@/lib/utils"
 
-// Scinode for Researchers: ONE research-led UX case study for both user types (CRO and scientist).
-// Story: problem → objectives → methods → qualitative → quantitative → benchmarking → affinity → empathy →
-// personas → journeys → IA → insights to design → iterations → key design decisions → visual → outcome.
-// A CRO / Scientist switch changes the persona, the module journey and the onboarding visuals.
-// Sources and rules: see src/lib/scinode-researcher.ts.
+// Scinode for Researchers: one research-led UX case study for CROs and scientists. Visual first, very little
+// text. CROs and scientists share every use case; only the profile differs (shown once, in Personas and in the
+// platform architecture). Sources and publishing rules: src/lib/scinode-researcher.ts.
 
 export const metadata: Metadata = {
-  title: "Scinode for Researchers | UX Case Study (CRO & Scientist) | Sathi Midya",
+  title: "Scinode for Researchers | UX Case Study for CROs & Scientists | Sathi Midya",
   description:
-    "Research-led UX case study: qualitative interviews, competitive benchmarking, affinity and empathy maps, personas and journeys that shaped Scinode for Researchers, an R&D platform for CROs and scientists.",
+    "UX case study: interviews, competitive analysis, affinity and empathy maps, personas, a journey map and platform architecture behind Scinode for Researchers, one R&D platform for CROs and scientists.",
 }
 
 const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
@@ -55,39 +44,23 @@ const sections = [
   { id: "problem", label: "Problem statement" },
   { id: "objectives", label: "Research objectives" },
   { id: "methods", label: "Research methods" },
-  { id: "qualitative", label: "Qualitative research" },
-  { id: "quantitative", label: "Quantitative research" },
-  { id: "benchmarking", label: "Competitive benchmarking" },
+  { id: "insights", label: "What they told us" },
+  { id: "competitors", label: "Competitive analysis" },
   { id: "affinity", label: "Affinity mapping" },
   { id: "empathy", label: "Empathy map" },
   { id: "personas", label: "Personas" },
-  { id: "journey", label: "User journey" },
-  { id: "architecture", label: "Information architecture" },
-  { id: "insights", label: "Insights to design" },
-  { id: "iterations", label: "Iterations" },
+  { id: "journey", label: "User journey map" },
+  { id: "architecture", label: "Platform architecture" },
   { id: "design", label: "Key design decisions" },
   { id: "visual", label: "Visual direction" },
   { id: "outcome", label: "Outcome" },
-  { id: "screens", label: "Key screens" },
+  { id: "evolution", label: "How it evolved" },
   { id: "next", label: "What's next" },
 ]
 
-function Sub({ title, text }: { title: string; text?: string }) {
-  return (
-    <div>
-      <h3 className="font-heading text-[24px] leading-tight font-semibold text-ink md:text-[28px]">{title}</h3>
-      {text && <p className="mt-2 max-w-[720px] text-[16px] leading-relaxed text-body">{text}</p>}
-    </div>
-  )
-}
-
-function Lead({ children }: { children: React.ReactNode }) {
-  return <p className="max-w-[740px] text-[17px] leading-relaxed text-body">{children}</p>
-}
-
 export default function ResearcherPage() {
   return (
-    <UserProvider>
+    <>
       <SiteHeader />
       <main style={{ "--tone-purple": "#B79CEC", "--tone-purple-ink": "#6B4CB8", "--accent-purple": "#F1EBFC", "--on-purple": "#2B2150", "--tone-orange": "#1F392D" } as React.CSSProperties}>
         <header className={`${shell} pt-6 md:pt-10`}>
@@ -125,186 +98,94 @@ export default function ResearcherPage() {
               <dd className="text-[17px] leading-[1.55] font-medium text-ink">{meta.timeline}</dd>
             </div>
           </dl>
-          <div className="mt-10">
-            <UserSwitch />
-          </div>
         </header>
 
-        <div className={`${shell} mt-10`}>
+        <div className={`${shell} mt-12`}>
           <ImageBox label="Hero image: Scinode for Researchers" ratio="16 / 8" />
         </div>
 
-        <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-16`}>
+        <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-16`}>
           <aside className="hidden lg:block">
             <Toc items={sections} />
           </aside>
           <article className="min-w-0">
-            <WireSection id="overview" n={1} eyebrow="Overview" title="One platform for two kinds of researchers">
-              <ul className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-4">
-                {glance.map((g) => (
-                  <li key={g.label}>
-                    <p className="font-heading text-[44px] leading-none font-semibold text-brand md:text-[52px]">{g.value}</p>
-                    <p className="mt-2 text-[14.5px] text-body">{g.label}</p>
-                  </li>
-                ))}
-              </ul>
-              <div>
-                <h3 className="text-[13px] font-semibold tracking-[0.12em] text-soft uppercase">Highlights</h3>
-                <ul className="mt-4 grid gap-3.5">
-                  {highlights.map((h) => (
-                    <li key={h} className="flex gap-3 text-[16.5px] leading-snug text-ink">
-                      <Check className="mt-0.5 size-5 shrink-0 text-brand" strokeWidth={2.4} aria-hidden />
-                      <span>
-                        {h.split("[result needed]").map((part, i, arr) => (
-                          <span key={i}>
-                            {part}
-                            {i < arr.length - 1 && <span className="rounded bg-[#ece9fd] px-1 text-[0.9em] font-semibold text-[#5b4fd1]">[result needed]</span>}
-                          </span>
-                        ))}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <WireSection id="overview" n={1} eyebrow="Overview" title="One R&D platform for CROs and scientists">
+              <Metrics />
             </WireSection>
 
-            <WireSection id="problem" n={2} eyebrow="Problem statement" title="Researchers signed up, but never became active">
-              <BlockView block={problem} />
+            <WireSection id="problem" n={2} eyebrow="Problem statement" title="Great labs, hidden behind emails">
+              <Problems />
             </WireSection>
 
-            <WireSection id="objectives" n={3} eyebrow="Research objectives" title="What I needed to learn">
+            <WireSection id="objectives" n={3} eyebrow="Research objectives" title="Four questions to answer">
               <Objectives />
             </WireSection>
 
-            <WireSection id="methods" n={4} eyebrow="Research methods" title="How I researched it">
-              <Lead>
-                Qualitative interviews first, backed by desk research and benchmarking. Every answer then went through the same six steps, from raw notes to product decisions.
-              </Lead>
+            <WireSection id="methods" n={4} eyebrow="Research methods" title="Seven research methods">
               <Methods />
-              <Synthesis />
             </WireSection>
 
-            <WireSection id="qualitative" n={5} eyebrow="Qualitative research" title="What suppliers and buyers told us">
-              <Lead>
-                Two interview rounds with Scimplify&apos;s business and project teams, who work with CROs, scientists and buyers every day. Ten questions per user group: how they find work, judge fit, quote, sign NDAs, get paid and stay updated.
-              </Lead>
-              <BlockView block={{ type: "quotes", items: quotes }} />
-              <Sub title="Six supplier themes" text="Coded answers grouped into themes, then ranked by impact." />
-              <Themes />
+            <WireSection id="insights" n={5} eyebrow="Qualitative research" title="What CROs and scientists told us">
+              <Insights />
             </WireSection>
 
-            <WireSection id="quantitative" n={6} eyebrow="Quantitative research" title="A growing market, and who is in it">
-              <Lead>Desk research sized the CRO market and defined the two sides of the platform.</Lead>
-              <Market />
-              <Placeholder label="Survey or analytics data" hint="Add any survey results, sign-up funnel or profile completion numbers here when available." />
+            <WireSection id="competitors" n={6} eyebrow="Competitive analysis" title="Where other platforms fall short">
+              <Competitors />
             </WireSection>
 
-            <WireSection id="benchmarking" n={7} eyebrow="Competitive benchmarking" title="10 platforms, 10 features">
-              <Lead>I compared R&D marketplaces and CRO websites on what a researcher or buyer needs end to end.</Lead>
-              <CompetitorMatrix />
-            </WireSection>
-
-            <WireSection id="affinity" n={8} eyebrow="Affinity mapping" title="Grouping what suppliers said">
+            <WireSection id="affinity" n={7} eyebrow="Affinity mapping" title="What we heard, grouped">
               <Affinity />
             </WireSection>
 
-            <WireSection id="empathy" n={9} eyebrow="Empathy map" title="Inside the supplier's head">
-              <BlockView block={empathy} />
-              <TrustSignals />
+            <WireSection id="empathy" n={8} eyebrow="Empathy map" title="Inside a researcher's mind">
+              <Empathy />
             </WireSection>
 
-            <WireSection id="personas" n={10} eyebrow="Personas" title="Two user types, one sign-up">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <Lead>Switch between the CRO and the scientist. Both use one platform, but bring and need different things.</Lead>
-                <UserTag />
-              </div>
-              <PersonaView />
+            <WireSection id="personas" n={9} eyebrow="Personas" title="Meet the CRO and the scientist">
+              <Personas />
             </WireSection>
 
-            <WireSection id="journey" n={11} eyebrow="User journey" title="From first touch to repeat projects">
-              <Sub title="Supplier journey map" text="Five phases from research: where suppliers meet the platform, what delights them and where the opportunities are." />
-              <JourneyMapBoard />
-              <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
-                <Sub title="Across the modules" text="The same journey through the product, with the pain point at each step and what I designed for it." />
-                <UserTag />
-              </div>
-              <JourneyView />
+            <WireSection id="journey" n={10} eyebrow="User journey map" title="From discovery to delivery">
+              <JourneyMap />
             </WireSection>
 
-            <WireSection id="architecture" n={12} eyebrow="Information architecture" title="Five modules, unlocked by trust">
-              <Lead>Card sorting shaped the navigation into five modules. Verification decides what a researcher can open.</Lead>
-              <ModuleMap />
-              <AccessGate />
+            <WireSection id="architecture" n={11} eyebrow="Platform architecture" title="One flow, two profiles">
+              <Architecture />
             </WireSection>
 
-            <WireSection id="insights" n={13} eyebrow="Insights to design" title="From pain point to design">
-              <PainToDesign />
-            </WireSection>
-
-            <WireSection id="iterations" n={14} eyebrow="Iterations" title="From first concept to what shipped">
-              <Lead>The first concept came straight from research. Many rounds with the PM, engineering and testing reshaped it.</Lead>
-              <Iterations />
-            </WireSection>
-
-            <WireSection id="design" n={15} eyebrow="Key design decisions" title="Where research became interface">
+            <WireSection id="design" n={12} eyebrow="Key design decisions" title="Where research became interface">
               <div className="grid gap-14">
-                <div className="grid gap-6">
-                  <div className="flex flex-wrap items-end justify-between gap-3">
-                    <Sub title="Onboarding that fits who you are" text="CROs land on a dashboard with one job. Scientists get five short, timed steps." />
-                    <UserTag />
+                {decisions.map((d, i) => (
+                  <div key={d.title} className="grid gap-5">
+                    <div className="flex items-start gap-4">
+                      <span className="font-heading text-[44px] leading-none font-semibold text-brand/20">{String(i + 1).padStart(2, "0")}</span>
+                      <div>
+                        <h3 className="font-heading text-[26px] leading-tight font-semibold text-ink md:text-[30px]">{d.title}</h3>
+                        <p className="mt-1.5 max-w-[640px] text-[16px] leading-snug text-body">{d.text}</p>
+                      </div>
+                    </div>
+                    <div className={cn("grid gap-5", i === 1 && "lg:grid-cols-2")}>
+                      {i === 1 && <PilotPlantToggle />}
+                      <ImageBox label={`Screen: ${d.title}`} ratio="16 / 10" />
+                    </div>
                   </div>
-                  <ForUser
-                    cro={
-                      <div className="grid gap-6">
-                        <CroOnboarding />
-                        <PilotPlantToggle />
-                      </div>
-                    }
-                    scientist={
-                      <div className="grid gap-6">
-                        <ScientistStepper />
-                        <ScientistProfile />
-                      </div>
-                    }
-                  />
-                </div>
-                <div className="grid gap-6">
-                  <Sub title="Matched by chemistry, not by keyword" text="Suppliers only take work they can deliver, so every project shows its fit before they open the brief." />
-                  <Opportunities />
-                </div>
-                <div className="grid gap-6">
-                  <Sub title="Proposals with a status you can see" text="One tracker from invitation to won or not selected, with a clear next action at each step." />
-                  <ProposalFlow />
-                </div>
-                <div className="grid gap-6">
-                  <Sub title="One workspace for lab execution" text="Six gated stages replace email updates. At every milestone: move forward, or retry." />
-                  <LabWorkflow />
-                </div>
-                <div className="grid gap-6">
-                  <Sub title="Patterns that reduce form fatigue" />
-                  <Patterns />
-                </div>
-              </div>
-            </WireSection>
-
-            <WireSection id="visual" n={16} eyebrow="Visual direction" title="Standing out in a sea of blue">
-              <ColourStudy />
-            </WireSection>
-
-            <WireSection id="outcome" n={17} eyebrow="Outcome" title="What we're measuring">
-              <Targets />
-            </WireSection>
-
-            <WireSection id="screens" n={18} eyebrow="Key screens" title="Key screens">
-              <Lead>Screens to come. Each slot shows the screen that will go here.</Lead>
-              <div className="grid gap-5 md:grid-cols-2">
-                {screens.map((s) => (
-                  <ImageBox key={s} label={s} ratio="16 / 10" />
                 ))}
               </div>
             </WireSection>
 
-            <WireSection id="next" n={19} eyebrow="What's next" title="Coming next for researchers">
+            <WireSection id="visual" n={13} eyebrow="Visual direction" title="Standing out in a sea of blue">
+              <ColourStudy />
+            </WireSection>
+
+            <WireSection id="outcome" n={14} eyebrow="Outcome" title="What we're measuring">
+              <Targets />
+            </WireSection>
+
+            <WireSection id="evolution" n={15} eyebrow="How it evolved" title="From first concept to shipped">
+              <EvolutionFlip />
+            </WireSection>
+
+            <WireSection id="next" n={16} eyebrow="What's next" title="Coming next">
               <Upcoming />
             </WireSection>
 
@@ -332,6 +213,6 @@ export default function ResearcherPage() {
       <div className="mt-24">
         <SiteFooter />
       </div>
-    </UserProvider>
+    </>
   )
 }
