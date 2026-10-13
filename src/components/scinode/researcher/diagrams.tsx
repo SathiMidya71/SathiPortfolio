@@ -37,8 +37,8 @@ import {
   insights,
   journeyMap,
   methods,
-  metrics,
   objectives,
+  overview,
   personas,
   problems,
   profiles,
@@ -53,60 +53,6 @@ import { cn } from "@/lib/utils"
 
 const green = "#02594e"
 const purple = "#5b4fd1"
-
-// ---------------- overview: metric cards with small visuals ----------------
-
-function MetricCard({ value, label, children }: { value: string; label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex flex-col rounded-[24px] border border-line bg-white p-5 shadow-[0_18px_40px_-30px_rgba(16,24,40,0.45)]">
-      <div className="flex h-16 items-center">{children}</div>
-      <p className="mt-4 font-heading text-[46px] leading-none font-semibold text-brand">{value}</p>
-      <p className="mt-2 text-[14.5px] leading-snug text-body">{label}</p>
-    </div>
-  )
-}
-
-export function Metrics() {
-  return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-      <MetricCard {...metrics.users}>
-        <div className="flex items-center">
-          <span className="grid size-11 place-items-center rounded-full bg-[#e4f1eb] text-brand ring-4 ring-white">
-            <Microscope className="size-5" aria-hidden />
-          </span>
-          <span className="-ml-3 grid size-11 place-items-center rounded-full bg-[#ece9fd] text-[#5b4fd1] ring-4 ring-white">
-            <Beaker className="size-5" aria-hidden />
-          </span>
-          <ArrowRight className="mx-2 size-4 text-soft" aria-hidden />
-          <span className="grid size-11 place-items-center rounded-full bg-brand text-white">
-            <Layers className="size-5" aria-hidden />
-          </span>
-        </div>
-      </MetricCard>
-      <MetricCard {...metrics.modules}>
-        <div className="flex w-full gap-1">
-          {metrics.modules.items.map((m, i) => (
-            <span key={m} className="h-9 flex-1 rounded-[8px]" style={{ background: green, opacity: 0.35 + i * 0.16 }} title={m} />
-          ))}
-        </div>
-      </MetricCard>
-      <MetricCard {...metrics.questions}>
-        <div className="grid grid-cols-10 gap-1">
-          {Array.from({ length: 20 }, (_, i) => (
-            <span key={i} className="size-3 rounded-full" style={{ background: i < 10 ? green : purple, opacity: 0.8 }} />
-          ))}
-        </div>
-      </MetricCard>
-      <MetricCard {...metrics.gap}>
-        <div className="grid grid-cols-10 gap-1">
-          {Array.from({ length: 10 }, (_, i) => (
-            <span key={i} className="h-7 w-3 rounded-[4px] border-2 border-dashed border-[#d6cbb9]" />
-          ))}
-        </div>
-      </MetricCard>
-    </div>
-  )
-}
 
 // ---------------- problem ----------------
 
@@ -621,5 +567,63 @@ export function Upcoming() {
         </li>
       ))}
     </ul>
+  )
+}
+
+// ---------------- editorial overview (Sathi's style reference) ----------------
+
+const bubbles: Record<string, { icon: LucideIcon; bg: string; pos: string }> = {
+  lab: { icon: Microscope, bg: "radial-gradient(circle at 35% 30%, #fff4ec 0%, #f6d3bd 60%, #efc0a3 100%)", pos: "-top-5 -left-3 md:-top-9 md:-left-7" },
+  match: { icon: Puzzle, bg: "radial-gradient(circle at 35% 30%, #f6f4ff 0%, #d9d4fb 60%, #c6befa 100%)", pos: "-top-6 -right-4 md:-top-9 md:-right-6" },
+  flow: { icon: Layers, bg: "radial-gradient(circle at 35% 30%, #f1fbf5 0%, #cfeedd 60%, #b5e3ca 100%)", pos: "-bottom-2 -right-7 md:-bottom-4 md:-right-12" },
+}
+
+export function EditorialOverview({ serifClass }: { serifClass: string }) {
+  return (
+    <div>
+      {/* index · label · title */}
+      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,4fr)] md:items-start">
+        <p className={cn(serifClass, "pt-6 text-[40px] leading-none text-ink/60 italic md:text-[48px]")}>[01]</p>
+        <div>
+          <p className="text-[16px] text-soft">Overview</p>
+          <h2 className="mt-1 font-sans text-[34px] leading-[1.1] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[44px] lg:text-[52px]">
+            {overview.title[0]} <span className={cn(serifClass, "text-ink/60 italic")}>{overview.title[1]}</span>
+          </h2>
+        </div>
+      </div>
+
+      {/* the statement */}
+      <p className="mt-16 max-w-[1100px] font-sans text-[40px] leading-[1.18] font-medium tracking-[-0.03em] text-[#1d1d1f] md:mt-24 md:text-[64px] lg:text-[76px]">
+        {overview.statement.map((s, i) => {
+          if (!("em" in s)) return <span key={i}>{s.t}</span>
+          const b = bubbles[s.bubble]
+          return (
+            <span key={i} className="relative inline-block">
+              <span className={cn(serifClass, "font-normal tracking-[-0.01em] text-[#8a8a8a] italic")}>{s.t}</span>
+              <span
+                aria-hidden
+                className={cn("absolute grid size-9 place-items-center rounded-full opacity-90 shadow-[0_12px_28px_-14px_rgba(16,24,40,0.45)] md:size-[72px]", b.pos)}
+                style={{ background: b.bg }}
+              >
+                <b.icon className="size-4 text-ink/70 md:size-7" strokeWidth={1.6} />
+              </span>
+            </span>
+          )
+        })}
+      </p>
+
+      {/* facts + paragraph */}
+      <div className="mt-16 grid gap-10 md:mt-24 md:grid-cols-2 md:items-start">
+        <dl className="grid gap-3">
+          {overview.facts.map((f) => (
+            <div key={f.label} className="flex gap-3 text-[18px] md:text-[20px]">
+              <dt className="text-soft">{f.label} /</dt>
+              <dd className="text-ink">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="text-[18px] leading-relaxed text-soft md:justify-self-end md:text-[20px] lg:max-w-[560px]">{overview.text}</p>
+      </div>
+    </div>
   )
 }

@@ -12,13 +12,14 @@ import {
   Insights,
   JourneyMap,
   Methods,
-  Metrics,
+  EditorialOverview,
   Objectives,
   Personas,
   Problems,
   Targets,
   Upcoming,
 } from "@/components/scinode/researcher/diagrams"
+import { serif } from "@/components/scinode/researcher/fonts"
 import { EvolutionFlip, PilotPlantToggle } from "@/components/scinode/researcher/interactive"
 import { ImageBox, WireSection } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
@@ -37,7 +38,6 @@ export const metadata: Metadata = {
 }
 
 const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
-const label = "mb-2 text-[11px] font-semibold tracking-[0.12em] text-soft uppercase"
 
 const sections = [
   { id: "overview", label: "Overview" },
@@ -78,41 +78,22 @@ export default function ResearcherPage() {
             {meta.title}
             <span className="mt-3 block text-[0.5em] leading-tight text-ink/80">{meta.subtitle}</span>
           </h1>
-          <dl className="mt-12 grid gap-8 border-t border-line pt-8 md:grid-cols-2 lg:mt-14 lg:grid-cols-[minmax(0,420px)_1fr_1fr_1fr] lg:gap-10">
-            <div>
-              <dt className={label}>Overview</dt>
-              <dd className="text-[17px] leading-[1.55] font-medium text-ink">{meta.overview}</dd>
-            </div>
-            <div>
-              <dt className={label}>My role</dt>
-              <dd className="text-[17px] leading-[1.55] font-medium text-ink">{meta.role}</dd>
-            </div>
-            <div>
-              <dt className={label}>Team</dt>
-              <dd className="text-[17px] leading-[1.55] font-medium text-ink">
-                <span className="rounded bg-[#ece9fd] px-1 text-[#5b4fd1]">Placeholder</span> PM, engineering
-              </dd>
-            </div>
-            <div>
-              <dt className={label}>Timeline</dt>
-              <dd className="text-[17px] leading-[1.55] font-medium text-ink">{meta.timeline}</dd>
-            </div>
-          </dl>
         </header>
 
         <div className={`${shell} mt-12`}>
           <ImageBox label="Hero image: Scinode for Researchers" ratio="16 / 8" />
         </div>
 
+        {/* editorial overview, full width (Sathi's style reference) */}
+        <section id="overview" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
+          <EditorialOverview serifClass={serif.className} />
+        </section>
+
         <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-16`}>
           <aside className="hidden lg:block">
             <Toc items={sections} />
           </aside>
           <article className="min-w-0">
-            <WireSection id="overview" n={1} eyebrow="Overview" title="One R&D platform for CROs and scientists">
-              <Metrics />
-            </WireSection>
-
             <WireSection id="problem" n={2} eyebrow="Problem statement" title="Great labs, hidden behind emails">
               <Problems />
             </WireSection>

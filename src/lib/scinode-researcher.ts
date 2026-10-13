@@ -17,13 +17,27 @@ export const meta = {
   timeline: "Research Jun–Jul 2025, then design and delivery",
 }
 
-/** Overview metric cards (scope facts from the research and the docs). */
-export const metrics = {
-  users: { value: "2", label: "user types on one platform" },
-  modules: { value: "5", label: "modules designed end to end", items: ["Sign-up", "Profile", "Opportunities", "Proposals", "Projects"] },
-  questions: { value: "20", label: "interview questions, 2 rounds" },
-  gap: { value: "0/10", label: "competitors showed lab equipment" },
-}
+/** Editorial overview (style reference from Sathi): a big statement mixing plain words and italic serif words,
+ *  with pastel icon bubbles on some of them, then a "Label / value" list and a short paragraph. */
+export const overview = {
+  title: ["One R&D platform for", "CROs & scientists"],
+  statement: [
+    { t: "We help labs " },
+    { t: "show their science", em: true, bubble: "lab" },
+    { t: ", get " },
+    { t: "matched by chemistry", em: true, bubble: "match" },
+    { t: ", and run every project in " },
+    { t: "one place", em: true, bubble: "flow" },
+    { t: "." },
+  ],
+  facts: [
+    { label: "Company", value: "Scimplify" },
+    { label: "Users", value: "CROs & scientists" },
+    { label: "Role", value: "Product designer" },
+    { label: "Year", value: "2025" },
+  ],
+  text: "Scinode for Researchers is an AI-powered R&D platform. CROs and scientists build a verified profile, find projects that fit their chemistry, send proposals and run the work, from sign-up to closure.",
+} as const
 
 export const problems = [
   { title: "Invisible", text: "Labs couldn't show their equipment, team or past work online." },
