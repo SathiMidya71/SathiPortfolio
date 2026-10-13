@@ -2,33 +2,34 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ArrowUpRight, ChevronRight } from "lucide-react"
-import { Toc } from "@/components/case-study/toc"
 import {
   Affinity,
   Architecture,
   ColourStudy,
   Competitors,
   Empathy,
-  Insights,
   JourneyMap,
   Methods,
   EditorialOverview,
   Objectives,
   Personas,
   Problems,
+  ResearchQuotes,
   Targets,
   Upcoming,
+  UserNeeds,
 } from "@/components/scinode/researcher/diagrams"
 import { serif } from "@/components/scinode/researcher/fonts"
 import { EvolutionFlip, PilotPlantToggle } from "@/components/scinode/researcher/interactive"
-import { ImageBox, WireSection } from "@/components/scinode/wire"
+import { EdSection } from "@/components/scinode/researcher/ed-section"
+import { ImageBox } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { decisions, meta } from "@/lib/scinode-researcher"
 import { cn } from "@/lib/utils"
 
 // Scinode for Researchers: one research-led UX case study for CROs and scientists. Visual first, very little
-// text. CROs and scientists share every use case; only the profile differs (shown once, in Personas and in the
+// text, editorial section headers at full width (Sathi's style references). CROs and scientists share every use case; only the profile differs (shown once, in Personas and in the
 // platform architecture). Sources and publishing rules: src/lib/scinode-researcher.ts.
 
 export const metadata: Metadata = {
@@ -38,25 +39,6 @@ export const metadata: Metadata = {
 }
 
 const shell = "mx-auto w-full max-w-[1200px] px-5 sm:px-10"
-
-const sections = [
-  { id: "overview", label: "Overview" },
-  { id: "problem", label: "Problem statement" },
-  { id: "objectives", label: "Research objectives" },
-  { id: "methods", label: "Research methods" },
-  { id: "insights", label: "What they told us" },
-  { id: "competitors", label: "Competitive analysis" },
-  { id: "affinity", label: "Affinity mapping" },
-  { id: "empathy", label: "Empathy map" },
-  { id: "personas", label: "Personas" },
-  { id: "journey", label: "User journey map" },
-  { id: "architecture", label: "Platform architecture" },
-  { id: "design", label: "Key design decisions" },
-  { id: "visual", label: "Visual direction" },
-  { id: "outcome", label: "Outcome" },
-  { id: "evolution", label: "How it evolved" },
-  { id: "next", label: "What's next" },
-]
 
 export default function ResearcherPage() {
   return (
@@ -89,87 +71,84 @@ export default function ResearcherPage() {
           <EditorialOverview serifClass={serif.className} />
         </section>
 
-        <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-16`}>
-          <aside className="hidden lg:block">
-            <Toc items={sections} />
-          </aside>
-          <article className="min-w-0">
-            <WireSection id="problem" n={2} eyebrow="Problem statement" title="Great labs, hidden behind emails">
-              <Problems />
-            </WireSection>
+        <EdSection id="problem" n={2} label="Problem statement" title={["Great labs, hidden behind", "emails"]}>
+          <Problems />
+        </EdSection>
 
-            <WireSection id="objectives" n={3} eyebrow="Research objectives" title="Four questions to answer">
-              <Objectives />
-            </WireSection>
+        <EdSection id="objectives" n={3} label="Research objectives" title={["Four questions", "to answer"]}>
+          <Objectives />
+        </EdSection>
 
-            <WireSection id="methods" n={4} eyebrow="Research methods" title="Seven research methods">
-              <Methods />
-            </WireSection>
+        <EdSection id="methods" n={4} label="Research methods" title={["Seven research", "methods"]}>
+          <Methods />
+        </EdSection>
 
-            <WireSection id="insights" n={5} eyebrow="Qualitative research" title="What CROs and scientists told us">
-              <Insights />
-            </WireSection>
+        <EdSection id="research" n={5} label="User research" title={["Understand", "user needs"]}>
+          <UserNeeds />
+          <ResearchQuotes serifClass={serif.className} />
+        </EdSection>
 
-            <WireSection id="competitors" n={6} eyebrow="Competitive analysis" title="Where other platforms fall short">
-              <Competitors />
-            </WireSection>
+        <EdSection id="competitors" n={6} label="Competitive analysis" title={["Where others", "fall short"]}>
+          <Competitors />
+        </EdSection>
 
-            <WireSection id="affinity" n={7} eyebrow="Affinity mapping" title="What we heard, grouped">
-              <Affinity />
-            </WireSection>
+        <EdSection id="affinity" n={7} label="Affinity mapping" title={["What we heard,", "grouped"]}>
+          <Affinity />
+        </EdSection>
 
-            <WireSection id="empathy" n={8} eyebrow="Empathy map" title="Inside a researcher's mind">
-              <Empathy />
-            </WireSection>
+        <EdSection id="empathy" n={8} label="Empathy map" title={["Inside a", "researcher's mind"]}>
+          <Empathy />
+        </EdSection>
 
-            <WireSection id="personas" n={9} eyebrow="Personas" title="Meet the CRO and the scientist">
-              <Personas />
-            </WireSection>
+        <EdSection id="personas" n={9} label="Personas" title={["Meet the CRO and", "the scientist"]}>
+          <Personas />
+        </EdSection>
 
-            <WireSection id="journey" n={10} eyebrow="User journey map" title="From discovery to delivery">
-              <JourneyMap />
-            </WireSection>
+        <EdSection id="journey" n={10} label="User journey map" title={["From discovery", "to delivery"]}>
+          <JourneyMap />
+        </EdSection>
 
-            <WireSection id="architecture" n={11} eyebrow="Platform architecture" title="One flow, two profiles">
-              <Architecture />
-            </WireSection>
+        <EdSection id="architecture" n={11} label="Platform architecture" title={["One flow,", "two profiles"]}>
+          <Architecture />
+        </EdSection>
 
-            <WireSection id="design" n={12} eyebrow="Key design decisions" title="Where research became interface">
-              <div className="grid gap-14">
-                {decisions.map((d, i) => (
-                  <div key={d.title} className="grid gap-5">
-                    <div className="flex items-start gap-4">
-                      <span className="font-heading text-[44px] leading-none font-semibold text-brand/20">{String(i + 1).padStart(2, "0")}</span>
-                      <div>
-                        <h3 className="font-heading text-[26px] leading-tight font-semibold text-ink md:text-[30px]">{d.title}</h3>
-                        <p className="mt-1.5 max-w-[640px] text-[16px] leading-snug text-body">{d.text}</p>
-                      </div>
-                    </div>
-                    <div className={cn("grid gap-5", i === 1 && "lg:grid-cols-2")}>
-                      {i === 1 && <PilotPlantToggle />}
-                      <ImageBox label={`Screen: ${d.title}`} ratio="16 / 10" />
-                    </div>
+        <EdSection id="design" n={12} label="Key design decisions" title={["Where research became", "interface"]}>
+          <div className="grid gap-16">
+            {decisions.map((d, i) => (
+              <div key={d.title} className="grid gap-5">
+                <div className="flex items-start gap-4">
+                  <span className="font-heading text-[44px] leading-none font-semibold text-brand/20">{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3 className="font-sans text-[26px] leading-tight text-[#1d1d1f] md:text-[30px]">{d.title}</h3>
+                    <p className="mt-1.5 max-w-[640px] text-[16px] leading-snug text-body">{d.text}</p>
                   </div>
-                ))}
+                </div>
+                <div className={cn("grid gap-5", i === 1 && "lg:grid-cols-2")}>
+                  {i === 1 && <PilotPlantToggle />}
+                  <ImageBox label={`Screen: ${d.title}`} ratio="16 / 10" />
+                </div>
               </div>
-            </WireSection>
+            ))}
+          </div>
+        </EdSection>
 
-            <WireSection id="visual" n={13} eyebrow="Visual direction" title="Standing out in a sea of blue">
-              <ColourStudy />
-            </WireSection>
+        <EdSection id="visual" n={13} label="Visual direction" title={["Standing out in a", "sea of blue"]}>
+          <ColourStudy />
+        </EdSection>
 
-            <WireSection id="outcome" n={14} eyebrow="Outcome" title="What we're measuring">
-              <Targets />
-            </WireSection>
+        <EdSection id="outcome" n={14} label="Outcome" title={["What we're", "measuring"]}>
+          <Targets />
+        </EdSection>
 
-            <WireSection id="evolution" n={15} eyebrow="How it evolved" title="From first concept to shipped">
-              <EvolutionFlip />
-            </WireSection>
+        <EdSection id="evolution" n={15} label="How it evolved" title={["From first concept", "to shipped"]}>
+          <EvolutionFlip />
+        </EdSection>
 
-            <WireSection id="next" n={16} eyebrow="What's next" title="Coming next">
-              <Upcoming />
-            </WireSection>
+        <EdSection id="next" n={16} label="What's next" title={["Coming", "next"]}>
+          <Upcoming />
+        </EdSection>
 
+        <div className={shell}>
             <section className="mt-20 border-t border-line pt-14">
               <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">More from SCINODE</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -188,7 +167,6 @@ export default function ResearcherPage() {
                 ))}
               </div>
             </section>
-          </article>
         </div>
       </main>
       <div className="mt-24">

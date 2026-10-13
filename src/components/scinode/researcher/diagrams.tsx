@@ -41,6 +41,8 @@ import {
   overview,
   personas,
   problems,
+  researchNeeds,
+  researchStats,
   profiles,
   shared,
   targets,
@@ -130,27 +132,6 @@ export function Methods() {
         )
       })}
     </ul>
-  )
-}
-
-// ---------------- what CROs and scientists told us ----------------
-
-export function Insights() {
-  return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {insights.map((it, i) => (
-        <article key={it.title} className={cn("flex flex-col rounded-[24px] bg-white p-6 shadow-[0_18px_40px_-30px_rgba(16,24,40,0.45)]", i === 0 && "lg:col-span-2")}>
-          <MessageCircle className="size-7 text-[#5b4fd1]/40" aria-hidden />
-          <p className={cn("mt-3 font-serif leading-[1.35] text-ink", i === 0 ? "text-[24px] md:text-[28px]" : "text-[19px]")}>&ldquo;{it.quote}&rdquo;</p>
-          <div className="mt-auto pt-5">
-            <p className="text-[12px] font-semibold tracking-[0.1em] text-soft uppercase">{it.title}</p>
-            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#e4f1eb] px-3 py-1.5 text-[13.5px] font-semibold text-brand">
-              <ArrowRight className="size-3.5" aria-hidden /> {it.design}
-            </p>
-          </div>
-        </article>
-      ))}
-    </div>
   )
 }
 
@@ -624,6 +605,123 @@ export function EditorialOverview({ serifClass }: { serifClass: string }) {
         </dl>
         <p className="text-[18px] leading-relaxed text-soft md:justify-self-end md:text-[20px] lg:max-w-[560px]">{overview.text}</p>
       </div>
+    </div>
+  )
+}
+
+// ---------------- user research: radial infographic (Sathi's style reference) ----------------
+
+const needIcons: LucideIcon[] = [Puzzle, FileWarning, Microscope, Route]
+
+export function UserNeeds() {
+  // fixed-aspect stage so the half circle, dashed arc and connectors line up at every desktop width
+  const W = 1120
+  const H = 1060
+  const cx = 720
+  const cy = 440
+  const R = 300
+  const Rd = 372
+  const inner = 190
+  const stripes = Array.from({ length: 64 }, (_, i) => {
+    const a = Math.PI / 2 + (Math.PI * (i + 0.5)) / 64
+    return { x1: cx + inner * Math.cos(a), y1: cy - inner * Math.sin(a), x2: cx + R * Math.cos(a), y2: cy - R * Math.sin(a) }
+  })
+  const lineY = [cy - Rd, cy, cy + Rd]
+  const lineEnd = [cx, cx - Rd, cx]
+  return (
+    <div>
+      {/* desktop */}
+      <div className="relative hidden lg:block" style={{ aspectRatio: `${W} / ${H}` }}>
+        {/* glow behind the cards */}
+        <div aria-hidden className="absolute rounded-full bg-[radial-gradient(circle,#2fae74_0%,#7fcfa8_45%,transparent_70%)] opacity-80 blur-2xl" style={{ left: `${((cx - R) / W) * 100}%`, top: `${((cy - R) / H) * 100}%`, width: `${((2 * R) / W) * 100}%`, height: `${((2 * R) / H) * 100}%` }} />
+        <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full" aria-hidden>
+          <defs>
+            <radialGradient id="un-core" cx="100%" cy="50%" r="100%">
+              <stop offset="0" stopColor="#7fcfa8" stopOpacity="0.9" />
+              <stop offset="1" stopColor="#cfeedd" stopOpacity="0.9" />
+            </radialGradient>
+            <linearGradient id="un-line" gradientUnits="userSpaceOnUse" x1="200" y1="0" x2={cx} y2="0">
+              <stop offset="0" stopColor={green} stopOpacity="0" />
+              <stop offset="1" stopColor={green} stopOpacity="0.9" />
+            </linearGradient>
+          </defs>
+          {/* left half disc */}
+          <path d={`M${cx},${cy - R} A${R},${R} 0 0 0 ${cx},${cy + R} Z`} fill="url(#un-core)" />
+          {stripes.map((s, i) => (
+            <line key={i} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} stroke="#2fae74" strokeWidth="5" strokeLinecap="round" opacity="0.75" />
+          ))}
+          <path d={`M${cx},${cy - inner} A${inner},${inner} 0 0 0 ${cx},${cy + inner} Z`} fill="#cfeedd" opacity="0.85" />
+          {/* dashed arc */}
+          <path d={`M${cx},${cy - Rd} A${Rd},${Rd} 0 0 0 ${cx},${cy + Rd}`} fill="none" stroke={green} strokeWidth="2" strokeDasharray="6 7" opacity="0.6" />
+          {/* connectors */}
+          {lineY.map((y, i) => (
+            <g key={i}>
+              <line x1={230} y1={y} x2={lineEnd[i]} y2={y} stroke="url(#un-line)" strokeWidth="3" />
+              <circle cx={lineEnd[i]} cy={y} r="9" fill={green} />
+            </g>
+          ))}
+        </svg>
+        {/* stats */}
+        {researchStats.map((s, i) => (
+          <div key={s.value} className="absolute left-0 w-[30%]" style={{ top: `${((lineY[i] - 40) / H) * 100}%` }}>
+            <p className="font-sans text-[72px] leading-none font-normal tracking-[-0.03em] text-[#1d1d1f]">{s.value}</p>
+            <p className="mt-6 text-[16.5px] leading-relaxed text-soft">{s.text}</p>
+            <span className="mt-4 inline-block rounded-full bg-white px-4 py-2 text-[14px] text-ink shadow-[0_8px_20px_-14px_rgba(16,24,40,0.4)]">{s.source}</span>
+          </div>
+        ))}
+        {/* needs */}
+        <ul className="absolute right-0 grid w-[30%] grid-rows-4 gap-4" style={{ top: `${((cy - Rd) / H) * 100}%`, bottom: `${((H - cy - Rd) / H) * 100}%` }}>
+          {researchNeeds.map((n, i) => {
+            const Icon = needIcons[i]
+            return (
+              <li key={n} className="relative flex items-end rounded-[28px] bg-white/55 p-6 backdrop-blur-md shadow-[0_18px_40px_-30px_rgba(16,24,40,0.45)]">
+                <span className="absolute top-5 right-5 grid size-14 place-items-center rounded-full bg-brand text-white">
+                  <Icon className="size-6" strokeWidth={1.8} aria-hidden />
+                </span>
+                <p className="max-w-[60%] font-sans text-[24px] leading-tight text-[#1d1d1f]">{n}</p>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
+      {/* phones and tablets */}
+      <div className="grid gap-10 lg:hidden">
+        {researchStats.map((s) => (
+          <div key={s.value} className="border-l-2 border-brand/30 pl-5">
+            <p className="font-sans text-[56px] leading-none tracking-[-0.03em] text-[#1d1d1f]">{s.value}</p>
+            <p className="mt-3 text-[16px] leading-relaxed text-soft">{s.text}</p>
+            <span className="mt-3 inline-block rounded-full bg-white px-3.5 py-1.5 text-[13.5px] text-ink">{s.source}</span>
+          </div>
+        ))}
+        <ul className="grid grid-cols-2 gap-3">
+          {researchNeeds.map((n, i) => {
+            const Icon = needIcons[i]
+            return (
+              <li key={n} className="relative flex min-h-[130px] items-end rounded-[22px] bg-[#e4f1eb] p-4">
+                <span className="absolute top-3 right-3 grid size-10 place-items-center rounded-full bg-brand text-white">
+                  <Icon className="size-5" strokeWidth={1.8} aria-hidden />
+                </span>
+                <p className="max-w-[75%] text-[17px] leading-tight text-[#1d1d1f]">{n}</p>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+/** Three short quotes under the research visual. */
+export function ResearchQuotes({ serifClass }: { serifClass: string }) {
+  return (
+    <div className="grid gap-6 md:grid-cols-3">
+      {insights.slice(0, 4).filter((_, i) => i !== 1).map((q) => (
+        <figure key={q.title} className="border-t border-line pt-5">
+          <blockquote className={cn(serifClass, "text-[24px] leading-snug text-ink italic")}>&ldquo;{q.quote}&rdquo;</blockquote>
+          <figcaption className="mt-3 text-[13px] text-soft">From interviews · {q.title}</figcaption>
+        </figure>
+      ))}
     </div>
   )
 }

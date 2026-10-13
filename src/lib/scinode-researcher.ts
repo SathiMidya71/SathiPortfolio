@@ -64,6 +64,14 @@ export const methods = [
   { title: "Card sorting", note: "Navigation" },
 ]
 
+/** User research visual (radial infographic, Sathi's style reference). Real figures only, from her research doc. */
+export const researchStats = [
+  { value: "98%", text: "Purity CROs and scientists are asked to hit. They need it in the brief before they can quote.", source: "From interviews" },
+  { value: "10%", text: "Advance CROs ask for before they start. Milestone payments keep projects moving.", source: "From interviews" },
+  { value: "0/10", text: "Competing platforms showed a lab's equipment, the thing labs most want to show.", source: "From competitive analysis" },
+]
+export const researchNeeds = ["Match by chemistry", "Clear briefs upfront", "Show the lab", "Track milestones"]
+
 /** What CROs and scientists told us: one insight, one quote, one design answer. */
 export const insights = [
   {
