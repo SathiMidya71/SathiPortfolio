@@ -23,6 +23,7 @@ import { serif } from "@/components/scinode/researcher/fonts"
 import { EvolutionFlip, PilotPlantToggle } from "@/components/scinode/researcher/interactive"
 import { Toc } from "@/components/case-study/toc"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
+import { ResearcherHero } from "@/components/scinode/researcher/hero"
 import { ImageBox } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
@@ -82,7 +83,7 @@ export default function ResearcherPage() {
         </header>
 
         <div className={`${shell} mt-8`}>
-          <ImageBox label="Hero image: Scinode for Researchers" ratio="16 / 7" />
+          <ResearcherHero />
         </div>
 
         <div className={`${shell} mt-10 lg:mt-14 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-14`}>
