@@ -57,14 +57,15 @@ export const objectives = [
 
 export const hmw = "How might we help CROs and scientists show what their labs can really do, get matched to the right chemistry and run projects in one place?"
 
+/** Research methods, drawn as concentric arcs (Sathi's style reference). `detail` runs along each arc. */
 export const methods = [
-  { title: "Interviews", note: "2 rounds, 20 questions" },
-  { title: "Competitive analysis", note: "10 platforms" },
-  { title: "Affinity mapping", note: "Grouped findings" },
-  { title: "Empathy map", note: "Says, thinks, does, feels" },
-  { title: "Personas", note: "CRO and scientist" },
-  { title: "Journey map", note: "Entice to extend" },
-  { title: "Card sorting", note: "Navigation" },
+  { title: "Interviews", note: "2 rounds, 20 questions", detail: "2 rounds · 20 questions · CROs & scientists" },
+  { title: "Competitive analysis", note: "10 platforms", detail: "10 platforms · 10 features · Gaps" },
+  { title: "Affinity mapping", note: "Grouped findings", detail: "Challenges · Needs · Behaviours · Ideas" },
+  { title: "Empathy map", note: "Says, thinks, does, feels", detail: "Says · Thinks · Does · Feels" },
+  { title: "Personas", note: "CRO and scientist", detail: "CRO persona · Scientist proto-persona" },
+  { title: "Journey map", note: "Discover to execute", detail: "Discover · Evaluate · Collaborate · Execute" },
+  { title: "Card sorting", note: "Navigation", detail: "Grouping the navigation" },
 ]
 
 /** User research visual (radial infographic, Sathi's style reference). Real figures only, from her research doc. */

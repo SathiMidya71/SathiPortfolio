@@ -85,29 +85,6 @@ export function Objectives() {
   )
 }
 
-// ---------------- methods ----------------
-
-export function Methods() {
-  const icons: LucideIcon[] = [MessagesSquare, LayoutGrid, StickyNote, Heart, Users, MapIcon, Layers]
-  return (
-    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-7">
-      {methods.map((m, i) => {
-        const Icon = icons[i]
-        const lead = i === 0
-        return (
-          <li key={m.title} className={cn("flex flex-col items-center rounded-[22px] p-4 text-center", lead ? "bg-brand text-white" : "border border-line bg-white")}>
-            <span className={cn("grid size-12 place-items-center rounded-full", lead ? "bg-white/15" : "bg-[#e4f1eb] text-brand")}>
-              <Icon className="size-6" strokeWidth={1.8} aria-hidden />
-            </span>
-            <p className={cn("mt-3 text-[14.5px] leading-tight font-semibold", lead ? "text-white" : "text-ink")}>{m.title}</p>
-            <p className={cn("mt-1 text-[12.5px] leading-snug", lead ? "text-white/75" : "text-soft")}>{m.note}</p>
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
 // ---------------- competitive analysis ----------------
 
 export function Competitors() {
@@ -759,6 +736,101 @@ export function ProblemVenn() {
           <Problem i={1} />
         </div>
       </div>
+    </div>
+  )
+}
+
+// ---------------- research methods as concentric arcs (Sathi's style reference) ----------------
+
+export function MethodArcs() {
+  const W = 860
+  const H = 940
+  const cx = 140
+  const cy = 660
+  const core = 112
+  // inner rings are nearly round, outer ones flatter, so they all stay below the labels
+  const ks = methods.map((_, i) => 0.92 - i * 0.05)
+  const step = 86
+  const radii = methods.map((_, i) => 172 + i * step)
+  const icons: LucideIcon[] = [MessagesSquare, LayoutGrid, StickyNote, Heart, Users, MapIcon, Layers]
+  const top = 70
+  const arc = (rx: number, k: number) => {
+    const ry = rx * k
+    const a = (58 * Math.PI) / 180
+    // bottom-right → top-right through the rightmost point, so text reads upwards with its top toward the centre
+    return `M${cx + rx * Math.cos(a)},${cy + ry * Math.sin(a)} A${rx},${ry} 0 0 0 ${cx + rx * Math.cos(a)},${cy - ry * Math.sin(a)}`
+  }
+  return (
+    <div>
+      {/* md and up */}
+      <div className="relative hidden w-full overflow-hidden md:block" style={{ aspectRatio: `${W} / ${H}` }}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full" role="img" aria-label="Seven research methods">
+          <defs>
+            {radii.map((r, i) => (
+              <linearGradient key={i} id={`ma-fade-${i}`} gradientUnits="userSpaceOnUse" x1={cx - r * 0.2} y1="0" x2={cx + r * 0.7} y2="0">
+                <stop offset="0" stopColor="#7d958e" stopOpacity="0" />
+                <stop offset="1" stopColor="#7d958e" stopOpacity="0.75" />
+              </linearGradient>
+            ))}
+            {radii.map((r, i) => (
+              <path key={i} id={`ma-path-${i}`} d={arc(r - 20, ks[i])} />
+            ))}
+          </defs>
+
+          {/* rings, fading out to the left */}
+          {radii.map((r, i) => (
+            <ellipse key={i} cx={cx} cy={cy} rx={r} ry={r * ks[i]} fill="none" stroke={`url(#ma-fade-${i})`} strokeWidth="1.2" />
+          ))}
+
+          {/* vertical lines + labels + icons */}
+          {methods.map((m, i) => {
+            const x = cx + radii[i]
+            const Icon = icons[i]
+            return (
+              <g key={m.title}>
+                <line x1={x} y1={top} x2={x} y2={cy} stroke="#7d958e" strokeOpacity="0.55" strokeWidth="1.2" />
+                <circle cx={x} cy={top - 26} r="20" fill={i === 0 ? green : "#e4f1eb"} />
+                <Icon x={x - 10} y={top - 36} width={20} height={20} color={i === 0 ? "#ffffff" : green} strokeWidth={1.8} />
+                <text x={x - 9} y={top + 10} transform={`rotate(-90 ${x - 9} ${top + 10})`} textAnchor="end" className="fill-ink text-[15px] font-semibold">
+                  {m.title}
+                </text>
+              </g>
+            )
+          })}
+
+          {/* details along each arc */}
+          {methods.map((m, i) => (
+            <text key={m.title} className="fill-soft text-[12.5px]" letterSpacing="0.2">
+              <textPath href={`#ma-path-${i}`} startOffset="50%" textAnchor="middle">
+                {m.detail}
+              </textPath>
+            </text>
+          ))}
+
+          {/* core */}
+          <circle cx={cx} cy={cy} r={core} fill="#7fcfa8" />
+          <circle cx={cx} cy={cy} r={core - 10} fill="none" stroke="#ffffff" strokeOpacity="0.8" strokeWidth="1.2" />
+          <circle cx={cx} cy={cy} r={core - 20} fill="none" stroke="#ffffff" strokeOpacity="0.6" strokeWidth="1" />
+          <image href="/case-studies/scinode/logo-researchers.png" x={cx - 80} y={cy - 25} width="160" height="50" preserveAspectRatio="xMidYMid meet" />
+        </svg>
+      </div>
+
+      {/* phones */}
+      <ol className="relative grid gap-5 pl-14 md:hidden">
+        <span aria-hidden className="absolute top-3 bottom-3 left-[21px] w-px bg-[#7d958e]/50" />
+        {methods.map((m, i) => {
+          const Icon = icons[i]
+          return (
+            <li key={m.title} className="relative">
+              <span className={cn("absolute top-0 -left-14 grid size-11 place-items-center rounded-full", i === 0 ? "bg-brand text-white" : "bg-[#e4f1eb] text-brand")}>
+                <Icon className="size-5" strokeWidth={1.8} aria-hidden />
+              </span>
+              <p className="pt-1 text-[17px] font-semibold text-ink">{m.title}</p>
+              <p className="mt-0.5 text-[14px] text-soft">{m.detail}</p>
+            </li>
+          )
+        })}
+      </ol>
     </div>
   )
 }

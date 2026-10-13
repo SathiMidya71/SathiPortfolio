@@ -9,7 +9,7 @@ import {
   Competitors,
   Empathy,
   JourneyMap,
-  Methods,
+  MethodArcs,
   EditorialOverview,
   Objectives,
   Personas,
@@ -105,7 +105,7 @@ export default function ResearcherPage() {
         </EdSection>
 
         <EdSection id="methods" n={4} label="Research methods" title={["Seven research", "methods"]}>
-          <Methods />
+          <MethodArcs />
         </EdSection>
 
         <EdSection id="research" n={5} label="User research" title={["Understand", "user needs"]}>
