@@ -797,6 +797,18 @@ export function MethodArcs() {
             {radii.map((r, i) => (
               <path key={i} id={`ma-path-${i}`} d={arc(r - 20, ks[i])} />
             ))}
+            <radialGradient id="ma-core" cx="40%" cy="35%" r="70%">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="0.7" stopColor="#fbfdfc" />
+              <stop offset="1" stopColor="#e4f1eb" />
+            </radialGradient>
+            <radialGradient id="ma-halo">
+              <stop offset="0.6" stopColor="#7fcfa8" stopOpacity="0.35" />
+              <stop offset="1" stopColor="#7fcfa8" stopOpacity="0" />
+            </radialGradient>
+            <filter id="ma-shadow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="14" stdDeviation="16" floodColor="#02594e" floodOpacity="0.18" />
+            </filter>
           </defs>
 
           {/* rings, fading out to the left */}
@@ -829,10 +841,12 @@ export function MethodArcs() {
             </text>
           ))}
 
-          {/* core */}
-          <circle cx={cx} cy={cy} r={core} fill="#7fcfa8" />
-          <circle cx={cx} cy={cy} r={core - 10} fill="none" stroke="#ffffff" strokeOpacity="0.8" strokeWidth="1.2" />
-          <circle cx={cx} cy={cy} r={core - 20} fill="none" stroke="#ffffff" strokeOpacity="0.6" strokeWidth="1" />
+          {/* core: white with a soft mint edge, a green glow and fine rings (no solid fill) */}
+          <circle cx={cx} cy={cy} r={core + 34} fill="url(#ma-halo)" />
+          <circle cx={cx} cy={cy} r={core} fill="url(#ma-core)" filter="url(#ma-shadow)" />
+          <circle cx={cx} cy={cy} r={core} fill="none" stroke="#7fcfa8" strokeWidth="1.5" />
+          <circle cx={cx} cy={cy} r={core - 12} fill="none" stroke="#2fae74" strokeOpacity="0.45" strokeWidth="1" strokeDasharray="3 6" />
+          <circle cx={cx} cy={cy} r={core + 14} fill="none" stroke="#7fcfa8" strokeOpacity="0.5" strokeWidth="1" />
           <image href="/case-studies/scinode/logo-researchers.png" x={cx - 80} y={cy - 25} width="160" height="50" preserveAspectRatio="xMidYMid meet" />
         </svg>
       </div>
