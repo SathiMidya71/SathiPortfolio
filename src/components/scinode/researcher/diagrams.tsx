@@ -478,7 +478,7 @@ export function Architecture() {
   const Node = ({ title, items, locked }: { title: string; items: readonly string[]; locked?: boolean }) => (
     <div className={cn("relative h-full rounded-[18px] border bg-white p-4", locked ? "border-dashed border-brand/40" : "border-brand/30")}>
       {locked && <Lock className="absolute top-3 right-3 size-3.5 text-brand/60" aria-label="unlocks after verification" />}
-      <p className="pr-4 font-heading text-[15px] leading-tight font-semibold break-words text-ink">{title}</p>
+      <p className="pr-5 font-heading text-[15px] leading-tight font-semibold text-ink">{title}</p>
       <ul className="mt-2 grid gap-1">
         {items.map((x) => (
           <li key={x} className="text-[12.5px] leading-snug text-body">
@@ -488,33 +488,48 @@ export function Architecture() {
       </ul>
     </div>
   )
+  // two rows: getting verified (the profile is the only step that differs), then the work it unlocks
+  const rows = [
+    { label: "Get verified", steps: flow.slice(0, 3), cols: "lg:grid-cols-3" },
+    { label: "Win and run projects", steps: flow.slice(3), cols: "lg:grid-cols-4" },
+  ]
   return (
     <div>
-      <ol className="grid items-stretch gap-3 lg:grid-cols-[repeat(6,minmax(0,1fr))]">
-        {flow.map((f, i) => (
-          <li key={f.title} className="relative">
-            {f.split ? (
-              <div className="grid h-full gap-2">
-                <div className="rounded-[18px] bg-[#e4f1eb] p-3.5">
-                  <p className="font-heading text-[15px] font-semibold text-brand">CRO profile</p>
-                  <p className="text-[12px] text-brand/80">8 sections</p>
-                </div>
-                <div className="rounded-[18px] bg-[#ece9fd] p-3.5">
-                  <p className="font-heading text-[15px] font-semibold text-[#5b4fd1]">Scientist profile</p>
-                  <p className="text-[12px] text-[#5b4fd1]/80">5 steps</p>
-                </div>
-              </div>
-            ) : (
-              <Node title={f.title} items={f.items} locked={"locked" in f && f.locked} />
-            )}
-            {i < flow.length - 1 && (
-              <span aria-hidden className="absolute top-1/2 -right-3 z-10 hidden size-6 -translate-y-1/2 place-items-center rounded-full bg-brand text-white lg:grid">
-                <ArrowRight className="size-3.5" />
-              </span>
-            )}
-          </li>
+      <div className="grid gap-5">
+        {rows.map((r, ri) => (
+          <div key={r.label}>
+            <p className="mb-2.5 flex items-center gap-2 text-[12px] font-semibold tracking-[0.12em] text-soft uppercase">
+              <span className="grid size-5 place-items-center rounded-full bg-brand text-[11px] text-white">{ri + 1}</span>
+              {r.label}
+            </p>
+            <ol className={cn("grid items-stretch gap-3", r.cols)}>
+              {r.steps.map((f, i) => (
+                <li key={f.title} className="relative">
+                  {f.split ? (
+                    <div className="grid h-full gap-2 sm:grid-cols-2 lg:grid-cols-1">
+                      <div className="rounded-[18px] bg-[#e4f1eb] p-3.5">
+                        <p className="font-heading text-[15px] font-semibold text-brand">CRO profile</p>
+                        <p className="text-[12px] text-brand/80">8 sections</p>
+                      </div>
+                      <div className="rounded-[18px] bg-[#ece9fd] p-3.5">
+                        <p className="font-heading text-[15px] font-semibold text-[#5b4fd1]">Scientist profile</p>
+                        <p className="text-[12px] text-[#5b4fd1]/80">5 steps</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <Node title={f.title} items={f.items} locked={"locked" in f && f.locked} />
+                  )}
+                  {i < r.steps.length - 1 && (
+                    <span aria-hidden className="absolute top-1/2 -right-3 z-10 hidden size-6 -translate-y-1/2 place-items-center rounded-full bg-brand text-white lg:grid">
+                      <ArrowRight className="size-3.5" />
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
         ))}
-      </ol>
+      </div>
       <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-soft">
         <span className="flex items-center gap-1.5">
           <span className="size-3 rounded-[4px] bg-[#e4f1eb]" /> <span className="size-3 rounded-[4px] bg-[#ece9fd]" /> The only step that differs by user

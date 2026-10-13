@@ -205,6 +205,7 @@ export const flow = [
   { title: "Opportunities", items: ["Open projects", "Exclusive invites"], locked: true },
   { title: "Proposals", items: ["Submit", "Track status"], locked: true },
   { title: "Projects", items: ["Feasibility to closure", "Batches and approvals"], locked: true },
+  { title: "Project management", items: ["Add experiments", "Run batch experiments", "Track every project"], locked: true },
 ]
 
 /** Key design decisions: one line each; the screens come from Sathi. */
