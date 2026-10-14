@@ -285,6 +285,8 @@ export type ResearcherModule = {
   steps: readonly string[]
   /** indexes into `decisions` */
   decisionIdx: readonly number[]
+  /** hero image (also the module card image); a placeholder shows until Sathi sends one */
+  hero?: { src: string; alt: string; width: number; height: number }
   extraDecisions?: readonly { title: string; text: string }[]
 }
 
@@ -292,6 +294,12 @@ export const modules: readonly ResearcherModule[] = [
   {
     slug: "profile-onboarding",
     title: "Profile & onboarding",
+    hero: {
+      src: "/case-studies/scinode/modules/profile-onboarding-hero.jpg",
+      alt: "The Scinode for Researchers sign-up page on a lab monitor, next to a microscope and test tubes",
+      width: 2000,
+      height: 1125,
+    },
     tagline: "One sign-up, two profiles: CROs fill 8 short sections, scientists follow 5 timed steps.",
     problem: "Labs couldn't show their equipment, team or past work online, so every new partner started with emails and site visits.",
     quotes: ["If I gave you 101% purity when you asked for 100%, show that. Showcase my quality and facilities."],

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { ImageBox } from "@/components/scinode/wire"
@@ -20,7 +21,13 @@ export function ModuleCards() {
             href={moduleHref(m.slug)}
             className="group flex h-full flex-col rounded-[24px] border border-line bg-white p-4 shadow-[0_18px_40px_-32px_rgba(16,24,40,0.5)] transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-[0_26px_50px_-30px_rgba(2,89,78,0.45)] md:p-5"
           >
-            <ImageBox label={`Screen: ${m.title}`} ratio="16 / 9" />
+            {m.hero ? (
+              <span className="relative block aspect-[16/9] overflow-hidden rounded-[14px]">
+                <Image src={m.hero.src} alt="" fill sizes="(min-width: 768px) 420px, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              </span>
+            ) : (
+              <ImageBox label={`Screen: ${m.title}`} ratio="16 / 9" />
+            )}
             <div className="mt-4 flex items-start gap-3">
               <span className="font-heading text-[30px] leading-none font-semibold text-brand/25">{nn(i)}</span>
               <div className="min-w-0 flex-1">

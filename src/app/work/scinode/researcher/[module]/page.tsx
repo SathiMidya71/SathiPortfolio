@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight, ChevronRight, PlayCircle } from "lucide-react"
@@ -74,7 +75,11 @@ export default async function ResearcherModulePage({ params }: Params) {
         </header>
 
         <div className={`${shell} mt-8`}>
-          <ImageBox label={`Hero screen: ${m.title}`} ratio="16 / 7" />
+          {m.hero ? (
+            <Image src={m.hero.src} alt={m.hero.alt} width={m.hero.width} height={m.hero.height} priority sizes="(min-width: 1200px) 1120px, 100vw" className="w-full rounded-[20px] md:rounded-[28px]" />
+          ) : (
+            <ImageBox label={`Hero screen: ${m.title}`} ratio="16 / 7" />
+          )}
         </div>
 
         <div className={`${shell} mt-10 lg:mt-14 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-14`}>
