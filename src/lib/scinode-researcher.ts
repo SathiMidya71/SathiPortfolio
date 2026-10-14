@@ -328,10 +328,10 @@ export const modules: readonly ResearcherModule[] = [
   {
     slug: "project-management",
     title: "Project management",
-    tagline: "Experiments and batch experiments for every project, tracked in one workspace.",
-    problem: "Updates, reports and files for a running project were scattered, so context was lost between stages.",
+    tagline: "One internal R&D project, three portals and six roles, from leadership's assignment to closure.",
+    problem: "Project data, costs and documents were spread across systems and email, so leadership couldn't see R&D progress without asking.",
     quotes: ["We send weekly updates. That's part of trust."],
-    steps: ["Project won", "Add experiments", "Run batch experiments", "Approve or retry", "Track every project"],
+    steps: ["Leadership assigns", "Admin plans", "Paper costing", "Lab to pilot stages", "Closure shared with leadership"],
     decisionIdx: [5],
   },
 ]

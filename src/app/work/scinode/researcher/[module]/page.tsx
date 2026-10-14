@@ -8,6 +8,7 @@ import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { serif } from "@/components/scinode/researcher/fonts"
 import { PilotPlantToggle } from "@/components/scinode/researcher/interactive"
 import { ModuleFlow, ModuleSwitcher, moduleHref } from "@/components/scinode/researcher/modules"
+import { ProjectManagementSections, pmSections } from "@/components/scinode/researcher/pm-module"
 import { ImageBox, Lines, Placeholder } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
@@ -47,6 +48,8 @@ export default async function ResearcherModulePage({ params }: Params) {
   const i = modules.findIndex((x) => x.slug === slug)
   const next = modules[(i + 1) % modules.length]
   const ds = [...m.decisionIdx.map((d) => decisions[d]), ...(m.extraDecisions ?? [])]
+  // modules with their own full case study; the others use the shared template below
+  const custom = m.slug === "project-management"
 
   return (
     <>
@@ -84,9 +87,13 @@ export default async function ResearcherModulePage({ params }: Params) {
 
         <div className={`${shell} mt-10 lg:mt-14 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-14`}>
           <aside className="hidden lg:block">
-            <Toc items={sections} />
+            <Toc items={custom ? pmSections : sections} />
           </aside>
           <article className="min-w-0">
+            {custom ? (
+              <ProjectManagementSections />
+            ) : (
+            <>
             <EdSection id="problem" label="The problem" title={["What wasn't", "working"]}>
               <p className="max-w-[760px] font-heading text-[24px] leading-snug font-medium text-ink md:text-[28px]">{m.problem}</p>
             </EdSection>
@@ -144,6 +151,9 @@ export default async function ResearcherModulePage({ params }: Params) {
                 <Lines n={2} />
               </Placeholder>
             </EdSection>
+
+            </>
+            )}
 
             <nav aria-label="More modules" className="mt-16 grid gap-4 border-t border-line pt-10 sm:grid-cols-2">
               <Link href="/work/scinode/researcher#modules" className="group rounded-[18px] border border-line bg-white p-5 transition-transform hover:-translate-y-0.5">
