@@ -20,14 +20,14 @@ import {
   UserNeeds,
 } from "@/components/scinode/researcher/diagrams"
 import { serif } from "@/components/scinode/researcher/fonts"
-import { EvolutionFlip, PilotPlantToggle } from "@/components/scinode/researcher/interactive"
+import { EvolutionFlip } from "@/components/scinode/researcher/interactive"
+import { ModuleCards } from "@/components/scinode/researcher/modules"
 import { Toc } from "@/components/case-study/toc"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { ResearcherHero } from "@/components/scinode/researcher/hero"
-import { ImageBox } from "@/components/scinode/wire"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
-import { decisions, meta } from "@/lib/scinode-researcher"
+import { meta } from "@/lib/scinode-researcher"
 import { cn } from "@/lib/utils"
 
 // Scinode for Researchers: one research-led UX case study for CROs and scientists. Visual first, very little
@@ -53,7 +53,7 @@ const sections = [
   { id: "personas", label: "Personas" },
   { id: "journey", label: "User journey map" },
   { id: "architecture", label: "Platform architecture" },
-  { id: "design", label: "Key design decisions" },
+  { id: "modules", label: "Modules I designed" },
   { id: "visual", label: "Visual direction" },
   { id: "outcome", label: "Outcome" },
   { id: "evolution", label: "How it evolved" },
@@ -142,24 +142,11 @@ export default function ResearcherPage() {
           <Architecture />
         </EdSection>
 
-        <EdSection id="design" n={12} label="Key design decisions" title={["Where research became", "interface"]}>
-          <div className="grid gap-x-6 gap-y-10 md:grid-cols-2">
-            {decisions.map((d, i) => (
-              <div key={d.title} className="grid content-start gap-4">
-                <div className="flex items-start gap-3">
-                  <span className="font-heading text-[32px] leading-none font-semibold text-brand/20">{String(i + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3 className="font-sans text-[21px] leading-tight text-[#1d1d1f] md:text-[22px]">{d.title}</h3>
-                    <p className="mt-1 max-w-[640px] text-[14.5px] leading-snug text-body">{d.text}</p>
-                  </div>
-                </div>
-                <div className="grid gap-4">
-                  {i === 1 && <PilotPlantToggle />}
-                  <ImageBox label={`Screen: ${d.title}`} ratio="16 / 10" />
-                </div>
-              </div>
-            ))}
-          </div>
+        <EdSection id="modules" label="Modules I designed" title={["Four modules,", "one story each"]}>
+          <p className="-mt-2 max-w-[640px] text-[16px] leading-snug text-body">
+            Each module has its own short case study: the problem, the research behind it, the flow, a walkthrough and the decisions that shaped it.
+          </p>
+          <ModuleCards />
         </EdSection>
 
         <EdSection id="visual" n={13} label="Visual direction" title={["Standing out in a", "sea of blue"]}>

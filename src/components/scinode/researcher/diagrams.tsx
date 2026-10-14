@@ -45,6 +45,7 @@ import {
   targets,
   upcoming,
 } from "@/lib/scinode-researcher"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 // Coded visuals for the Scinode for Researchers case study: visual first, very little text.
@@ -477,6 +478,33 @@ export function JourneyMap() {
 /** Desktop flowchart of the platform: start pill, decision diamonds, process boxes and arrowed connectors.
  *  Steps and branches come from the flow data and the PM's docs (verification can send changes back;
  *  proposals go from invitation to won). Everything after verification sits in a dashed "locked" zone. */
+/** Flowchart / card step → the module that covers it (each module has its own case study page). */
+const stepModule: Record<string, string> = {
+  "CRO profile": "profile-onboarding",
+  "Scientist profile": "profile-onboarding",
+  Verification: "profile-onboarding",
+  Opportunities: "opportunities",
+  Proposals: "proposals",
+  Projects: "project-management",
+  "Project management": "project-management",
+}
+
+/** Wraps a flowchart box in a link to its module, with a small corner arrow and a hover lift. */
+function Linked({ title, x, y, w, h, children }: { title: string; x: number; y: number; w: number; h: number; children: React.ReactNode }) {
+  const slug = stepModule[title]
+  if (!slug) return <g>{children}</g>
+  return (
+    <a href={`/work/scinode/researcher/${slug}`} className="group cursor-pointer outline-none [&:focus-visible_rect]:stroke-[#02594e] [&:focus-visible_rect]:stroke-[2.5]">
+      <title>{`Open the ${title} module`}</title>
+      <g className="transition-transform duration-200 group-hover:-translate-y-[3px]">
+        {children}
+        <circle cx={x + w - 18} cy={y + h - 18} r="10" fill="#02594e" className="opacity-25 transition-opacity group-hover:opacity-100" />
+        <path d={`M${x + w - 21.5} ${y + h - 14.5} L${x + w - 14.5} ${y + h - 21.5} M${x + w - 19.5} ${y + h - 21.5} L${x + w - 14.5} ${y + h - 21.5} L${x + w - 14.5} ${y + h - 16.5}`} stroke="#fff" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      </g>
+    </a>
+  )
+}
+
 function ArchitectureChart() {
   const W = 1000
   const H = 550
@@ -484,7 +512,7 @@ function ArchitectureChart() {
   const body = "#4c6763"
   const line = "#02594e"
   const box = (x: number, y: number, w: number, h: number, title: string, items: readonly string[], tone?: { fill: string; text: string }) => (
-    <g key={title}>
+    <Linked key={title} title={title} x={x} y={y} w={w} h={h}>
       <rect x={x} y={y} width={w} height={h} rx="16" fill={tone?.fill ?? "#fff"} stroke={tone ? "none" : "#02594e"} strokeOpacity="0.28" strokeWidth="1.5" />
       <text x={x + 16} y={y + 28} className="font-heading" fontSize="16" fontWeight="600" fill={tone?.text ?? ink}>
         {title}
@@ -494,7 +522,7 @@ function ArchitectureChart() {
           {t}
         </text>
       ))}
-    </g>
+    </Linked>
   )
   const diamond = (cx: number, cy: number, hw: number, hh: number, label: string) => (
     <g key={label}>
@@ -578,8 +606,11 @@ function ArchitectureChart() {
 }
 
 export function Architecture() {
-  const Node = ({ title, items, locked }: { title: string; items: readonly string[]; locked?: boolean }) => (
-    <div className={cn("relative h-full rounded-[18px] border bg-white p-4", locked ? "border-dashed border-brand/40" : "border-brand/30")}>
+  const Node = ({ title, items, locked }: { title: string; items: readonly string[]; locked?: boolean }) => {
+    const slug = stepModule[title]
+    const Tag = slug ? Link : "div"
+    return (
+    <Tag href={slug ? `/work/scinode/researcher/${slug}` : (undefined as unknown as string)} className={cn("relative block h-full rounded-[18px] border bg-white p-4", locked ? "border-dashed border-brand/40" : "border-brand/30", slug && "transition-colors hover:border-brand")}>
       {locked && <Lock className="absolute top-3 right-3 size-3.5 text-brand/60" aria-label="unlocks after verification" />}
       <p className="pr-5 font-heading text-[15px] leading-tight font-semibold text-ink">{title}</p>
       <ul className="mt-2 grid gap-1">
@@ -589,8 +620,10 @@ export function Architecture() {
           </li>
         ))}
       </ul>
-    </div>
-  )
+      {slug && <p className="mt-2 text-[12px] font-semibold text-brand">Open module →</p>}
+    </Tag>
+    )
+  }
   // two rows: getting verified (the profile is the only step that differs), then the work it unlocks
   const rows = [
     { label: "Get verified", steps: flow.slice(0, 3), cols: "lg:grid-cols-3" },
@@ -600,6 +633,7 @@ export function Architecture() {
     <div>
       <div className="hidden lg:block">
         <ArchitectureChart />
+        <p className="mt-2 text-[13px] font-medium text-brand">Click a step to open its module.</p>
       </div>
       <div className="grid gap-5 lg:hidden">
         {rows.map((r, ri) => (

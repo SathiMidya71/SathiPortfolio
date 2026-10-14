@@ -271,3 +271,61 @@ export const upcoming = [
   { title: "Molecule commercialisation", text: "Showcase molecules and find partners." },
   { title: "Market intelligence", text: "Reports on demand and commercial potential." },
 ]
+
+/** Modules I designed: each gets its own short case study at /work/scinode/researcher/<slug>.
+ *  Real content only (interview quotes, the problems, the PM's docs); everything Sathi still has to send
+ *  (module research, screens, walkthrough video, results) shows as a clearly marked placeholder. */
+export type ResearcherModule = {
+  slug: string
+  title: string
+  tagline: string
+  problem: string
+  quotes: readonly string[]
+  /** draft flow of the module, to confirm with Sathi */
+  steps: readonly string[]
+  /** indexes into `decisions` */
+  decisionIdx: readonly number[]
+  extraDecisions?: readonly { title: string; text: string }[]
+}
+
+export const modules: readonly ResearcherModule[] = [
+  {
+    slug: "profile-onboarding",
+    title: "Profile & onboarding",
+    tagline: "One sign-up, two profiles: CROs fill 8 short sections, scientists follow 5 timed steps.",
+    problem: "Labs couldn't show their equipment, team or past work online, so every new partner started with emails and site visits.",
+    quotes: ["If I gave you 101% purity when you asked for 100%, show that. Showcase my quality and facilities."],
+    steps: ["Sign up", "CRO or scientist?", "Build the profile", "Submit for review", "Approved or changes requested"],
+    decisionIdx: [0, 1, 2],
+    extraDecisions: [{ title: "Forms that respect time", text: "Time badges on every step and auto-save between steps, so a long profile never feels endless." }],
+  },
+  {
+    slug: "opportunities",
+    title: "Opportunities",
+    tagline: "Projects matched by chemistry, with a clear brief before a lab commits.",
+    problem: "Projects arrived that didn't fit the lab's chemistry, and labs had to say yes before they knew what was really needed.",
+    quotes: ["Project matching should be insanely good. Don't send peptide projects to someone who does deuterium.", "Chemistry is high risk. They only say yes if they're confident."],
+    steps: ["Open projects & exclusive invites", "Brief preview", "Check the fit", "Decide to propose"],
+    decisionIdx: [3],
+  },
+  {
+    slug: "proposals",
+    title: "Proposals",
+    tagline: "From invitation to won, each step shows what to do next.",
+    problem: "Briefs, quotes and follow-ups lived in email threads, so labs lost track of what they had sent and where it stood.",
+    quotes: ["I need to know what purity and what reports they want. I can give HPLC, not NMR."],
+    steps: ["Invitation", "Prepare the proposal", "Submit", "Track status", "Won or not won"],
+    decisionIdx: [4],
+  },
+  {
+    slug: "project-management",
+    title: "Project management",
+    tagline: "Experiments and batch experiments for every project, tracked in one workspace.",
+    problem: "Updates, reports and files for a running project were scattered, so context was lost between stages.",
+    quotes: ["We send weekly updates. That's part of trust."],
+    steps: ["Project won", "Add experiments", "Run batch experiments", "Approve or retry", "Track every project"],
+    decisionIdx: [5],
+  },
+]
+
+export const getModule = (slug: string) => modules.find((m) => m.slug === slug)
