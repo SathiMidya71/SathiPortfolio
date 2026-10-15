@@ -2,6 +2,7 @@ import { ArrowLeftRight, Check, Minus, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FilmStage } from "@/components/scinode/researcher/film-stage"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
+import { SuccessMetrics } from "@/components/scinode/researcher/success-metrics"
 import { ScreenGallery } from "@/components/scinode/researcher/screen-gallery"
 import {
   pmActions,
@@ -11,13 +12,11 @@ import {
   pmExperiment,
   pmExperimentPhases,
   pmFacts,
-  pmImpact,
   pmLanes,
   pmProblems,
   pmRoles,
   pmScreens,
   pmSurfaces,
-  pmTargets,
 } from "@/lib/scinode-pm"
 import { cn } from "@/lib/utils"
 
@@ -31,8 +30,7 @@ export const pmSections = [
   { id: "stages", label: "Experiment flow" },
   { id: "decisions", label: "Key decisions" },
   { id: "walkthrough", label: "Key screens" },
-  { id: "targets", label: "Targets" },
-  { id: "impact", label: "Impact" },
+  { id: "impact", label: "Success metrics" },
 ]
 
 const tone = {
@@ -518,65 +516,6 @@ function Decisions() {
   )
 }
 
-function Ring({ value, unit, prefix }: { value: number; unit: string; prefix?: string }) {
-  // percentages fill to their value; time targets show a full ring
-  const frac = unit === "%" ? value / 100 : 1
-  const r = 34
-  const c = 2 * Math.PI * r
-  return (
-    <svg viewBox="0 0 84 84" className="size-[92px]" aria-hidden>
-      <circle cx="42" cy="42" r={r} fill="none" stroke="#e4f1eb" strokeWidth="8" />
-      <circle cx="42" cy="42" r={r} fill="none" stroke="#02594e" strokeWidth="8" strokeLinecap="round" strokeDasharray={`${c * frac} ${c}`} transform="rotate(-90 42 42)" />
-      <text x="42" y="47" textAnchor="middle" className="font-heading" fontSize="17" fontWeight="700" fill="#1d1d1f">
-        {prefix}
-        {value}
-        {unit}
-      </text>
-    </svg>
-  )
-}
-
-function Targets() {
-  return (
-    <div>
-      <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-        {pmTargets.map((t) => (
-          <li key={t.label} className="flex flex-col items-center rounded-[20px] border border-line bg-white p-4 text-center">
-            <Ring value={t.value} unit={t.unit} prefix={t.prefix} />
-            <p className="mt-2 text-[13px] leading-snug text-body">{t.label}</p>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-3 inline-block rounded-full bg-[#ece9fd] px-3 py-1 text-[12px] font-semibold text-[#5b4fd1]">Targets set by the product manager, not results yet</p>
-    </div>
-  )
-}
-
-function Impact() {
-  return (
-    <div className="grid gap-4">
-      <ul className="grid gap-3">
-        {pmImpact.map((x) => (
-          <li key={x} className="flex gap-3 rounded-[16px] border border-line bg-white p-4 text-[15px] leading-snug text-ink">
-            <Check className="mt-0.5 size-4 shrink-0 text-brand" strokeWidth={3} aria-hidden />
-            <span>
-              {x.split(/(\[metric needed\])/).map((part, i) =>
-                part === "[metric needed]" ? (
-                  <span key={i} className="rounded-md bg-[#ece9fd] px-1.5 py-0.5 text-[13px] font-semibold text-[#5b4fd1]">
-                    {part}
-                  </span>
-                ) : (
-                  part
-                )
-              )}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
 /** All sections of the Project management module page. */
 export function ProjectManagementSections() {
   return (
@@ -625,12 +564,8 @@ export function ProjectManagementSections() {
         <ScreenGallery screens={pmScreens} width={2272} height={1080} />
       </EdSection>
 
-      <EdSection id="targets" label="Targets" title={["What success", "looks like"]}>
-        <Targets />
-      </EdSection>
-
-      <EdSection id="impact" label="Impact" title={["What I", "delivered"]}>
-        <Impact />
+      <EdSection id="impact" label="Success metrics" title={["What I delivered,", "and how it's measured"]}>
+        <SuccessMetrics />
       </EdSection>
     </>
   )

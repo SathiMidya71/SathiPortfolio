@@ -116,21 +116,36 @@ export const pmDecisions = [
   { title: "Status that updates itself", text: "Dates set \"On track\" or \"Delayed\" automatically; only admins can put a project on hold, with a reason." },
 ]
 
-/** The PM's success targets (not results). */
-export const pmTargets = [
-  { value: 100, unit: "%", label: "Sync between systems without manual work" },
-  { value: 60, unit: "%", label: "Less manual coordination", prefix: "≥" },
-  { value: 1, unit: "h", label: "Lag for leadership to see progress", prefix: "<" },
-  { value: 48, unit: "h", label: "Average time to assign or approve in paper costing", prefix: "<" },
-  { value: 80, unit: "%", label: "Active projects using comments", prefix: "≥" },
-]
-
-/** ATS-friendly impact lines (XYZ). Y stays a placeholder until there are real results. */
+/**
+ * What Sathi delivered, each paired with a scope figure that is counted from the designed flows
+ * (not a result) and the product manager's target for it. No outcome metrics exist yet.
+ */
 export const pmImpact = [
-  "Designed a role-based project workspace connecting 3 portals for 6 user roles, as measured by [metric needed], by mapping every hand-off from leadership assignment to project closure.",
-  "Turned an 8-step, 4-role paper-costing process into one guided hand-off flow, as measured by [metric needed], by making the current assignee and next action visible at every step.",
-  "Standardised 6 R&D stages into one reusable stage template, as measured by [metric needed], by giving every stage the same remarks, files, history and notifications.",
-]
+  {
+    key: "workspace",
+    title: "One workspace, three portals",
+    text: "Designed a role-based project workspace connecting 3 portals for 6 user roles, mapping every hand-off from leadership assignment to project closure.",
+    target: { value: "100%", label: "sync between systems, with under 1h lag for leadership" },
+  },
+  {
+    key: "costing",
+    title: "A guided costing flow",
+    text: "Turned an 8-step, 4-role paper-costing process into one guided hand-off flow, with the current assignee and next action visible at every step.",
+    target: { value: "<48h", label: "average time to assign or approve in paper costing" },
+  },
+  {
+    key: "template",
+    title: "One stage template",
+    text: "Standardised 6 R&D stages into one reusable template, with the same remarks, files, history and notifications in every stage.",
+    target: { value: "≥80%", label: "of active projects using comments" },
+  },
+  {
+    key: "approvals",
+    title: "Approvals on record",
+    text: "Every move to the next phase passes an approval gate, and each decision is saved with its remarks and rationale.",
+    target: { value: "≥60%", label: "less manual coordination" },
+  },
+] as const
 
 /** Key screens of the internal project flow, captured from Sathi's product recording (Oct 2026). */
 const pmScreenDir = "/case-studies/scinode/modules/project-management/screens"
