@@ -50,6 +50,38 @@ export const pmCosting = [
 ] as const
 export const pmLanes = ["Super admin", "Project manager", "Group leader", "Procurement head"] as const
 
+/**
+ * Phase 2 (from Sathi's "IONS Experiment Flow" chart): from costing synced to project completed.
+ * The group leader runs feasibility, optimisation and validation in IONS; the project manager approves
+ * every hand-off from the super admin portal. Steps continue the costing numbering (9–21).
+ */
+export const pmExperimentPhases = ["Kick-off", "Lab-scale feasibility", "Process optimisation", "Process validation"] as const
+export const pmExperiment: readonly {
+  n?: number
+  lane: "Super admin" | "Group leader" | "Leadership dashboard"
+  text: readonly string[]
+  sub?: string
+  gate?: boolean
+  dark?: boolean
+  phase: number
+}[] = [
+  { lane: "Leadership dashboard", text: ["Costing synced"], sub: "end of phase 1", dark: true, phase: 0 },
+  { n: 9, lane: "Super admin", text: ["Mark experiment as", "started, tag the GL"], phase: 0 },
+  { n: 10, lane: "Group leader", text: ["Accept the task"], sub: "day 1", phase: 0 },
+  { n: 11, lane: "Group leader", text: ["Run feasibility", "experiments"], sub: "stages in parallel or one by one", phase: 1 },
+  { n: 12, lane: "Group leader", text: ["Create a batch and", "fill in the run data"], sub: "one batch per run", phase: 1 },
+  { n: 13, lane: "Group leader", text: ["Mark batches for", "optimisation"], sub: "then close feasibility", phase: 1 },
+  { n: 14, lane: "Super admin", text: ["Review marked", "batches"], gate: true, phase: 1 },
+  { n: 15, lane: "Group leader", text: ["Optimise each parent", "batch with children"], sub: "Feasibility 1 → Optimisation 15", phase: 2 },
+  { n: 16, lane: "Group leader", text: ["Mark one", "golden batch"], sub: "remarks required", phase: 2 },
+  { n: 17, lane: "Super admin", text: ["Review the", "golden batch"], gate: true, phase: 2 },
+  { n: 18, lane: "Group leader", text: ["Run validation on", "the golden batch"], sub: "up to 6 runs, stop early", phase: 3 },
+  { n: 19, lane: "Group leader", text: ["Send validation", "for approval"], sub: "remarks required", phase: 3 },
+  { n: 20, lane: "Super admin", text: ["Approve", "validation"], gate: true, phase: 3 },
+  { n: 21, lane: "Super admin", text: ["Close project", "as Completed"], phase: 3 },
+  { lane: "Leadership dashboard", text: ["Project completed"], sub: "synced for leadership", dark: true, phase: 3 },
+]
+
 /** The six stages of an internal R&D project. */
 export const pmStages = [
   { name: "Paper costing", phase: "Evaluation", note: "Costs gathered across roles and approved" },

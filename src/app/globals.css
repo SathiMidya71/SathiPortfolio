@@ -185,3 +185,42 @@
     translate: 0 -6px;
   }
 }
+
+/* Flowchart build-in (FlowReveal): lanes fade in, then nodes pop and edges draw in sequence via --d */
+.flow-reveal [data-fl="lane"] {
+  opacity: 0;
+  transition: opacity 0.5s ease var(--d, 0ms);
+}
+.flow-reveal [data-fl="node"] {
+  opacity: 0;
+  transform: translateY(10px) scale(0.94);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.35s ease var(--d, 0ms),
+    transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) var(--d, 0ms);
+}
+.flow-reveal [data-fl="edge"] {
+  opacity: 0;
+  stroke-dashoffset: 1;
+  transition:
+    opacity 0.15s ease var(--d, 0ms),
+    stroke-dashoffset 0.5s ease var(--d, 0ms);
+}
+.flow-reveal [data-fl="edge"][data-dash] {
+  stroke-dashoffset: 0;
+}
+.flow-reveal [data-fl="label"] {
+  opacity: 0;
+  transition: opacity 0.3s ease var(--d, 0ms);
+}
+.flow-reveal[data-on] [data-fl] {
+  opacity: 1;
+  transform: none;
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-reveal [data-fl] {
+    transition: none;
+  }
+}
