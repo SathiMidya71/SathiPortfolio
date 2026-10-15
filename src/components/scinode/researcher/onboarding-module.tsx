@@ -1,4 +1,4 @@
-import { ArrowRight, Check, Eye, Lock, LockOpen, Quote, RotateCcw, Save, ShieldCheck, Sparkles, TrendingDown, UserCheck, Users } from "lucide-react"
+import { ArrowRight, Check, Eye, Lock, LockOpen, Quote, RotateCcw, Save, UserCheck, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
 import { serif } from "@/components/scinode/researcher/fonts"
@@ -27,39 +27,108 @@ const darkGrid = {
 } as const
 const mint = { backgroundImage: "linear-gradient(180deg,#e6f7ef 0%,#8fd3b4 100%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" } as const
 
+/** Radial diagram (after Sathi's reference): the four scope facts as nodes, their values as pills,
+ *  a rounded shape drawn from the values, and the three problems with their fixes beside it. */
 function ContextBoard() {
-  const icons = [TrendingDown, Sparkles, ShieldCheck]
+  const C = 250
+  const ring = [48, 88, 128, 168]
+  const nodeR = 44
+  const nodeAt = 200
+  // top, right, bottom, left
+  const dirs = [
+    [0, -1],
+    [1, 0],
+    [0, 1],
+    [-1, 0],
+  ]
+  // an even rounded diamond, as in the reference; the values sit on its points
+  const reach = obFacts.map(() => 118)
+  const pts = dirs.map(([dx, dy], i) => [C + dx * reach[i], C + dy * reach[i]])
+  // rounded quadrilateral: corners softened with quadratic curves
+  const k = 0.38
+  const mid = (p: number[], q: number[], t: number) => [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t]
+  let d = ""
+  pts.forEach((p, i) => {
+    const prev = pts[(i + 3) % 4]
+    const next = pts[(i + 1) % 4]
+    const a1 = mid(p, prev, k)
+    const b1 = mid(p, next, k)
+    d += `${i ? "L" : "M"}${a1[0].toFixed(1)},${a1[1].toFixed(1)} Q${p[0]},${p[1]} ${b1[0].toFixed(1)},${b1[1].toFixed(1)} `
+  })
+  d += "Z"
+  const label = (s: string) => s.replace("CRO profile tabs", "CRO profile\ntabs").replace("Scientist steps", "Scientist\nsteps").replace("Approval gate", "Approval\ngate").split("\n")
+
   return (
-    <div className="relative overflow-hidden rounded-[24px] p-5 text-white sm:p-7" style={darkGrid}>
-      <dl className="grid grid-cols-2 gap-y-5 md:grid-cols-4">
-        {obFacts.map((f, i) => (
-          <div key={f.label} className={cn("pr-4", i > 0 && "md:border-l md:border-white/10 md:pl-6", i % 2 === 1 && "max-md:border-l max-md:border-white/10 max-md:pl-4")}>
-            <dd className="font-heading text-[52px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[64px]" style={mint}>
-              {f.n}
-            </dd>
-            <dt className="mt-2 text-[12px] font-semibold tracking-[0.12em] text-white/55 uppercase">{f.label}</dt>
-          </div>
-        ))}
-      </dl>
-      <ul className="mt-7 grid gap-3 md:grid-cols-3">
-        {obProblems.map((p, i) => {
-          const Icon = icons[i]
-          return (
-            <li key={p.title} className="flex flex-col rounded-[16px] bg-white/[0.06] p-4 ring-1 ring-white/10">
-              <span className="grid size-9 place-items-center rounded-[10px] bg-[#A0583A]/25 text-[#f1b79c]" aria-hidden>
-                <Icon className="size-4" />
-              </span>
-              <p className="mt-3 text-[15.5px] font-semibold">{p.title}</p>
-              <p className="mt-1 text-[13px] leading-snug text-white/60">{p.text}</p>
-              <p className="mt-auto flex items-start gap-2 border-t border-white/10 pt-3 text-[13px] leading-snug font-medium text-[#a8e6c9] [margin-top:max(0.75rem,auto)]">
-                <Check className="mt-0.5 size-3.5 shrink-0" strokeWidth={3} aria-hidden />
-                {p.fix}
-              </p>
+    <FlowReveal
+      className="grid items-center gap-6 rounded-[24px] p-4 ring-1 ring-line sm:p-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-8"
+    >
+      <div
+        className="rounded-[18px] bg-white/70"
+        style={{
+          backgroundImage: "linear-gradient(rgba(2,89,78,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(2,89,78,.06) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      >
+        <svg viewBox="-14 -14 528 528" className="mx-auto w-full max-w-[470px]" role="img" aria-label={`Supplier onboarding at a glance: ${obFacts.map((f) => `${f.n} ${f.label.toLowerCase()}`).join(", ")}.`}>
+          <g data-fl="lane" style={at(0)}>
+            {ring.map((r) => (
+              <circle key={r} cx={C} cy={C} r={r} fill="none" stroke="#02594e" strokeOpacity="0.16" />
+            ))}
+            <line x1={C} y1={C - nodeAt} x2={C} y2={C + nodeAt} stroke="#02594e" strokeOpacity="0.14" />
+            <line x1={C - nodeAt} y1={C} x2={C + nodeAt} y2={C} stroke="#02594e" strokeOpacity="0.14" />
+          </g>
+          <path data-fl="edge" style={at(300)} pathLength={1} strokeDasharray="1" d={d} fill="none" stroke="#02594e" strokeWidth="3.5" strokeLinejoin="round" />
+          <path data-fl="lane" style={at(700)} d={d} fill="#02594e" fillOpacity="0.08" />
+          <text x={C} y={C - 6} textAnchor="middle" className="font-heading" fontSize="25" fontWeight="600" fill="#1d1d1f">
+            Supplier
+          </text>
+          <text x={C} y={C + 24} textAnchor="middle" className="font-heading" fontSize="25" fontWeight="600" fill="#1d1d1f">
+            onboarding
+          </text>
+          {obFacts.map((f, i) => {
+            const [dx, dy] = dirs[i]
+            const nx = C + dx * nodeAt
+            const ny = C + dy * nodeAt
+            const px = pts[i][0]
+            const py = pts[i][1]
+            const lines = label(f.label)
+            return (
+              <g key={f.label} data-fl="node" style={at(450 + i * 140)}>
+                <circle cx={nx} cy={ny} r={nodeR} fill="#dcebc4" />
+                {lines.map((l, j) => (
+                  <text key={l} x={nx} y={ny + 4 + (j - (lines.length - 1) / 2) * 14} textAnchor="middle" fontSize="12.5" fontWeight="600" fill="#1F392D">
+                    {l}
+                  </text>
+                ))}
+                <rect x={px - 21} y={py - 13} width="42" height="26" rx="13" fill="#fff" stroke="#1F392D" strokeWidth="1.2" />
+                <text x={px} y={py + 5} textAnchor="middle" fontSize="14" fontWeight="700" fill="#1F392D">
+                  {f.n}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+      </div>
+
+      <div>
+        <p className="text-[12px] font-semibold tracking-[0.12em] text-[#A0583A] uppercase">The problem</p>
+        <ol className="mt-3 grid gap-3">
+          {obProblems.map((p, i) => (
+            <li key={p.title} data-fl="node" style={at(900 + i * 150)} className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 border-t border-line pt-3">
+              <span className="font-heading text-[22px] leading-none font-semibold text-[#A0583A]/40 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <p className="text-[16px] font-semibold text-ink">{p.title}</p>
+                <p className="mt-0.5 text-[13.5px] leading-snug text-body">{p.text}</p>
+                <p className="mt-2 flex items-start gap-2 rounded-[12px] bg-[#e4f1eb] px-3 py-2 text-[13px] leading-snug font-medium text-[#1F392D]">
+                  <Check className="mt-0.5 size-3.5 shrink-0 text-brand" strokeWidth={3} aria-hidden />
+                  {p.fix}
+                </p>
+              </div>
             </li>
-          )
-        })}
-      </ul>
-    </div>
+          ))}
+        </ol>
+      </div>
+    </FlowReveal>
   )
 }
 
