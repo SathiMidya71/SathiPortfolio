@@ -7,6 +7,7 @@ import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { serif } from "@/components/scinode/researcher/fonts"
 import { PilotPlantToggle } from "@/components/scinode/researcher/interactive"
 import { ModuleFlow, ModuleSwitcher } from "@/components/scinode/researcher/modules"
+import { OnboardingSections, onboardingSections } from "@/components/scinode/researcher/onboarding-module"
 import { ProjectManagementSections, pmSections } from "@/components/scinode/researcher/pm-module"
 import { ImageBox, Lines, Placeholder } from "@/components/scinode/wire"
 import { KeepExploring, ScinodeMap, Trail } from "@/components/scinode/wayfinding"
@@ -47,7 +48,7 @@ export default async function ResearcherModulePage({ params }: Params) {
   if (!m) notFound()
   const ds = [...m.decisionIdx.map((d) => decisions[d]), ...(m.extraDecisions ?? [])]
   // modules with their own full case study; the others use the shared template below
-  const custom = m.slug === "project-management"
+  const custom = m.slug === "project-management" ? "pm" : m.slug === "profile-onboarding" ? "onboarding" : null
 
   return (
     <>
@@ -74,11 +75,11 @@ export default async function ResearcherModulePage({ params }: Params) {
 
         <div className={`${shell} mt-10 lg:mt-14 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-14`}>
           <aside className="hidden lg:block">
-            <Toc items={custom ? pmSections : sections} before={<ScinodeMap platform="researcher" module={m.slug} />} />
+            <Toc items={custom === "pm" ? pmSections : custom === "onboarding" ? onboardingSections : sections} before={<ScinodeMap platform="researcher" module={m.slug} />} />
           </aside>
           <article className="min-w-0">
             {custom ? (
-              <ProjectManagementSections />
+              custom === "pm" ? <ProjectManagementSections /> : <OnboardingSections />
             ) : (
             <>
             <EdSection id="problem" label="The problem" title={["What wasn't", "working"]}>
