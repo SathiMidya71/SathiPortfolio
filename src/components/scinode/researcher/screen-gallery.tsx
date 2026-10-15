@@ -88,27 +88,25 @@ export function ScreenGallery({
       </div>
 
       {/* Thumbnails: click to jump; the active one carries the progress bar */}
-      <ol className="grid grid-cols-3 gap-2.5 sm:grid-cols-5 sm:gap-3">
+      <ol className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:grid sm:grid-cols-10 sm:overflow-visible sm:px-0 sm:pb-0">
         {screens.map((x, k) => (
-          <li key={x.src}>
+          <li key={x.src} className="w-[84px] shrink-0 snap-start sm:w-auto">
             <button
               type="button"
               onClick={() => setI(k)}
               aria-label={`Show ${x.title}`}
+              title={`${String(k + 1).padStart(2, "0")} ${x.title}`}
               aria-current={k === i ? "true" : undefined}
               className={cn(
-                "group relative block w-full overflow-hidden rounded-[10px] bg-white text-left ring-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+                "group relative block w-full overflow-hidden rounded-[7px] bg-white text-left ring-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
                 k === i ? "ring-2 ring-brand" : "opacity-70 ring-black/[0.08] hover:opacity-100"
               )}
             >
               <span className="relative block" style={{ aspectRatio: `${width} / ${height}` }}>
-                <Image src={x.src} alt="" fill sizes="180px" className="object-cover object-top" />
-              </span>
-              <span className="block truncate px-2 py-1.5 text-[11.5px] font-medium text-ink">
-                {String(k + 1).padStart(2, "0")} {x.title}
+                <Image src={x.src} alt="" fill sizes="96px" className="object-cover object-top" />
               </span>
               {k === i && !still && (
-                <span className="absolute inset-x-0 bottom-0 h-[3px] bg-brand/15">
+                <span className="absolute inset-x-0 bottom-0 h-[3px] bg-white/70">
                   <span
                     key={i}
                     className="block h-full origin-left bg-brand"
