@@ -17,26 +17,26 @@ const tones = [
   { fill: "#8fd3b4", ink: "#1F392D", soft: "#e4f1eb" }, // green
   { fill: "#d6c6f5", ink: "#4A307D", soft: "#F1EBFC" }, // light purple
 ]
-// bubble position (plot coords 0–600 × 0–320) and size, one per finding
+// bubble position (plot coords 0–470 × 0–440) and size, one per finding
 const bubbles = [
-  { cx: 165, cy: 238, rx: 132, ry: 66, short: ["Prove it,", "don't describe it"] },
-  { cx: 205, cy: 86, rx: 118, ry: 56, short: ["0/10 platforms", "show equipment"] },
-  { cx: 330, cy: 168, rx: 128, ry: 70, short: ["Trust before", "a lab can bid"] },
-  { cx: 470, cy: 236, rx: 112, ry: 62, short: ["Minutes,", "not hours"] },
+  { cx: 122, cy: 352, rx: 118, ry: 70, short: ["Prove it,", "don't describe it"] },
+  { cx: 158, cy: 82, rx: 128, ry: 64, short: ["0/10 platforms", "show equipment"] },
+  { cx: 262, cy: 216, rx: 128, ry: 70, short: ["Trust before", "a lab can bid"] },
+  { cx: 362, cy: 352, rx: 112, ry: 70, short: ["Minutes,", "not hours"] },
 ]
 
 export function ResearchMap() {
   const [on, setOn] = useState<number | null>(null)
   const ox = 70
   const oy = 20
-  const W = 600
-  const H = 320
+  const W = 470
+  const H = 440
   const at = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties
 
   return (
-    <FlowReveal className="grid gap-6">
-      <div className="rounded-[22px] bg-white p-3 ring-1 ring-line sm:p-5">
-        <svg viewBox="0 0 700 400" className="w-full" role="img" aria-label="Map of the four research findings by who they shape (CRO to scientist) and type of evidence (said to measured).">
+    <FlowReveal className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+      <div className="rounded-[22px] bg-white p-3 ring-1 ring-line sm:p-4 lg:sticky lg:top-28">
+        <svg viewBox="0 0 560 530" className="w-full" role="img" aria-label="Map of the four research findings by who they shape (CRO to scientist) and type of evidence (said to measured).">
           <defs>
             <marker id="rm-ax" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 L10 5 L0 10 Z" fill="#9aa8a2" />
@@ -46,16 +46,16 @@ export function ResearchMap() {
           <g data-fl="lane" style={at(0)}>
             <line x1={ox} y1={oy + H} x2={ox + W} y2={oy + H} stroke="#1d1d1f" strokeWidth="2" />
             <line x1={ox} y1={oy} x2={ox} y2={oy + H} stroke="#1d1d1f" strokeWidth="2" />
-            <text x={ox + 6} y={oy + H + 24} fontSize="13" fill="#4c6763">CRO</text>
-            <text x={ox + W} y={oy + H + 24} fontSize="13" fill="#4c6763" textAnchor="end">Scientist</text>
-            <line x1={ox + 190} y1={oy + H + 46} x2={ox + W - 190} y2={oy + H + 46} stroke="#9aa8a2" markerStart="url(#rm-ax)" markerEnd="url(#rm-ax)" />
-            <text x={ox + W / 2} y={oy + H + 50} fontSize="13" fontWeight="700" fill="#1d1d1f" textAnchor="middle" paintOrder="stroke" stroke="#fff" strokeWidth="8">
+            <text x={ox + 6} y={oy + H + 24} fontSize="17" fill="#4c6763">CRO</text>
+            <text x={ox + W} y={oy + H + 24} fontSize="17" fill="#4c6763" textAnchor="end">Scientist</text>
+            <line x1={ox + 120} y1={oy + H + 46} x2={ox + W - 120} y2={oy + H + 46} stroke="#9aa8a2" markerStart="url(#rm-ax)" markerEnd="url(#rm-ax)" />
+            <text x={ox + W / 2} y={oy + H + 50} fontSize="17" fontWeight="700" fill="#1d1d1f" textAnchor="middle" paintOrder="stroke" stroke="#fff" strokeWidth="10">
               Who it shapes
             </text>
-            <text transform={`translate(${ox - 16} ${oy + H - 6}) rotate(-90)`} fontSize="13" fill="#4c6763">Said</text>
-            <text transform={`translate(${ox - 16} ${oy + 6}) rotate(-90)`} fontSize="13" fill="#4c6763" textAnchor="end">Measured</text>
+            <text transform={`translate(${ox - 16} ${oy + H - 6}) rotate(-90)`} fontSize="17" fill="#4c6763">Said</text>
+            <text transform={`translate(${ox - 16} ${oy + 6}) rotate(-90)`} fontSize="17" fill="#4c6763" textAnchor="end">Measured</text>
             <line x1={ox - 40} y1={oy + 100} x2={ox - 40} y2={oy + H - 100} stroke="#9aa8a2" markerStart="url(#rm-ax)" markerEnd="url(#rm-ax)" />
-            <text transform={`translate(${ox - 44} ${oy + H / 2}) rotate(-90)`} fontSize="13" fontWeight="700" fill="#1d1d1f" textAnchor="middle" paintOrder="stroke" stroke="#fff" strokeWidth="8">
+            <text transform={`translate(${ox - 44} ${oy + H / 2}) rotate(-90)`} fontSize="17" fontWeight="700" fill="#1d1d1f" textAnchor="middle" paintOrder="stroke" stroke="#fff" strokeWidth="10">
               Evidence
             </text>
           </g>
@@ -92,16 +92,16 @@ export function ResearchMap() {
             const dim = on !== null && on !== i
             return (
               <g key={`l${i}`} data-fl="label" style={at(400 + i * 160)} opacity={dim ? 0.35 : 1} className="pointer-events-none">
-                <circle cx={ox + b.cx} cy={oy + b.cy - 30} r="11" fill="#fff" stroke={t.ink} strokeWidth="1.2" />
-                <text x={ox + b.cx} y={oy + b.cy - 26} textAnchor="middle" fontSize="11" fontWeight="700" fill={t.ink}>
+                <circle cx={ox + b.cx} cy={oy + b.cy - 40} r="14" fill="#fff" stroke={t.ink} strokeWidth="1.4" />
+                <text x={ox + b.cx} y={oy + b.cy - 35} textAnchor="middle" fontSize="14" fontWeight="700" fill={t.ink}>
                   {i + 1}
                 </text>
                 {b.short.map((l, k) => (
-                  <text key={l} x={ox + b.cx} y={oy + b.cy - 2 + k * 17} textAnchor="middle" fontSize="14.5" fontWeight="700" fill={t.ink}>
+                  <text key={l} x={ox + b.cx} y={oy + b.cy - 6 + k * 22} textAnchor="middle" fontSize="19.5" fontWeight="700" fill={t.ink}>
                     {l}
                   </text>
                 ))}
-                <text x={ox + b.cx} y={oy + b.cy + 34} textAnchor="middle" fontSize="10.5" fontWeight="600" letterSpacing="1" fill={t.ink} opacity="0.7">
+                <text x={ox + b.cx} y={oy + b.cy + 42} textAnchor="middle" fontSize="12.5" fontWeight="600" letterSpacing="1" fill={t.ink} opacity="0.7">
                   {obResearch[i].method.toUpperCase()}
                 </text>
               </g>
@@ -111,7 +111,7 @@ export function ResearchMap() {
       </div>
 
       {/* one card per finding: heard → means → decision */}
-      <ol className="grid gap-3 md:grid-cols-2">
+      <ol className="grid gap-3">
         {obResearch.map((r, i) => {
           const t = tones[i]
           return (
