@@ -493,8 +493,8 @@ function Decisions() {
   const dir = "/case-studies/scinode/modules/project-management"
   return (
     <div className="grid gap-14">
-      {/* Walkthrough film: breaks out over the contents column on desktop so it spans the page like the hero */}
-      <div className="relative z-10 lg:-ml-[246px] lg:w-[calc(100%+246px)]">
+      {/* Walkthrough film: full width of the content column, beside the page navigation */}
+      <div>
         <div className="mx-auto max-w-[760px] text-center">
           <p className="text-[12px] font-semibold tracking-[0.14em] text-brand uppercase">Watch the walkthrough · 1:52</p>
           <h3 className="mt-3 font-sans text-[32px] leading-[1.08] tracking-[-0.02em] text-[#1d1d1f] md:text-[46px]">
