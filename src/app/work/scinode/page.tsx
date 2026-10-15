@@ -9,7 +9,7 @@ import { Trail } from "@/components/scinode/wayfinding"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { EcosystemMap } from "@/components/scinode/ecosystem-map"
-import { EcosystemHero } from "@/components/scinode/ecosystem-hero"
+import { HeroOptions } from "@/components/scinode/hero-options"
 import { cn } from "@/lib/utils"
 import { areas, litSteps, problem, visualLanguage } from "@/lib/scinode"
 
@@ -38,10 +38,6 @@ const workCards: { eyebrow: string; title: string; text: string; icon: LucideIco
     tint: "#e4f1eb",
     ink: "#02594e",
     href: "/work/scinode/researcher",
-    links: [
-      { label: "CRO", href: "/work/scinode/researcher?user=cro" },
-      { label: "Scientist", href: "/work/scinode/researcher?user=scientist" },
-    ],
   },
 ]
 
@@ -101,7 +97,7 @@ export default function ScinodePage() {
         </header>
 
         <div className={`${shell} mt-12 lg:mt-16`}>
-          <EcosystemHero />
+          <HeroOptions />
         </div>
 
         {/* the problem: above the ecosystem */}

@@ -4,13 +4,14 @@ import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight, Beaker, Cog, Factory, FlaskConical, GraduationCap, LayoutGrid, Microscope, Users, type LucideIcon } from "lucide-react"
 import { areas, customerTeamModules, supplierTracks, type Area } from "@/lib/scinode"
+import { modules as researcherModules } from "@/lib/scinode-researcher"
 import { cn } from "@/lib/utils"
 
 // The SCINODE ecosystem as a clickable flowchart, straight on the page background:
 //   SCINODE → Customer portal → one modules card: CVP (her module) | other modules (teammates)
 //           → Business & admin portal (teammates)
 //           → Supplier portal → Manufacturer sign-up → Manufacturer
-//                             → Researcher sign-up   → CRO, Scientist
+//                             → Researcher sign-up   → Scinode for Researchers (one case study: CRO + scientist)
 // Her work is green and clickable (opens its case study); teammates' work is dashed grey.
 // Connectors draw in one by one on scroll, level by level. Below lg: an indented vertical tree.
 
@@ -27,8 +28,7 @@ const nodes: Node[] = [
   { id: "track-manufacturer", parent: "supplier", lg: "lg:col-start-4 lg:row-start-3", order: 7, indent: "max-lg:pl-14" },
   { id: "manufacturer", parent: "track-manufacturer", lg: "lg:col-start-4 lg:row-start-4", order: 8, indent: "max-lg:pl-[5.5rem]" },
   { id: "track-researcher", parent: "supplier", lg: "lg:col-start-5 lg:col-span-2 lg:row-start-3", order: 9, indent: "max-lg:pl-14" },
-  { id: "cro", parent: "track-researcher", lg: "lg:col-start-5 lg:row-start-4", order: 10, indent: "max-lg:pl-[5.5rem]" },
-  { id: "scientist", parent: "track-researcher", lg: "lg:col-start-6 lg:row-start-4", order: 11, indent: "max-lg:pl-[5.5rem]" },
+  { id: "researcher", parent: "track-researcher", lg: "lg:col-start-5 lg:col-span-2 lg:row-start-4", order: 10, indent: "max-lg:pl-[5.5rem]" },
 ]
 const byId = Object.fromEntries(nodes.map((n) => [n.id, n]))
 const edges = nodes.filter((n) => n.parent).map((n) => [n.parent!, n.id] as const)
@@ -42,7 +42,7 @@ const portalStyle = {
   admin: { name: "Business & Admin Portal", icon: Cog, tint: "#f2ece3", ink: "#6b7f7c" },
   supplier: { name: "Supplier Portal", icon: FlaskConical, tint: "#e4f1eb", ink: "#02594e" },
 }
-const areaIcon: Record<string, LucideIcon> = { cvp: LayoutGrid, manufacturer: Factory, cro: Microscope, scientist: Beaker }
+const areaIcon: Record<string, LucideIcon> = { cvp: LayoutGrid, manufacturer: Factory }
 const SEG = 420
 
 export function EcosystemMap() {
@@ -175,6 +175,44 @@ export function EcosystemMap() {
     )
   }
 
+  // Researcher track: one case study for CROs and scientists, so one card and one link
+  const ResearcherCard = () => {
+    const p = portalStyle.supplier
+    return (
+      <div className={cell("researcher")} style={{ order: byId.researcher.order }}>
+        <div ref={ref("researcher")} className="h-full">
+          <Link
+            href="/work/scinode/researcher"
+            style={pop("researcher")}
+            className="group relative flex h-full flex-col rounded-[16px] border border-brand/25 bg-white p-3.5 shadow-[0_14px_30px_-24px_rgba(16,24,40,0.45)] transition-[translate,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_22px_44px_-24px_rgba(2,89,78,0.5)]"
+          >
+            <ArrowUpRight className="absolute top-3 right-3 size-4 text-soft transition-[color,translate] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand" aria-hidden />
+            <span className="flex gap-1.5">
+              {[Microscope, Beaker].map((Ic, i) => (
+                <span key={i} className="grid size-8 place-items-center rounded-[10px]" style={{ background: p.tint, color: p.ink }}>
+                  <Ic className="size-4" strokeWidth={2} aria-hidden />
+                </span>
+              ))}
+            </span>
+            <span className="mt-2.5 block text-[10px] font-semibold tracking-[0.1em] uppercase" style={{ color: p.ink }}>
+              Researcher · CRO &amp; scientist
+            </span>
+            <span className="mt-0.5 block font-heading text-[18px] leading-tight font-semibold text-ink">Scinode for Researchers</span>
+            <span className="mt-1.5 block text-[12.5px] leading-snug text-body">One case study for CROs that run R&amp;D projects and independent scientists.</span>
+            <span className="mt-auto flex flex-wrap gap-1 pt-2.5">
+              {researcherModules.map((m) => (
+                <span key={m.slug} className="rounded-full bg-[#e4f1eb] px-2 py-0.5 text-[10.5px] font-medium text-brand">
+                  {m.title}
+                </span>
+              ))}
+            </span>
+            <span className="mt-2.5 block border-t border-line pt-2 text-[11px] font-semibold text-brand">● Designed by me</span>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   // Customer portal: one card holding all its modules, so CVP clearly reads as part of the portal
   const CustomerModules = () => {
     const cvp = areas.find((x) => x.slug === "cvp")!
@@ -284,10 +322,11 @@ export function EcosystemMap() {
         {/* her areas */}
         <CustomerModules />
         {areas
-          .filter((a) => a.slug !== "cvp")
+          .filter((a) => a.slug === "manufacturer")
           .map((a) => (
-          <AreaCard key={a.slug} a={a} />
-        ))}
+            <AreaCard key={a.slug} a={a} />
+          ))}
+        <ResearcherCard />
 
         {/* teammates' parts */}
         <Ghost id="admin-team" title="Orchestration & collaboration" />
