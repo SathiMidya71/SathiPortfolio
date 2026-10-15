@@ -540,7 +540,7 @@ export function ProjectManagementSections() {
         <p className="-mt-3 text-[12.5px] text-soft">● can do it · ½ limited · – no access. Role-based access from the product requirements.</p>
       </EdSection>
 
-      <EdSection id="costing" label="Paper costing" title={["Eight hand-offs,", "one clear flow"]}>
+      <EdSection id="costing" label="Paper costing" title={["Costing before", "the first experiment"]}>
         <p className="max-w-[680px] text-[16px] leading-snug text-body">Before any lab work starts, the project&rsquo;s cost is built up by four roles in turn. Each step assigns the next person, so the costing never stalls in someone&rsquo;s inbox.</p>
         <CostingLanes />
       </EdSection>
