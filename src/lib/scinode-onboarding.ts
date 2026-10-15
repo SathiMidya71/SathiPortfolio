@@ -7,7 +7,7 @@ export const obContext =
   "Led end-to-end UX for supplier onboarding on a B2B R&D marketplace: two research-led profile paths for CROs and scientists, adaptive forms, and a verification flow that unlocks the marketplace only after approval."
 
 export const obFacts = [
-  { n: "2", label: "Personas" },
+  { n: "2", label: "Profile paths" },
   { n: "8", label: "CRO profile tabs" },
   { n: "5", label: "Scientist steps" },
   { n: "1", label: "Approval gate" },
@@ -41,30 +41,24 @@ export const obResearch = [
     decision: "Every profile is reviewed by an admin; the marketplace unlocks only after approval.",
   },
   {
-    method: "Scientist proto-persona",
+    method: "Scientist needs",
     question: "Long forms, easy to abandon. Re-typing what's already on Google Scholar.",
     insight: "Scientists give the platform minutes, not hours.",
     decision: "5 short steps with time badges, autosave, and ORCID and Google Scholar links instead of re-typing.",
   },
 ]
 
-/** Two personas, two paths. */
+/** The two profile paths (personas are on the Scinode for Researchers page). */
 export const obPaths = [
   {
     key: "cro",
     who: "CRO / CDMO",
-    persona: "Dr. Rajeev Iyer · Scientific Director, custom synthesis CRO",
-    source: "Persona from my research",
-    needs: ["Show the lab without site visits", "Win work that fits the chemistry", "Look as credible as bigger labs"],
     path: ["Company profile", "Products", "Licences & certifications", "Services & capabilities", "Equipment", "Facility & EHS", "Infrastructure", "Terms & conditions"],
     pathLabel: "8 tabs, filled in any order",
   },
   {
     key: "scientist",
     who: "Scientist",
-    persona: "Head of a research group at an institution",
-    source: "Proto-persona",
-    needs: ["Show research and IP to industry", "Bring the group onto the platform", "Finish fast, without re-typing"],
     path: ["Professional profile", "Research group", "Technology & IP", "Lab infrastructure", "Verification"],
     pathLabel: "5 guided steps, one at a time",
   },

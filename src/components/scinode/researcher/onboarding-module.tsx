@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { ArrowRight, Check, Eye, Lock, LockOpen, Quote, RotateCcw, Save, UserCheck, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
@@ -183,7 +184,7 @@ function ResearchChain() {
   )
 }
 
-/** Two personas side by side, each with the path designed for them. */
+/** The two profile paths side by side (personas live on the Scinode for Researchers page). */
 function Paths() {
   return (
     <div className="grid gap-4 md:grid-cols-2">
@@ -196,17 +197,8 @@ function Paths() {
                 {cro ? <UserCheck className="size-3.5" aria-hidden /> : <Users className="size-3.5" aria-hidden />}
                 {p.who}
               </span>
-              <span className={cn("text-[11px] font-semibold tracking-[0.1em] uppercase", cro ? "text-white/45" : "text-soft")}>{p.source}</span>
             </div>
-            <p className={cn("mt-4 text-[15px] font-semibold", cro ? "text-white" : "text-ink")}>{p.persona}</p>
-            <ul className="mt-3 flex flex-wrap gap-1.5">
-              {p.needs.map((n) => (
-                <li key={n} className={cn("rounded-full px-2.5 py-1 text-[12.5px]", cro ? "bg-white/[0.07] text-white/75" : "bg-[#f7f3ec] text-body")}>
-                  {n}
-                </li>
-              ))}
-            </ul>
-            <p className={cn("mt-6 text-[11.5px] font-semibold tracking-[0.12em] uppercase", cro ? "text-[#a8e6c9]" : "text-brand")}>{p.pathLabel}</p>
+            <p className={cn("mt-5 text-[11.5px] font-semibold tracking-[0.12em] uppercase", cro ? "text-[#a8e6c9]" : "text-brand")}>{p.pathLabel}</p>
             <ol className={cn("mt-3 grid gap-1.5", cro ? "grid-cols-2" : "grid-cols-1")}>
               {p.path.map((s, i) => (
                 <li
@@ -448,12 +440,17 @@ export function OnboardingSections() {
       </EdSection>
 
       <EdSection id="research" label="Research" title={["What labs told us,", "and what I designed"]}>
-        <p className="max-w-[680px] text-[16px] leading-snug text-body">Each decision traces back to something we heard or saw in interviews, the competitive review or the personas.</p>
+        <p className="max-w-[680px] text-[16px] leading-snug text-body">Each decision traces back to something we heard or saw in interviews, the competitive review or the persona research.</p>
         <ResearchChain />
       </EdSection>
 
       <EdSection id="paths" label="Two paths" title={["Two users,", "two ways in"]}>
-        <p className="max-w-[680px] text-[16px] leading-snug text-body">CROs and scientists sign up the same way, then follow a profile built for how they work.</p>
+        <p className="max-w-[680px] text-[16px] leading-snug text-body">
+          CROs and scientists sign up the same way, then follow a profile built for how they work.{" "}
+          <Link href="/work/scinode/researcher#personas" className="font-semibold text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand">
+            Meet the personas
+          </Link>
+        </p>
         <Paths />
       </EdSection>
 
