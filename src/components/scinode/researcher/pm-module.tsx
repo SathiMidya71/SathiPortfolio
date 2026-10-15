@@ -30,7 +30,7 @@ export const pmSections = [
   { id: "costing", label: "Paper costing" },
   { id: "stages", label: "Experiment flow" },
   { id: "decisions", label: "Key decisions" },
-  { id: "walkthrough", label: "Walkthrough" },
+  { id: "walkthrough", label: "Key screens" },
   { id: "targets", label: "Targets" },
   { id: "impact", label: "Impact" },
 ]
@@ -621,7 +621,7 @@ export function ProjectManagementSections() {
         <Decisions />
       </EdSection>
 
-      <EdSection id="walkthrough" label="Walkthrough" title={["See it", "in action"]}>
+      <EdSection id="walkthrough" label="Key screens" title={["The screens", "behind the flow"]}>
         <ScreenGallery screens={pmScreens} width={2272} height={1080} />
       </EdSection>
 
