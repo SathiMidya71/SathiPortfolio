@@ -1,5 +1,6 @@
 import { ArrowLeftRight, Check, Minus, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
+import { FilmStage } from "@/components/scinode/researcher/film-stage"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
 import { ImageBox } from "@/components/scinode/wire"
 import {
@@ -489,20 +490,42 @@ function ExperimentFlow() {
 }
 
 function Decisions() {
+  const dir = "/case-studies/scinode/modules/project-management"
   return (
-    <div className="grid gap-x-6 gap-y-10 md:grid-cols-2">
-      {pmDecisions.map((d, k) => (
-        <div key={d.title} className="grid content-start gap-4">
-          <div className="flex items-start gap-3">
-            <span className="font-heading text-[32px] leading-none font-semibold text-brand/20">{String(k + 1).padStart(2, "0")}</span>
+    <div className="grid gap-14">
+      {/* Walkthrough film: breaks out over the contents column on desktop so it spans the page like the hero */}
+      <div className="relative z-10 lg:-ml-[246px] lg:w-[calc(100%+246px)]">
+        <div className="mx-auto max-w-[760px] text-center">
+          <p className="text-[12px] font-semibold tracking-[0.14em] text-brand uppercase">Watch the walkthrough · 1:52</p>
+          <h3 className="mt-3 font-sans text-[32px] leading-[1.08] tracking-[-0.02em] text-[#1d1d1f] md:text-[46px]">
+            From the first lab batch <span className="text-brand">to a closed project</span>
+          </h3>
+          <p className="mx-auto mt-4 max-w-[600px] text-[16px] leading-snug text-body md:text-[17px]">
+            The whole Experiment Workspace flow in under two minutes: kick-off, batches, approvals with remarks, the golden batch and validation.
+          </p>
+        </div>
+        <div className="mt-10 md:mt-12">
+          <FilmStage
+            src={`${dir}/experiment-workspace.mp4`}
+            poster={`${dir}/experiment-workspace-poster.jpg`}
+            width={1920}
+            height={1080}
+            label="Experiment Workspace walkthrough: designing the R&D execution flow, from the first lab batch to a closed project"
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-x-8 gap-y-8 pt-4 md:grid-cols-2 xl:grid-cols-4">
+        {pmDecisions.map((d, k) => (
+          <div key={d.title} className="flex items-start gap-3 border-t border-line pt-5">
+            <span className="font-heading text-[28px] leading-none font-semibold text-brand/20">{String(k + 1).padStart(2, "0")}</span>
             <div>
-              <h3 className="font-sans text-[21px] leading-tight text-[#1d1d1f] md:text-[22px]">{d.title}</h3>
-              <p className="mt-1 text-[14.5px] leading-snug text-body">{d.text}</p>
+              <h4 className="font-sans text-[18px] leading-tight text-[#1d1d1f]">{d.title}</h4>
+              <p className="mt-1 text-[14px] leading-snug text-body">{d.text}</p>
             </div>
           </div>
-          <ImageBox label={`Screen: ${d.title}`} ratio="16 / 10" />
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
