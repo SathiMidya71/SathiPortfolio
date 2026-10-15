@@ -5,7 +5,8 @@ You are helping me, **Sathi Midya** (Product Designer, Bangalore), continue buil
 ## Where things live
 - **Repo:** https://github.com/SathiMidya71/portfolio-website (my personal account, branch `main`). Never use my work GitHub account `sathi-design`.
 - **Local folder:** `~/Desktop/Sathi Portfolio Website`
-- **Run locally:** `npm install`, then `npm run dev -- -p 3000` and open http://localhost:3000
+- **Run locally:** always on port **9002**. `npm install`, then `npm run dev` (the script sets `-p 9002`) and open http://localhost:9002
+  - On Sathi's Mac, Turbopack fails to load the Roboto Google font ("next/font/google queries have exactly one entry"), so run `npx next dev -p 9002` (webpack) there instead.
 - **Before committing:** run `npx tsc --noEmit` and `npx eslint src`. Don't run `next build` while the dev server is running, because it corrupts `.next`. If that happens, stop the server, run `rm -rf .next` and restart.
 
 ## Stack
