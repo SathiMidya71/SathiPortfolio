@@ -18,9 +18,10 @@ const nodes: N[] = [
   { col: 1, row: 2, lines: ["Lands on the", "scientist platform"], sub: "only Dashboard + Profile open" },
   { col: 0, row: 3, lines: ["Company profile"], sub: "8 tabs, pilot plant shapes the form" },
   { col: 1, row: 3, lines: ["Researcher profile"], sub: "5 guided steps, autosave" },
-  { col: 2, row: 4, lines: ["Accept terms", "and submit"], sub: "profile turns read-only" },
-  { col: 3, row: 5, lines: ["Review profile"], kind: "gate" },
-  { col: 2, row: 6, lines: ["Marketplace", "unlocked"], kind: "dark" },
+  { col: 2, row: 4, lines: ["Sign the NDA"], sub: "mandatory to send proposals" },
+  { col: 2, row: 5, lines: ["Accept terms", "and submit"], sub: "profile turns read-only" },
+  { col: 3, row: 6, lines: ["Review profile"], kind: "gate" },
+  { col: 2, row: 7, lines: ["Marketplace", "unlocked"], kind: "dark" },
 ]
 
 const W = 1000
@@ -29,7 +30,7 @@ const head = 56
 const rowH = 78
 const nodeW = colW - 40
 const nodeH = 52
-const H = head + 7 * rowH + 16
+const H = head + 8 * rowH + 16
 const cx = (c: number) => colW * c + colW / 2
 const cy = (r: number) => head + r * rowH + rowH / 2
 const at = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties
@@ -61,7 +62,7 @@ export function OnboardingFlow() {
 
   return (
     <FlowReveal className="grid gap-4">
-      <svg viewBox={`0 0 ${W} ${H}`} className="hidden w-full md:block" role="img" aria-label="Onboarding flow: one sign-up or log-in, then the user chooses a profile and lands on the CRO or the scientist platform, each with its own profile (8 tabs for CROs, 5 guided steps for scientists); both accept the terms and submit; an admin reviews and either requests changes or approves, which unlocks the marketplace.">
+      <svg viewBox={`0 0 ${W} ${H}`} className="hidden w-full md:block" role="img" aria-label="Onboarding flow: one sign-up or log-in, then the user chooses a profile and lands on the CRO or the scientist platform, each with its own profile (8 tabs for CROs, 5 guided steps for scientists); both sign the mandatory NDA, accept the terms and submit; an admin reviews and either requests changes or approves, which unlocks the marketplace.">
         <defs>
           <marker id="ob-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0 0 L10 5 L0 10 Z" fill="#02594e" />
@@ -88,16 +89,17 @@ export function OnboardingFlow() {
         {edge(`M${P[3].x} ${bot(3)} L${P[5].x} ${top(5)}`, 350 + 3 * step + 140)}
         {edge(`M${P[4].x} ${bot(4)} L${P[4].x} ${P[6].y} L${P[6].x - nodeW / 2 - 2} ${P[6].y}`, 350 + 5 * step + 140)}
         {edge(`M${P[5].x} ${bot(5)} L${P[5].x} ${P[6].y - 0.01}`, 350 + 5 * step + 140)}
-        {edge(`M${P[6].x + nodeW / 2} ${P[6].y} L${P[7].x} ${P[6].y} L${P[7].x} ${top(7) - 6}`, 350 + 6 * step + 140, { label: "Email to admin", lx: (P[6].x + P[7].x) / 2 + 30, ly: P[6].y - 7 })}
-        {edge(`M${P[7].x - nodeW / 2} ${P[7].y + 8} L${P[6].x + 24} ${P[7].y + 8} L${P[6].x + 24} ${bot(6) + 2}`, 350 + 7 * step + 140, {
+        {edge(`M${P[6].x} ${bot(6)} L${P[7].x} ${top(7)}`, 350 + 6 * step + 140)}
+        {edge(`M${P[7].x + nodeW / 2} ${P[7].y} L${P[8].x} ${P[7].y} L${P[8].x} ${top(8) - 6}`, 350 + 7 * step + 140, { label: "Email to admin", lx: (P[7].x + P[8].x) / 2 + 30, ly: P[7].y - 7 })}
+        {edge(`M${P[8].x - nodeW / 2} ${P[8].y + 8} L${P[7].x + 24} ${P[8].y + 8} L${P[7].x + 24} ${bot(7) + 2}`, 350 + 8 * step + 140, {
           dash: true,
           color: "#8A6514",
           label: "Changes requested",
-          lx: P[7].x - nodeW / 2 - 8,
-          ly: P[7].y + 24,
+          lx: P[8].x - nodeW / 2 - 8,
+          ly: P[8].y + 24,
           anchor: "end",
         })}
-        {edge(`M${P[7].x} ${bot(7) + 6} L${P[7].x} ${P[8].y} L${P[8].x + nodeW / 2 + 2} ${P[8].y}`, 350 + 7 * step + 260, { label: "Approved", lx: P[7].x + 8, ly: P[8].y - 8, anchor: "start" })}
+        {edge(`M${P[8].x} ${bot(8) + 6} L${P[8].x} ${P[9].y} L${P[9].x + nodeW / 2 + 2} ${P[9].y}`, 350 + 8 * step + 260, { label: "Approved", lx: P[8].x + 8, ly: P[9].y - 8, anchor: "start" })}
 
         {/* nodes */}
         {nodes.map((n, i) => {
@@ -164,6 +166,7 @@ export function OnboardingFlow() {
           ["Scinode", "Choose the profile: CRO / CDMO or scientist"],
           ["CRO / CDMO", "Land on the CRO platform; fill the company profile (8 tabs, pilot plant shapes the form)"],
           ["Scientist", "Land on the scientist platform; fill the researcher profile (5 guided steps)"],
+          ["Scinode", "Sign the NDA (mandatory before sending proposals)"],
           ["Scinode", "Accept terms and submit (profile turns read-only)"],
           ["Admin", "Review: approve, or request changes"],
           ["Scinode", "Marketplace unlocked"],
