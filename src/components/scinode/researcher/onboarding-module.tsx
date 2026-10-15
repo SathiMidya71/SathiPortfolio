@@ -1,10 +1,10 @@
 import Link from "next/link"
-import { ArrowRight, Check, Eye, Lock, LockOpen, Quote, RotateCcw, Save, UserCheck, Users } from "lucide-react"
+import { ArrowRight, Check, Eye, Lock, LockOpen, RotateCcw, Save, UserCheck, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
-import { serif } from "@/components/scinode/researcher/fonts"
 import { PilotPlantToggle } from "@/components/scinode/researcher/interactive"
-import { obAccess, obContext, obFacts, obImpact, obJourney, obPaths, obProblems, obResearch, obTabs, obTargets } from "@/lib/scinode-onboarding"
+import { ResearchMap } from "@/components/scinode/researcher/research-map"
+import { obAccess, obContext, obFacts, obImpact, obJourney, obPaths, obProblems, obTabs, obTargets } from "@/lib/scinode-onboarding"
 import { cn } from "@/lib/utils"
 
 // Profile & onboarding module page: research → insight → design decision → how it's measured.
@@ -130,57 +130,6 @@ function ContextBoard() {
           ))}
         </ol>
       </div>
-    </FlowReveal>
-  )
-}
-
-/** Each finding as a chain: what we heard → what it means → what I designed. */
-function ResearchChain() {
-  return (
-    <FlowReveal>
-      <ol className="grid gap-4">
-        {obResearch.map((r, i) => (
-          <li
-            key={r.method}
-            data-fl="node"
-            style={at(i * 140)}
-            className="grid gap-3 rounded-[22px] bg-white p-3 ring-1 ring-line md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)_minmax(0,1fr)] md:items-stretch md:gap-0 md:p-2"
-          >
-            {/* what we heard */}
-            <div className="rounded-[16px] bg-[#FBF1D3] p-4 md:p-5">
-              <p className="text-[11px] font-semibold tracking-[0.12em] text-soft uppercase">{r.method}</p>
-              {r.quote && (
-                <blockquote className={cn(serif.className, "mt-2 flex gap-2 text-[18px] leading-snug text-ink italic")}>
-                  <Quote className="mt-1 size-4 shrink-0 rotate-180 text-[#C9A23F]" aria-hidden />
-                  {r.quote}
-                </blockquote>
-              )}
-              {r.stat && (
-                <p className="mt-2 flex items-baseline gap-2.5">
-                  <span className="font-heading text-[44px] leading-none font-semibold tracking-[-0.03em] text-[#6B4CB8]">{r.stat.value}</span>
-                  <span className="text-[14px] leading-snug text-body">{r.stat.label}</span>
-                </p>
-              )}
-              {r.question && <p className={cn(serif.className, "mt-2 text-[18px] leading-snug text-ink italic")}>&ldquo;{r.question}&rdquo;</p>}
-            </div>
-            {/* what it means */}
-            <div className="flex items-center gap-3 px-2 md:px-5">
-              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#F1EBFC] text-[#6B4CB8]" aria-hidden>
-                <Eye className="size-4" />
-              </span>
-              <p className="text-[15px] leading-snug font-semibold text-ink">{r.insight}</p>
-            </div>
-            {/* what I designed */}
-            <div className="relative flex items-center rounded-[16px] p-4 text-white md:p-5" style={darkGrid}>
-              <ArrowRight className="absolute top-1/2 -left-3 hidden size-6 -translate-y-1/2 rounded-full bg-white p-1 text-brand ring-1 ring-line md:block" aria-hidden />
-              <p className="text-[14.5px] leading-snug">
-                <span className="mb-1 block text-[10.5px] font-semibold tracking-[0.12em] text-[#a8e6c9] uppercase">Design decision</span>
-                {r.decision}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
     </FlowReveal>
   )
 }
@@ -442,7 +391,7 @@ export function OnboardingSections() {
 
       <EdSection id="research" label="Research" title={["What labs told us,", "and what I designed"]}>
         <p className="max-w-[680px] text-[16px] leading-snug text-body">Each decision traces back to something we heard or saw in interviews, the competitive review or the persona research.</p>
-        <ResearchChain />
+        <ResearchMap />
       </EdSection>
 
       <EdSection id="paths" label="Two paths" title={["Two users,", "two ways in"]}>
