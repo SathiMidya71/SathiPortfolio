@@ -328,6 +328,12 @@ export const modules: readonly ResearcherModule[] = [
   {
     slug: "project-management",
     title: "Project management",
+    hero: {
+      src: "/case-studies/scinode/modules/project-management-hero.jpg",
+      alt: "Project management on a laptop, the Experiment Workspace with feasibility and optimisation batches, beside the Internal projects list and the Project overview",
+      width: 2000,
+      height: 1125,
+    },
     tagline: "One internal R&D project, three portals and six roles, from leadership's assignment to closure.",
     problem: "Project data, costs and documents were spread across systems and email, so leadership couldn't see R&D progress without asking.",
     quotes: ["We send weekly updates. That's part of trust."],
