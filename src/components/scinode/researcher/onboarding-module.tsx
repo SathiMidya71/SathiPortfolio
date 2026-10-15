@@ -1,10 +1,11 @@
 import Link from "next/link"
-import { ArrowRight, Check, Eye, Lock, LockOpen, RotateCcw, Save, UserCheck, Users } from "lucide-react"
+import { ArrowRight, Check, Eye, Lock, LockOpen, Save } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
 import { PilotPlantToggle } from "@/components/scinode/researcher/interactive"
+import { OnboardingFlow } from "@/components/scinode/researcher/onboarding-flow"
 import { ResearchMap } from "@/components/scinode/researcher/research-map"
-import { obAccess, obContext, obFacts, obImpact, obJourney, obPaths, obProblems, obTabs, obTargets } from "@/lib/scinode-onboarding"
+import { obAccess, obContext, obFacts, obImpact, obProblems, obTabs, obTargets } from "@/lib/scinode-onboarding"
 import { cn } from "@/lib/utils"
 
 // Profile & onboarding module page: research → insight → design decision → how it's measured.
@@ -14,9 +15,8 @@ import { cn } from "@/lib/utils"
 export const onboardingSections = [
   { id: "context", label: "Context" },
   { id: "research", label: "Research" },
-  { id: "paths", label: "Two paths" },
+  { id: "paths", label: "Onboarding flow" },
   { id: "decisions", label: "Key decisions" },
-  { id: "journey", label: "Journey" },
   { id: "impact", label: "Success metrics" },
 ]
 
@@ -131,39 +131,6 @@ function ContextBoard() {
         </ol>
       </div>
     </FlowReveal>
-  )
-}
-
-/** The two profile paths side by side (personas live on the Scinode for Researchers page). */
-function Paths() {
-  return (
-    <div className="grid gap-4 md:grid-cols-2">
-      {obPaths.map((p) => {
-        const cro = p.key === "cro"
-        return (
-          <article key={p.key} className={cn("flex flex-col rounded-[24px] p-5 sm:p-6", cro ? "text-white" : "bg-[#F1EBFC] ring-1 ring-[#E4D7F8]")} style={cro ? darkGrid : undefined}>
-            <div className="flex items-center justify-between gap-3">
-              <span className={cn("inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold", cro ? "bg-white/10 text-[#a8e6c9]" : "bg-white text-[#4A307D]")}>
-                {cro ? <UserCheck className="size-3.5" aria-hidden /> : <Users className="size-3.5" aria-hidden />}
-                {p.who}
-              </span>
-            </div>
-            <p className={cn("mt-5 text-[11.5px] font-semibold tracking-[0.12em] uppercase", cro ? "text-[#a8e6c9]" : "text-[#6B4CB8]")}>{p.pathLabel}</p>
-            <ol className={cn("mt-3 grid gap-1.5", cro ? "grid-cols-2" : "grid-cols-1")}>
-              {p.path.map((s, i) => (
-                <li
-                  key={s}
-                  className={cn("flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium", cro ? "bg-white/[0.06] text-white ring-1 ring-white/10" : "bg-white text-ink")}
-                >
-                  <span className={cn("font-heading text-[13px] font-semibold tabular-nums", cro ? "text-[#8fd3b4]" : "text-[#B79CEC]")}>{String(i + 1).padStart(2, "0")}</span>
-                  {s}
-                </li>
-              ))}
-            </ol>
-          </article>
-        )
-      })}
-    </div>
   )
 }
 
@@ -310,36 +277,6 @@ function Decisions() {
   )
 }
 
-function Journey() {
-  return (
-    <FlowReveal>
-      <ol className="flex flex-col gap-2 md:flex-row md:items-stretch md:gap-0">
-        {obJourney.map((s, i) => {
-          const review = s === "Admin review"
-          const last = i === obJourney.length - 1
-          return (
-            <li key={s} className="flex flex-col items-stretch md:flex-1 md:flex-row md:items-center" data-fl="node" style={at(i * 160)}>
-              <div
-                className={cn("relative flex-1 rounded-[16px] px-3.5 py-3 text-[13.5px] font-semibold", last ? "text-white" : review ? "bg-[#F1EBFC] text-ink ring-2 ring-[#B79CEC]" : "bg-white text-ink ring-1 ring-line")}
-                style={last ? darkGrid : undefined}
-              >
-                <span className={cn("block font-heading text-[12px] tabular-nums", last ? "text-[#8fd3b4]" : "text-brand/50")}>{String(i + 1).padStart(2, "0")}</span>
-                {s}
-                {review && (
-                  <span className="mt-1.5 flex items-center gap-1 text-[11px] font-medium text-[#8A6514]">
-                    <RotateCcw className="size-3" aria-hidden /> or changes requested
-                  </span>
-                )}
-              </div>
-              {!last && <ArrowRight className="mx-auto my-0.5 size-4 rotate-90 text-soft md:mx-1.5 md:rotate-0" aria-hidden />}
-            </li>
-          )
-        })}
-      </ol>
-    </FlowReveal>
-  )
-}
-
 function Impact() {
   return (
     <div className="grid gap-6">
@@ -394,22 +331,18 @@ export function OnboardingSections() {
         <ResearchMap />
       </EdSection>
 
-      <EdSection id="paths" label="Two paths" title={["Two users,", "two ways in"]}>
+      <EdSection id="paths" label="Onboarding flow" title={["Two users,", "two ways in"]}>
         <p className="max-w-[680px] text-[16px] leading-snug text-body">
           CROs and scientists sign up the same way, then follow a profile built for how they work.{" "}
           <Link href="/work/scinode/researcher#personas" className="font-semibold text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand">
             Meet the personas
           </Link>
         </p>
-        <Paths />
+        <OnboardingFlow />
       </EdSection>
 
       <EdSection id="decisions" label="Key decisions" title={["Where research became", "interface"]}>
         <Decisions />
-      </EdSection>
-
-      <EdSection id="journey" label="Journey" title={["From sign-up", "to verified"]}>
-        <Journey />
       </EdSection>
 
       <EdSection id="impact" label="Success metrics" title={["What I delivered,", "and how it's measured"]}>
