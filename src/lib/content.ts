@@ -117,7 +117,7 @@ export const caseStudies: CaseStudy[] = [
     result: "New GenAI product, concept to launch · end-to-end UX · design to code",
     tags: ["GenAI", "AI UX", "Product launch"],
     cover: "#f9f4ed",
-    image: { src: "/case-studies/deep-research/thumb-purple-v2.jpg", alt: "SCINODE Deep Research home screen on a touchscreen monitor, on a deep purple backdrop with the words Deep Research behind it" },
+    image: { src: "/case-studies/deep-research/thumb-purple-v3.jpg", alt: "SCINODE Deep Research home screen on a touchscreen monitor, on a deep purple backdrop with the words Deep Research behind it" },
     href: "/work/deep-research",
     // product logo; no public link yet, so no URL is shown
     logo: { src: "/logos/scinode-deep-research.svg", alt: "SCINODE Deep Research", width: 3699, height: 558 },
