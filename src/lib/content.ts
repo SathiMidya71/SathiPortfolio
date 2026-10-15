@@ -129,8 +129,9 @@ export const caseStudies: CaseStudy[] = [
     summary: "One ecosystem, three portals: customers raise R&D needs, the admin team orchestrates them, suppliers propose and deliver. The modules I designed end to end.",
     result: "3 connected portals · customer CVP + the whole supplier side · 4 user types",
     tags: ["B2B SaaS", "Ecosystem", "Chemistry R&D"],
-    // placeholder cover until Sathi sends the SCINODE visuals
     cover: "linear-gradient(135deg,#21463a,#0f1f19)",
+    // render of the SCINODE hero (Option A · network), cropped to the card's 16:11
+    image: { src: "/case-studies/scinode/scinode-thumb.jpg", alt: "SCINODE ecosystem: Customer, Business & admin and Supplier portals linked through the SCINODE core" },
     href: "/work/scinode",
   },
   {

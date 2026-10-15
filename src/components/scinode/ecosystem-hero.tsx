@@ -301,11 +301,12 @@ function Bridge() {
   )
 }
 
-export function EcosystemHero({ variant = "network" }: { variant?: "network" | "bridge" }) {
+/** `thumb`: 16:11 crop for the home card thumbnail, diagram pulled in so nothing is cut. */
+export function EcosystemHero({ variant = "network", thumb = false }: { variant?: "network" | "bridge"; thumb?: boolean }) {
   return (
     <FlowReveal key={variant} className="relative overflow-hidden rounded-[20px] md:rounded-[28px]">
       <svg
-        viewBox={`0 0 ${W} ${H}`}
+        viewBox={thumb ? "145 0 1310 900" : `0 0 ${W} ${H}`}
         className="block w-full"
         role="img"
         aria-label={
@@ -316,7 +317,13 @@ export function EcosystemHero({ variant = "network" }: { variant?: "network" | "
       >
         <Defs />
         <Backdrop />
-        {variant === "network" ? <Network /> : <Bridge />}
+        {variant === "network" ? (
+          <g transform={thumb ? "translate(800 520) scale(0.88) translate(-800 -520)" : undefined}>
+            <Network />
+          </g>
+        ) : (
+          <Bridge />
+        )}
       </svg>
     </FlowReveal>
   )
