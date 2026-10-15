@@ -131,6 +131,8 @@ The site is inspired by https://www.benshih.design/: its layout patterns, type s
    - Writing rules for ALL SCINODE content (and new content generally): her source notes are fragmented, so analyse and restructure them; write achievements as ATS-friendly résumé pointers in Google's XYZ format, "Accomplished [X] as measured by [Y], by doing [Z]": action verb first, one line, plain words. Y must be a real figure she gave; if there is none, keep X and Z and leave a clearly marked [metric needed] placeholder, never invent numbers.
    - Still to confirm: what CVP stands for; the modules of CVP, Manufacturer and Scientist; which journey steps her work lights up.
 
+- **Profile & onboarding module** (`/work/scinode/researcher/profile-onboarding`, `onboarding-module.tsx`, data `scinode-onboarding.ts`): a research-led case study (research → insight → design decision, not a feature list). Research is Sathi's own (CRO interviews, competitive analysis, personas); the PM's PRDs (Supplier Profile V2, Scientist Onboarding) are background only, and their KPIs (>90% completion, >80% activation, <20 min, <24 h approval) are shown as targets, never results. Scientist persona is a proto-persona. Don't invent per-step times or results.
+
 ## SCINODE wayfinding (Work → SCINODE → platform → module)
 - The SCINODE case study nests 3–4 levels deep, so every SCINODE page uses `src/components/scinode/wayfinding.tsx` with the page map in `src/lib/scinode-nav.ts` (platforms in the order of the "Explore what I designed" cards; CRO and scientist belong to the researcher platform):
   - `Trail`: breadcrumb at the top (All work › SCINODE › platform › module) plus a "Module n of N" chip.
