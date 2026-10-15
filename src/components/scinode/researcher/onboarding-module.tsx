@@ -253,7 +253,7 @@ function TabCleanup() {
 
 const decisions = [
   { title: "One question shapes the form", text: "\"Do you have a pilot plant?\" decides what a lab sees. CROs without one skip up to 3 sections they can't fill.", visual: <PilotPlantToggle /> },
-  { title: "Verified before the marketplace", text: "New suppliers see only their dashboard and profile. Projects, proposals and research tools unlock after an admin approves.", visual: <AccessUnlock /> },
+  { title: "Verified before modules unlock", text: "New suppliers see only their dashboard and profile. Opportunities, Projects and Project management unlock after an admin approves.", visual: <AccessUnlock /> },
   { title: "Progress you can see", text: "A completion score on the dashboard, a mark on every tab and autosave, so a long profile can be finished in parts.", visual: <CompletionMock /> },
   { title: "Fewer, clearer tabs", text: "Related sections were grouped and labels made plain, so each tab holds one clear topic.", visual: <TabCleanup /> },
 ]

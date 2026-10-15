@@ -4,7 +4,7 @@
 // only: their KPIs appear as targets, never as results. The scientist persona is a proto-persona.
 
 export const obContext =
-  "Led end-to-end UX for supplier onboarding on a B2B R&D marketplace: two research-led profile paths for CROs and scientists, adaptive forms, and a verification flow that unlocks the marketplace only after approval."
+  "Led end-to-end UX for supplier onboarding on a B2B R&D marketplace: two research-led profile paths for CROs and scientists, adaptive forms, and a verification flow that unlocks the core modules only after approval."
 
 export const obFacts = [
   { n: "2", label: "Profile paths" },
@@ -17,7 +17,7 @@ export const obFacts = [
 export const obProblems = [
   { title: "Profiles left half-done", text: "Suppliers signed up, then dropped off before finishing their profile.", fix: "A completion widget on the dashboard and a progress mark on every tab" },
   { title: "Thin, inconsistent data", text: "Capabilities were typed in free text, so buyers couldn't compare labs.", fix: "Structured fields, searchable tags and duplicate checks" },
-  { title: "No trust signal", text: "Anyone could reach the marketplace without a review.", fix: "Admin approval before projects and proposals unlock" },
+  { title: "No trust signal", text: "Anyone could reach the marketplace without a review.", fix: "Admin approval before Opportunities, Projects and Project management unlock" },
 ]
 
 /** Research → insight → design decision. Quotes are from the CRO interviews. */
@@ -38,7 +38,7 @@ export const obResearch = [
     method: "Research objective",
     question: "What makes a buyer trust a lab it has never visited?",
     insight: "Trust has to be earned before a lab can bid.",
-    decision: "Every profile is reviewed by an admin; the marketplace unlocks only after approval.",
+    decision: "Every profile is reviewed by an admin; Opportunities, Projects and Project management unlock only after approval.",
   },
   {
     method: "Scientist needs",
@@ -66,11 +66,11 @@ export const obPaths = [
 
 /** Who can open what, at each onboarding status (from the access rules). */
 export const obAccess = {
-  modules: ["Dashboard", "Profile", "Projects", "Proposals", "Deep Research", "Market Intelligence"],
+  modules: ["Dashboard", "Profile", "Opportunities", "Projects", "Project management"],
   states: [
     { name: "Signed up", note: "Build your profile", open: ["Dashboard", "Profile"] },
     { name: "Submitted", note: "Profile read-only while in review", open: ["Dashboard"], readOnly: ["Profile"] },
-    { name: "Approved", note: "Marketplace unlocked", open: ["Dashboard", "Profile", "Projects", "Proposals", "Deep Research", "Market Intelligence"] },
+    { name: "Approved", note: "Modules unlocked", open: ["Dashboard", "Profile", "Opportunities", "Projects", "Project management"] },
   ],
 }
 
@@ -97,5 +97,5 @@ export const obImpact = [
   "Designed two onboarding paths for CROs and scientists from interview research, replacing one generic sign-up form.",
   "Introduced adaptive forms: one pilot-plant question hides up to 3 sections a CRO doesn't need.",
   "Simplified the profile from 10 tabs to 8 by merging safety and waste into Facility & EHS.",
-  "Designed a verification flow that gates the marketplace behind admin approval to build buyer trust.",
+  "Designed a verification flow that gates Opportunities, Projects and Project management behind admin approval to build buyer trust.",
 ]

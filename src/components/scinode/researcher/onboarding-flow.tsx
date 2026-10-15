@@ -21,7 +21,7 @@ const nodes: N[] = [
   { col: 2, row: 4, lines: ["Sign the NDA"], sub: "mandatory to send proposals" },
   { col: 2, row: 5, lines: ["Accept terms", "and submit"], sub: "profile turns read-only" },
   { col: 3, row: 6, lines: ["Review profile"], kind: "gate" },
-  { col: 2, row: 7, lines: ["Marketplace", "unlocked"], kind: "dark" },
+  { col: 2, row: 7, lines: ["Modules unlocked"], sub: "Opportunities · Projects · Project mgmt", kind: "dark" },
 ]
 
 const W = 1000
@@ -62,7 +62,7 @@ export function OnboardingFlow() {
 
   return (
     <FlowReveal className="grid gap-4">
-      <svg viewBox={`0 0 ${W} ${H}`} className="hidden w-full md:block" role="img" aria-label="Onboarding flow: one sign-up or log-in, then the user chooses a profile and lands on the CRO or the scientist platform, each with its own profile (8 tabs for CROs, 5 guided steps for scientists); both sign the mandatory NDA, accept the terms and submit; an admin reviews and either requests changes or approves, which unlocks the marketplace.">
+      <svg viewBox={`0 0 ${W} ${H}`} className="hidden w-full md:block" role="img" aria-label="Onboarding flow: one sign-up or log-in, then the user chooses a profile and lands on the CRO or the scientist platform, each with its own profile (8 tabs for CROs, 5 guided steps for scientists); both sign the mandatory NDA, accept the terms and submit; an admin reviews and either requests changes or approves, which unlocks Opportunities, Projects and Project management.">
         <defs>
           <marker id="ob-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0 0 L10 5 L0 10 Z" fill="#02594e" />
@@ -138,7 +138,7 @@ export function OnboardingFlow() {
                 </text>
               ))}
               {n.sub && (
-                <text x={x} y={y + 14 + (n.lines.length - 1) * 7} textAnchor="middle" fontSize="10.5" fill="#6b7f7c">
+                <text x={x} y={y + 14 + (n.lines.length - 1) * 7} textAnchor="middle" fontSize="10.5" fill={dark ? "#a8e6c9" : "#6b7f7c"}>
                   {n.sub}
                 </text>
               )}
@@ -169,7 +169,7 @@ export function OnboardingFlow() {
           ["Scinode", "Sign the NDA (mandatory before sending proposals)"],
           ["Scinode", "Accept terms and submit (profile turns read-only)"],
           ["Admin", "Review: approve, or request changes"],
-          ["Scinode", "Marketplace unlocked"],
+          ["Scinode", "Modules unlocked: Opportunities, Projects, Project management"],
         ].map(([lane, text], i) => {
           const l = lanes.find((x) => x.name === lane)!
           return (
