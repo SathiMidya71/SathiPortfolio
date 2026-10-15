@@ -1,6 +1,6 @@
 import { ArrowLeftRight, Bell, Check, Clock3, FileText, History, MessageSquare, Minus, PauseCircle, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
-import { ImageBox, Lines, Placeholder } from "@/components/scinode/wire"
+import { ImageBox } from "@/components/scinode/wire"
 import {
   pmActions,
   pmCollab,
@@ -432,9 +432,6 @@ export function ProjectManagementSections() {
       <EdSection id="costing" label="Paper costing" title={["Eight hand-offs,", "one clear flow"]}>
         <p className="max-w-[680px] text-[16px] leading-snug text-body">Before any lab work starts, the project&rsquo;s cost is built up by four roles in turn. Each step assigns the next person, so the costing never stalls in someone&rsquo;s inbox.</p>
         <CostingLanes />
-        <Placeholder label="Full flow diagram" hint="Sathi's end-to-end flow diagram for internal projects goes here.">
-          <Lines n={2} />
-        </Placeholder>
       </EdSection>
 
       <EdSection id="stages" label="Six stages" title={["From costing", "to closure"]}>
