@@ -131,6 +131,13 @@ The site is inspired by https://www.benshih.design/: its layout patterns, type s
    - Writing rules for ALL SCINODE content (and new content generally): her source notes are fragmented, so analyse and restructure them; write achievements as ATS-friendly résumé pointers in Google's XYZ format, "Accomplished [X] as measured by [Y], by doing [Z]": action verb first, one line, plain words. Y must be a real figure she gave; if there is none, keep X and Z and leave a clearly marked [metric needed] placeholder, never invent numbers.
    - Still to confirm: what CVP stands for; the modules of CVP, Manufacturer and Scientist; which journey steps her work lights up.
 
+## SCINODE wayfinding (Work → SCINODE → platform → module)
+- The SCINODE case study nests 3–4 levels deep, so every SCINODE page uses `src/components/scinode/wayfinding.tsx` with the page map in `src/lib/scinode-nav.ts` (platforms in the order of the "Explore what I designed" cards; CRO and scientist belong to the researcher platform):
+  - `Trail`: breadcrumb at the top (All work › SCINODE › platform › module) plus a "Module n of N" chip.
+  - `ScinodeMap`: "Case study map" in the desktop sidebar above "On this page" (`Toc` takes a `before` slot; the sidebar scrolls within the viewport and keeps the active item in view): all platforms, the current one opened with its numbered modules, the current page highlighted.
+  - `KeepExploring`: end-of-page block: every module of the platform as cards ("You're here" on the current one; stacked on phones), the next module (or "Start with module 01" on a platform page, or "Explore another platform" after the last module), "Up a level", and the other platforms.
+- New SCINODE pages or modules: add them to `scinode-nav.ts` (or the area/module data it reads) and use these three components instead of one-off back/next links.
+
 ## Asset pipeline (how existing assets were made)
 - **Tools:** Python with PIL and OpenCV, and ffmpeg. Everything goes in `public/case-studies/<slug>/`.
 - **Phone screens:**

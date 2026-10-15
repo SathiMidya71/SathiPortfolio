@@ -1,12 +1,11 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
-import { ArrowLeft, ArrowUpRight, ChevronRight } from "lucide-react"
 import { Toc } from "@/components/case-study/toc"
 import { FlowSkeleton, ImageBox, Lines, Placeholder, WireSection } from "@/components/scinode/wire"
+import { KeepExploring, ScinodeMap, Trail } from "@/components/scinode/wayfinding"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
-import { areas, getArea, getAreaModule, portalNames } from "@/lib/scinode"
+import { areas, getArea, getAreaModule } from "@/lib/scinode"
 import { cn } from "@/lib/utils"
 
 // One module inside a SCINODE user area (e.g. CRO › Proposal module), low-fidelity.
@@ -44,26 +43,13 @@ export default async function ModulePage({ params }: Params) {
     const to = ({ opportunity: "opportunities", proposal: "proposals", "project-management": "project-management" } as Record<string, string>)[m.slug]
     redirect(to ? `/work/scinode/researcher/${to}` : "/work/scinode/researcher#modules")
   }
-  const siblings = a.modules.filter((x) => x.slug !== m.slug)
 
   return (
     <>
       <SiteHeader />
       <main>
         <header className={`${shell} pt-6 md:pt-10`}>
-          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-sm font-medium text-body">
-            <Link href="/work/scinode#map" className="hover:text-brand">
-              SCINODE
-            </Link>
-            <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            <span>{portalNames[a.portal]}</span>
-            <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            <Link href={`/work/scinode/${a.slug}`} className="inline-flex items-center gap-1 hover:text-brand">
-              <ArrowLeft className="size-3.5" /> {a.name}
-            </Link>
-            <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            <span className="text-ink">{m.name}</span>
-          </nav>
+          <Trail platform={a.slug} module={m.slug} />
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">
             SCINODE · {a.name} {a.portal === "supplier" ? "portal" : ""}
           </p>
@@ -78,7 +64,7 @@ export default async function ModulePage({ params }: Params) {
 
         <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-20`}>
           <aside className="hidden lg:block">
-            <Toc items={sections} />
+            <Toc items={sections} before={<ScinodeMap platform={a.slug} module={m.slug} />} />
           </aside>
           <article className="min-w-0">
             <WireSection id="overview" n={1} eyebrow="Overview" title="Who it is for and what it does">
@@ -139,31 +125,7 @@ export default async function ModulePage({ params }: Params) {
               </Placeholder>
             </WireSection>
 
-            <section className="mt-20 border-t border-line pt-14">
-              <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">More from the {a.name} {a.portal === "supplier" ? "portal" : ""}</p>
-              {siblings.length > 0 ? (
-                <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                  {siblings.map((o) => (
-                    <Link key={o.slug} href={`/work/scinode/${a.slug}/${o.slug}`} className="group rounded-[16px] border border-line bg-white p-4 transition-transform hover:-translate-y-0.5">
-                      <span className="flex items-start justify-between gap-2 text-[17px] font-semibold text-ink">
-                        {o.name}
-                        <ArrowUpRight className="size-4 shrink-0" aria-hidden />
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <p className="mt-4 text-[15px] text-soft">More modules to come.</p>
-              )}
-              <div className="mt-8 flex flex-wrap gap-6">
-                <Link href={`/work/scinode/${a.slug}`} className="inline-flex items-center gap-1.5 text-sm font-medium text-body hover:text-brand">
-                  <ArrowLeft className="size-4" /> Back to {a.name}
-                </Link>
-                <Link href="/work/scinode#map" className="inline-flex items-center gap-1.5 text-sm font-medium text-body hover:text-brand">
-                  <ArrowLeft className="size-4" /> SCINODE ecosystem map
-                </Link>
-              </div>
-            </section>
+            <KeepExploring platform={a.slug} module={m.slug} />
           </article>
         </div>
       </main>

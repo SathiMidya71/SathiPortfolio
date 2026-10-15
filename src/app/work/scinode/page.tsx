@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowUpRight, Factory, GraduationCap, LayoutGrid, type LucideIcon } from "lucide-react"
+import { ArrowUpRight, Factory, GraduationCap, LayoutGrid, type LucideIcon } from "lucide-react"
 import { BlockView } from "@/components/case-study/blocks"
 import { Ecosystem } from "@/components/scinode/ecosystem"
 import { ImageBox } from "@/components/scinode/wire"
+import { Trail } from "@/components/scinode/wayfinding"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { EcosystemMap } from "@/components/scinode/ecosystem-map"
@@ -49,9 +50,7 @@ export default function ScinodePage() {
       <SiteHeader />
       <main style={{ "--tone-purple": "#B79CEC", "--tone-purple-ink": "#6B4CB8", "--accent-purple": "#F1EBFC", "--on-purple": "#2B2150", "--tone-orange": "#1F392D" } as React.CSSProperties}>
         <header className={`${shell} pt-6 md:pt-10`}>
-          <Link href="/#work" className="inline-flex items-center gap-1.5 text-sm font-medium text-body hover:text-brand">
-            <ArrowLeft className="size-4" /> All work
-          </Link>
+          <Trail />
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">Scimplify · R&amp;D opportunity platform</p>
           <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[84px] lg:leading-none">
             SCINODE

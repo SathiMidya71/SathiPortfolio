@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
-import { ArrowLeft, ArrowUpRight, ChevronRight } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { Toc } from "@/components/case-study/toc"
 import { StepStrip } from "@/components/scinode/ecosystem"
 import { FlowSkeleton, ImageBox, Lines, Placeholder, WireSection } from "@/components/scinode/wire"
+import { KeepExploring, ScinodeMap, Trail } from "@/components/scinode/wayfinding"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { areas, ecosystem, getArea, portalNames } from "@/lib/scinode"
@@ -38,7 +39,6 @@ export default async function AreaPage({ params }: Params) {
   if (!a) notFound()
   // CRO and scientist share one case study: Scinode for Researchers
   if (a.track === "researcher") redirect(`/work/scinode/researcher?user=${a.slug}`)
-  const others = areas.filter((x) => x.slug !== a.slug && x.track !== "researcher")
   const label = a.portal === "supplier" ? `${a.name} portal` : a.name
 
   return (
@@ -46,15 +46,7 @@ export default async function AreaPage({ params }: Params) {
       <SiteHeader />
       <main>
         <header className={`${shell} pt-6 md:pt-10`}>
-          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-sm font-medium text-body">
-            <Link href="/work/scinode#map" className="inline-flex items-center gap-1.5 hover:text-brand">
-              <ArrowLeft className="size-4" /> SCINODE
-            </Link>
-            <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            <span>{portalNames[a.portal]}</span>
-            <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            <span className="text-ink">{a.name}</span>
-          </nav>
+          <Trail platform={a.slug} />
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">SCINODE · {portalNames[a.portal]}</p>
           <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[80px] lg:leading-none">{label}</h1>
           <p className="mt-5 max-w-[720px] text-[19px] leading-snug text-body">{a.audience}</p>
@@ -73,7 +65,7 @@ export default async function AreaPage({ params }: Params) {
 
         <div className={`${shell} mt-16 lg:mt-24 lg:grid lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-20`}>
           <aside className="hidden lg:block">
-            <Toc items={sections} />
+            <Toc items={sections} before={<ScinodeMap platform={a.slug} />} />
           </aside>
           <article className="min-w-0">
             <WireSection id="overview" n={1} eyebrow="Overview" title={`What the ${label} is for`}>
@@ -134,23 +126,7 @@ export default async function AreaPage({ params }: Params) {
               </Placeholder>
             </WireSection>
 
-            <section className="mt-20 border-t border-line pt-14">
-              <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">More from SCINODE</p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                {others.map((o) => (
-                  <Link key={o.slug} href={`/work/scinode/${o.slug}`} className="group rounded-[16px] border border-line bg-white p-4 transition-transform hover:-translate-y-0.5">
-                    <span className="text-[11px] font-bold tracking-[0.12em] text-soft uppercase">{portalNames[o.portal]}</span>
-                    <span className="mt-1 flex items-start justify-between gap-2 text-[17px] font-semibold text-ink">
-                      {o.name}
-                      <ArrowUpRight className="size-4 shrink-0" aria-hidden />
-                    </span>
-                  </Link>
-                ))}
-              </div>
-              <Link href="/work/scinode#map" className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-body hover:text-brand">
-                <ArrowLeft className="size-4" /> Back to the SCINODE ecosystem map
-              </Link>
-            </section>
+            <KeepExploring platform={a.slug} />
           </article>
         </div>
       </main>

@@ -1,7 +1,5 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, ArrowUpRight, ChevronRight } from "lucide-react"
 import {
   Affinity,
   Architecture,
@@ -25,6 +23,7 @@ import { ModuleCards } from "@/components/scinode/researcher/modules"
 import { Toc } from "@/components/case-study/toc"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { ResearcherHero } from "@/components/scinode/researcher/hero"
+import { KeepExploring, ScinodeMap, Trail } from "@/components/scinode/wayfinding"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { meta } from "@/lib/scinode-researcher"
@@ -66,15 +65,7 @@ export default function ResearcherPage() {
       <SiteHeader />
       <main style={{ "--tone-purple": "#B79CEC", "--tone-purple-ink": "#6B4CB8", "--accent-purple": "#F1EBFC", "--on-purple": "#2B2150", "--tone-orange": "#1F392D" } as React.CSSProperties}>
         <header className={`${shell} pt-6 md:pt-10`}>
-          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-sm font-medium text-body">
-            <Link href="/work/scinode#map" className="inline-flex items-center gap-1.5 hover:text-brand">
-              <ArrowLeft className="size-4" /> SCINODE
-            </Link>
-            <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            <span>Supplier portal</span>
-            <ChevronRight className="size-3.5 text-soft" aria-hidden />
-            <span className="text-ink">Researcher sign-up</span>
-          </nav>
+          <Trail platform="researcher" />
           <Image src="/case-studies/scinode/logo-researchers.png" alt="Scinode for Researchers by Scimplify" width={800} height={249} className="mt-8 h-12 w-auto" priority />
           <h1 className="mt-5 text-[38px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[54px] lg:text-[64px] lg:leading-none">
             {meta.title}
@@ -88,7 +79,7 @@ export default function ResearcherPage() {
 
         <div className={`${shell} mt-10 lg:mt-14 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-14`}>
           <aside className="hidden lg:block">
-            <Toc items={sections} />
+            <Toc items={sections} before={<ScinodeMap platform="researcher" />} />
           </aside>
           <article className="min-w-0">
         {/* editorial overview (Sathi's style reference) */}
@@ -165,24 +156,7 @@ export default function ResearcherPage() {
           <Upcoming />
         </EdSection>
 
-            <section className="mt-16 border-t border-line pt-10">
-              <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">More from SCINODE</p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                {[
-                  { name: "Manufacturer", kind: "Supplier portal", href: "/work/scinode/manufacturer" },
-                  { name: "CVP", kind: "Customer portal", href: "/work/scinode/cvp" },
-                  { name: "Ecosystem map", kind: "SCINODE", href: "/work/scinode#map" },
-                ].map((o) => (
-                  <Link key={o.name} href={o.href} className="group rounded-[16px] border border-line bg-white p-4 transition-transform hover:-translate-y-0.5">
-                    <span className="text-[11px] font-bold tracking-[0.12em] text-soft uppercase">{o.kind}</span>
-                    <span className="mt-1 flex items-start justify-between gap-2 text-[17px] font-semibold text-ink">
-                      {o.name}
-                      <ArrowUpRight className="size-4 shrink-0" aria-hidden />
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </section>
+            <KeepExploring platform="researcher" />
           </article>
         </div>
       </main>
