@@ -1,4 +1,4 @@
-import { ArrowLeftRight, Check, Minus, Users } from "lucide-react"
+import { ArrowLeftRight, ArrowRight, Check, EyeOff, LayoutDashboard, Link2, Mails, Minus, Unlink, Users, Workflow } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FilmStage } from "@/components/scinode/researcher/film-stage"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
@@ -44,19 +44,62 @@ const laneTone: Record<string, keyof typeof tone> = { "Super admin": "admin", "P
 const at = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties
 const flowStart = 350
 
-function Facts() {
+/** Context board: the scope in big numbers and each problem with its fix, on the hero's dark green grid. */
+function ContextBoard() {
+  const icons = [
+    { before: Unlink, after: Link2 },
+    { before: Mails, after: Workflow },
+    { before: EyeOff, after: LayoutDashboard },
+  ]
   return (
-    <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
-      {pmFacts.map((f) => (
-        <div key={f.label} className="rounded-[20px] border border-line bg-white px-5 py-4">
-          <dt className="sr-only">{f.label}</dt>
-          <dd>
-            <span className="block font-heading text-[40px] leading-none font-semibold text-brand">{f.n}</span>
-            <span className="mt-1.5 block text-[13.5px] leading-snug text-body">{f.label}</span>
-          </dd>
-        </div>
-      ))}
-    </dl>
+    <div
+      className="relative overflow-hidden rounded-[24px] p-5 text-white sm:p-7"
+      style={{
+        backgroundColor: "#0f2c24",
+        backgroundImage:
+          "radial-gradient(60% 90% at 8% 0%, rgba(150,220,190,0.28), transparent 60%), linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)",
+        backgroundSize: "100% 100%, 48px 48px, 48px 48px",
+      }}
+    >
+      <dl className="grid grid-cols-2 gap-y-5 md:grid-cols-4">
+        {pmFacts.map((f, i) => (
+          <div key={f.label} className={cn("pr-4", i > 0 && "md:border-l md:border-white/10 md:pl-6", i % 2 === 1 && "max-md:border-l max-md:border-white/10 max-md:pl-4")}>
+            <dd
+              className="font-heading text-[52px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[64px]"
+              style={{ backgroundImage: "linear-gradient(180deg,#e6f7ef 0%,#8fd3b4 100%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}
+            >
+              {f.n}
+            </dd>
+            <dt className="mt-2 text-[12px] font-semibold tracking-[0.12em] text-white/55 uppercase">{f.label}</dt>
+          </div>
+        ))}
+      </dl>
+
+      <ul className="mt-7 grid gap-3 md:grid-cols-3">
+        {pmProblems.map((p, i) => {
+          const { before: Before, after: After } = icons[i]
+          return (
+            <li key={p.title} className="flex flex-col rounded-[16px] bg-white/[0.06] p-4 ring-1 ring-white/10 backdrop-blur-sm">
+              <span className="flex items-center gap-2" aria-hidden>
+                <span className="grid size-9 place-items-center rounded-[10px] bg-[#A0583A]/25 text-[#f1b79c]">
+                  <Before className="size-4" />
+                </span>
+                <ArrowRight className="size-3.5 text-white/40" />
+                <span className="grid size-9 place-items-center rounded-[10px] bg-[#8fd3b4]/20 text-[#a8e6c9]">
+                  <After className="size-4" />
+                </span>
+              </span>
+              <p className="mt-3 text-[15.5px] font-semibold">{p.title}</p>
+              <p className="mt-1 text-[13px] leading-snug text-white/60">{p.text}</p>
+              <p className="mt-3 flex items-start gap-2 border-t border-white/10 pt-3 text-[13px] leading-snug font-medium text-[#a8e6c9]">
+                <Check className="mt-0.5 size-3.5 shrink-0" strokeWidth={3} aria-hidden />
+                {p.fix}
+              </p>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
   )
 }
 
@@ -521,17 +564,8 @@ export function ProjectManagementSections() {
   return (
     <>
       <EdSection id="context" label="Context" title={["Three portals,", "one project"]}>
-        <p className="max-w-[760px] font-heading text-[22px] leading-snug font-medium text-ink md:text-[25px]">{pmContext}</p>
-        <Facts />
-        <div className="grid gap-4 md:grid-cols-3">
-          {pmProblems.map((p, i) => (
-            <div key={p.title} className="rounded-[20px] border-2 border-dashed border-[#d6cbb9] p-5">
-              <span className="rounded-full bg-[#ece9fd] px-2.5 py-1 text-[11.5px] font-semibold text-[#5b4fd1]">Problem {String(i + 1).padStart(2, "0")}</span>
-              <p className="mt-3 font-heading text-[18px] font-semibold text-ink">{p.title}</p>
-              <p className="mt-1 text-[14px] leading-snug text-body">{p.text}</p>
-            </div>
-          ))}
-        </div>
+        <p className="max-w-[820px] font-heading text-[22px] leading-snug font-medium text-ink md:text-[26px]">{pmContext}</p>
+        <ContextBoard />
       </EdSection>
 
       <EdSection id="users" label="Who uses it" title={["Six roles,", "the right view each"]}>

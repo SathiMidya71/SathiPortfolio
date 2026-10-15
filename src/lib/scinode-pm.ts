@@ -4,19 +4,19 @@
 // Success metrics are the PM's TARGETS, never results; impact lines keep [metric needed] until Sathi has data.
 
 export const pmFacts = [
-  { n: "3", label: "Portals connected" },
-  { n: "6", label: "User roles" },
-  { n: "6", label: "Project stages" },
-  { n: "8", label: "Hand-offs in paper costing" },
+  { n: "3", label: "Portals", note: "Leadership, admin and lab, one project" },
+  { n: "6", label: "Roles", note: "Each sees only what they can act on" },
+  { n: "6", label: "Stages", note: "From paper costing to closure" },
+  { n: "21", label: "Steps mapped", note: "Across costing and experiments" },
 ]
 
 export const pmContext =
   "When leadership hands a project to the internal R&D team, the work moves through three tools and six roles: leadership assigns it, admins plan and approve it, and group leaders, chemists and procurement run it in the lab. I designed how one project travels across all three, so everyone sees the same truth."
 
 export const pmProblems = [
-  { title: "Data silos", text: "Project data lived in separate systems that didn't talk to each other." },
-  { title: "Manual tracking", text: "Progress, costs and documents moved by email and spreadsheets." },
-  { title: "Little visibility", text: "Leadership couldn't see R&D progress or cost without asking." },
+  { title: "Data silos", text: "Project data lived in separate systems that didn't talk to each other.", fix: "One project record, synced across all three portals" },
+  { title: "Manual tracking", text: "Progress, costs and documents moved by email and spreadsheets.", fix: "Guided hand-offs with remarks, files and history" },
+  { title: "Little visibility", text: "Leadership couldn't see R&D progress or cost without asking.", fix: "Live status and cost on the leadership dashboard" },
 ]
 
 /** The three surfaces and who uses each. */
