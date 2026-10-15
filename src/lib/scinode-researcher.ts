@@ -329,7 +329,7 @@ export const modules: readonly ResearcherModule[] = [
     slug: "project-management",
     title: "Project management",
     hero: {
-      src: "/case-studies/scinode/modules/project-management-hero.jpg",
+      src: "/case-studies/scinode/modules/project-management-hero-v2.jpg",
       alt: "Project management on a laptop, the Experiment Workspace with feasibility and optimisation batches, beside the Internal projects list and the Project overview",
       width: 2000,
       height: 1125,
