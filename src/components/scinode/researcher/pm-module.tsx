@@ -2,7 +2,7 @@ import { ArrowLeftRight, Check, Minus, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FilmStage } from "@/components/scinode/researcher/film-stage"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
-import { ImageBox } from "@/components/scinode/wire"
+import { ScreenGallery } from "@/components/scinode/researcher/screen-gallery"
 import {
   pmActions,
   pmContext,
@@ -15,6 +15,7 @@ import {
   pmLanes,
   pmProblems,
   pmRoles,
+  pmScreens,
   pmSurfaces,
   pmTargets,
 } from "@/lib/scinode-pm"
@@ -621,7 +622,7 @@ export function ProjectManagementSections() {
       </EdSection>
 
       <EdSection id="walkthrough" label="Walkthrough" title={["See it", "in action"]}>
-        <ImageBox label="Walkthrough video: an internal project from assignment to closure (under 90 seconds)" ratio="16 / 9" />
+        <ScreenGallery screens={pmScreens} width={2272} height={1080} />
       </EdSection>
 
       <EdSection id="targets" label="Targets" title={["What success", "looks like"]}>

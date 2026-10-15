@@ -224,3 +224,13 @@
     transition: none;
   }
 }
+
+/* Screen gallery: progress bar on the active thumbnail (its end advances the gallery) */
+@keyframes gal-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

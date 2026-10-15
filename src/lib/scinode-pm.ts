@@ -131,3 +131,18 @@ export const pmImpact = [
   "Turned an 8-step, 4-role paper-costing process into one guided hand-off flow, as measured by [metric needed], by making the current assignee and next action visible at every step.",
   "Standardised 6 R&D stages into one reusable stage template, as measured by [metric needed], by giving every stage the same remarks, files, history and notifications.",
 ]
+
+/** Key screens of the internal project flow, captured from Sathi's product recording (Oct 2026). */
+const pmScreenDir = "/case-studies/scinode/modules/project-management/screens"
+export const pmScreens = [
+  { src: `${pmScreenDir}/01-projects.jpg`, title: "Internal projects", caption: "Every internal project in one list, with costs, dates and status." },
+  { src: `${pmScreenDir}/02-overview.jpg`, title: "Project overview", caption: "Ownership, timeline, budget and overall completion at a glance." },
+  { src: `${pmScreenDir}/03-paper-costing.jpg`, title: "Paper costing", caption: "Raw material sheets and costs gathered across roles before lab work starts." },
+  { src: `${pmScreenDir}/04-feasibility-batches.jpg`, title: "Lab-scale feasibility", caption: "Each lab run is a batch, tracked stage by stage in the Experiment Workspace." },
+  { src: `${pmScreenDir}/05-create-batch.jpg`, title: "Create a batch", caption: "A guided batch form that flags missing fields before it can be saved." },
+  { src: `${pmScreenDir}/06-select-raw-materials.jpg`, title: "Select raw materials", caption: "Raw materials come from the costing sheet and are added to the batch." },
+  { src: `${pmScreenDir}/07-mark-for-optimisation.jpg`, title: "Mark for optimisation", caption: "The group leader picks the batches worth optimising." },
+  { src: `${pmScreenDir}/08-optimisation.jpg`, title: "Process optimisation", caption: "Every optimisation batch sits under its parent feasibility batch." },
+  { src: `${pmScreenDir}/09-batch-details.jpg`, title: "Batch details", caption: "Results, files and the admin's remarks on one batch." },
+  { src: `${pmScreenDir}/10-tech-pack.jpg`, title: "Tech pack", caption: "The final tech pack: product data, structure and description." },
+] as const
