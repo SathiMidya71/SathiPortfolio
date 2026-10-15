@@ -1,23 +1,19 @@
-import { ArrowLeftRight, Bell, Check, Clock3, FileText, History, MessageSquare, Minus, PauseCircle, Users } from "lucide-react"
+import { ArrowLeftRight, Check, Minus, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
 import { ImageBox } from "@/components/scinode/wire"
 import {
   pmActions,
-  pmCollab,
   pmContext,
   pmCosting,
   pmDecisions,
-  pmEveryStage,
   pmExperiment,
   pmExperimentPhases,
   pmFacts,
-  pmFields,
   pmImpact,
   pmLanes,
   pmProblems,
   pmRoles,
-  pmStages,
   pmSurfaces,
   pmTargets,
 } from "@/lib/scinode-pm"
@@ -30,9 +26,7 @@ export const pmSections = [
   { id: "context", label: "Context" },
   { id: "users", label: "Who uses it" },
   { id: "costing", label: "Paper costing" },
-  { id: "stages", label: "Six stages" },
-  { id: "tracking", label: "Tracking" },
-  { id: "collaboration", label: "Collaboration" },
+  { id: "stages", label: "Experiment flow" },
   { id: "decisions", label: "Key decisions" },
   { id: "walkthrough", label: "Walkthrough" },
   { id: "targets", label: "Targets" },
@@ -494,105 +488,6 @@ function ExperimentFlow() {
   )
 }
 
-function Stages() {
-  return (
-    <div className="grid gap-6">
-      <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
-        {pmStages.map((s, i) => {
-          const evalPhase = s.phase === "Evaluation"
-          return (
-            <li key={s.name} className="relative flex flex-col rounded-[18px] border bg-white p-4" style={{ borderColor: evalPhase ? "#d8cdbd" : "rgba(2,89,78,0.3)" }}>
-              <span className="flex items-center justify-between gap-2">
-                <span className="font-heading text-[22px] leading-none font-semibold text-brand/25">{String(i + 1).padStart(2, "0")}</span>
-                <span className="rounded-full px-2 py-0.5 text-[10.5px] font-semibold" style={{ background: evalPhase ? "#f2ece3" : "#e4f1eb", color: evalPhase ? "#56635f" : "#02594e" }}>
-                  {s.phase}
-                </span>
-              </span>
-              <span className="mt-2.5 font-heading text-[15.5px] leading-tight font-semibold text-ink">{s.name}</span>
-              <span className="mt-1.5 text-[12.5px] leading-snug text-body">{s.note}</span>
-            </li>
-          )
-        })}
-      </ol>
-      <div className="rounded-[20px] bg-[#e4f1eb] p-5">
-        <p className="text-[12px] font-semibold tracking-[0.12em] text-brand uppercase">Every stage has</p>
-        <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {pmEveryStage.map((x, i) => {
-            const Icon = [MessageSquare, FileText, History, Bell][i]
-            return (
-              <li key={x} className="flex items-center gap-2.5 text-[14px] font-semibold text-ink">
-                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white text-brand">
-                  <Icon className="size-4" aria-hidden />
-                </span>
-                {x}
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-function Tracking() {
-  return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-      <div className="rounded-[22px] border border-line bg-white p-5">
-        <p className="text-[12px] font-semibold tracking-[0.12em] text-soft uppercase">The project list shows</p>
-        <dl className="mt-3 grid gap-3">
-          {pmFields.map((f) => (
-            <div key={f.group} className="grid gap-1.5 sm:grid-cols-[90px_minmax(0,1fr)] sm:items-start">
-              <dt className="pt-1 text-[13px] font-semibold text-ink">{f.group}</dt>
-              <dd className="flex flex-wrap gap-1.5">
-                {f.items.map((x) => (
-                  <span key={x} className="rounded-full bg-[#f2ece3] px-2.5 py-1 text-[12.5px] text-body">
-                    {x}
-                  </span>
-                ))}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-      <div className="rounded-[22px] bg-[#1F392D] p-5 text-white">
-        <p className="text-[12px] font-semibold tracking-[0.12em] text-white/60 uppercase">How status is set</p>
-        <div className="mt-4 flex items-center gap-2 text-[13.5px]">
-          <Clock3 className="size-4 shrink-0 text-[#9fd4bc]" aria-hidden /> Target vs actual dates
-        </div>
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          <span className="rounded-[12px] bg-white/10 px-3 py-2 text-center text-[13.5px] font-semibold text-[#9fd4bc]">On track</span>
-          <span className="rounded-[12px] bg-white/10 px-3 py-2 text-center text-[13.5px] font-semibold text-[#d9c3a5]">Delayed</span>
-        </div>
-        <p className="mt-2 text-[12px] text-white/60">Set automatically</p>
-        <div className="mt-4 flex items-center gap-2 rounded-[12px] border border-white/15 px-3 py-2 text-[13.5px]">
-          <PauseCircle className="size-4 shrink-0 text-[#cfc6f7]" aria-hidden /> On hold, with a reason
-        </div>
-        <p className="mt-2 text-[12px] text-white/60">Only super admins and PMs can pause a project</p>
-      </div>
-    </div>
-  )
-}
-
-function Collaboration() {
-  const icons = [MessageSquare, Bell, History]
-  return (
-    <ul className="grid gap-4 md:grid-cols-3">
-      {pmCollab.map((c, i) => {
-        const Icon = icons[i]
-        return (
-          <li key={c.title} className="rounded-[20px] border border-line bg-white p-5">
-            <span className="grid size-10 place-items-center rounded-full bg-[#e4f1eb] text-brand">
-              <Icon className="size-[18px]" aria-hidden />
-            </span>
-            <p className="mt-3 font-heading text-[17px] leading-tight font-semibold text-ink">{c.title}</p>
-            <p className="mt-1.5 text-[14px] leading-snug text-body">{c.text}</p>
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
 function Decisions() {
   return (
     <div className="grid gap-x-6 gap-y-10 md:grid-cols-2">
@@ -700,9 +595,8 @@ export function ProjectManagementSections() {
         <CostingLanes />
       </EdSection>
 
-      <EdSection id="stages" label="Six stages" title={["From costing", "to closure"]}>
-        <Stages />
-        <div className="mt-6 grid gap-2">
+      <EdSection id="stages" label="Experiment flow" title={["From costing", "to closure"]}>
+        <div className="grid gap-2">
           <p className="text-[12px] font-semibold tracking-[0.12em] text-brand uppercase">Phase 2 · continues from costing synced</p>
           <p className="max-w-[680px] text-[16px] leading-snug text-body">
             Once costing is synced, the project manager starts the experiment from the super admin portal, and the group leader takes it through feasibility,
@@ -710,14 +604,6 @@ export function ProjectManagementSections() {
           </p>
         </div>
         <ExperimentFlow />
-      </EdSection>
-
-      <EdSection id="tracking" label="Tracking" title={["Every project", "at a glance"]}>
-        <Tracking />
-      </EdSection>
-
-      <EdSection id="collaboration" label="Collaboration" title={["Talk where", "the work is"]}>
-        <Collaboration />
       </EdSection>
 
       <EdSection id="decisions" label="Key decisions" title={["Where requirements became", "interface"]}>
