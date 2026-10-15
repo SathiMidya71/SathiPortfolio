@@ -11,7 +11,7 @@ export const pmFacts = [
 ]
 
 export const pmContext =
-  "When leadership hands a project to the internal R&D team, the work moves through three tools and six roles: leadership assigns it, admins plan and approve it, and group leaders, chemists and procurement run it in the lab. I designed how one project travels across all three, so everyone sees the same truth."
+  "I designed an end-to-end R&D project management workflow that connects 3 portals and 6 user roles, so leadership, admins and lab teams track one project from assignment to closure in real time."
 
 export const pmProblems = [
   { title: "Data silos", text: "Project data lived in separate systems that didn't talk to each other.", fix: "One project record, synced across all three portals" },
