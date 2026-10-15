@@ -494,26 +494,13 @@ function Decisions() {
   return (
     <div className="grid gap-14">
       {/* Walkthrough film: full width of the content column, beside the page navigation */}
-      <div>
-        <div className="mx-auto max-w-[760px] text-center">
-          <p className="text-[12px] font-semibold tracking-[0.14em] text-brand uppercase">Watch the walkthrough · 1:52</p>
-          <h3 className="mt-3 font-sans text-[32px] leading-[1.08] tracking-[-0.02em] text-[#1d1d1f] md:text-[46px]">
-            From the first lab batch <span className="text-brand">to a closed project</span>
-          </h3>
-          <p className="mx-auto mt-4 max-w-[600px] text-[16px] leading-snug text-body md:text-[17px]">
-            The whole Experiment Workspace flow in under two minutes: kick-off, batches, approvals with remarks, the golden batch and validation.
-          </p>
-        </div>
-        <div className="mt-10 md:mt-12">
-          <FilmStage
-            src={`${dir}/experiment-workspace.mp4`}
-            poster={`${dir}/experiment-workspace-poster.jpg`}
-            width={1920}
-            height={1080}
-            label="Experiment Workspace walkthrough: designing the R&D execution flow, from the first lab batch to a closed project"
-          />
-        </div>
-      </div>
+      <FilmStage
+        src={`${dir}/experiment-workspace.mp4`}
+        poster={`${dir}/experiment-workspace-poster.jpg`}
+        width={1920}
+        height={1080}
+        label="Experiment Workspace walkthrough: designing the R&D execution flow, from the first lab batch to a closed project"
+      />
 
       <div className="grid gap-x-8 gap-y-8 pt-4 md:grid-cols-2 xl:grid-cols-4">
         {pmDecisions.map((d, k) => (
