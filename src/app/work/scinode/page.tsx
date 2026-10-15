@@ -9,6 +9,7 @@ import { Trail } from "@/components/scinode/wayfinding"
 import { SiteFooter } from "@/components/site/site-footer"
 import { SiteHeader } from "@/components/site/site-header"
 import { EcosystemMap } from "@/components/scinode/ecosystem-map"
+import { EcosystemHero } from "@/components/scinode/ecosystem-hero"
 import { cn } from "@/lib/utils"
 import { areas, litSteps, problem, visualLanguage } from "@/lib/scinode"
 
@@ -100,7 +101,7 @@ export default function ScinodePage() {
         </header>
 
         <div className={`${shell} mt-12 lg:mt-16`}>
-          <ImageBox label="Hero image: SCINODE across its three portals" ratio="16 / 8" />
+          <EcosystemHero />
         </div>
 
         {/* the problem: above the ecosystem */}

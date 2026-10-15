@@ -234,3 +234,16 @@
     transform: scaleX(1);
   }
 }
+
+/* SCINODE hero: slow orbit ring around the core */
+@keyframes eh-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="eh-spin"],
+  [style*="ia-flow"] {
+    animation: none !important;
+  }
+}
