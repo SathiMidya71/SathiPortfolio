@@ -76,7 +76,7 @@ export const areas: Area[] = [
   },
   {
     slug: "manufacturer",
-    name: "Manufacturer",
+    name: "Scinode for Manufacturers",
     portal: "supplier",
     track: "manufacturer",
     kind: "Manufacturer portal",

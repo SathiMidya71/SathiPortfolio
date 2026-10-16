@@ -39,7 +39,7 @@ export default async function AreaPage({ params }: Params) {
   if (!a) notFound()
   // CRO and scientist share one case study: Scinode for Researchers
   if (a.track === "researcher") redirect(`/work/scinode/researcher?user=${a.slug}`)
-  const label = a.portal === "supplier" ? `${a.name} portal` : a.name
+  const label = a.portal === "supplier" && !a.name.startsWith("Scinode") ? `${a.name} portal` : a.name
 
   return (
     <>

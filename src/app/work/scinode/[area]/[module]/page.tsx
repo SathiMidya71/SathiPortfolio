@@ -51,7 +51,7 @@ export default async function ModulePage({ params }: Params) {
         <header className={`${shell} pt-6 md:pt-10`}>
           <Trail platform={a.slug} module={m.slug} />
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">
-            SCINODE · {a.name} {a.portal === "supplier" ? "portal" : ""}
+            SCINODE · {a.name} {a.portal === "supplier" && !a.name.startsWith("Scinode") ? "portal" : ""}
           </p>
           <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[76px] lg:leading-none">{m.name}</h1>
           <p className="mt-5 max-w-[720px] text-[19px] leading-snug text-body">{m.summary}</p>

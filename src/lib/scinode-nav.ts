@@ -24,7 +24,7 @@ const areaPlatform = (slug: string, name: string): NavPlatform => {
 /** The platforms Sathi designed, in the order of the SCINODE page's "Explore what I designed" cards. */
 export const platforms: NavPlatform[] = [
   areaPlatform("cvp", "CVP"),
-  areaPlatform("manufacturer", "Manufacturer"),
+  areaPlatform("manufacturer", "Scinode for Manufacturers"),
   {
     key: "researcher",
     name: "Scinode for Researchers",

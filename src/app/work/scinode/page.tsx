@@ -27,10 +27,10 @@ const label = "mb-2 text-[11px] font-semibold tracking-[0.12em] text-soft upperc
 // the parts she designed, each opening its own case study
 const workCards: { eyebrow: string; title: string; text: string; icon: LucideIcon; logo?: { src: string; alt: string; h?: number }; image: string; tint: string; ink: string; href?: string; links?: { label: string; href: string }[] }[] = [
   { eyebrow: "Customer portal · module", title: "CVP", text: "The customer module I designed inside the customer portal.", icon: LayoutGrid, logo: { src: "/case-studies/scinode/logo-customers.png", alt: "Scinode by Scimplify", h: 200 }, image: "CVP image", tint: "#ece9fd", ink: "#6e62e5", href: "/work/scinode/cvp" },
-  { eyebrow: "Supplier portal · sign-up", title: "Manufacturer", text: "Sign-up and portal for manufacturers who take on scale-up and production work.", icon: Factory, logo: { src: "/case-studies/scinode/logo-manufacturers.png", alt: "Scinode for Manufacturers by Scimplify" }, image: "Manufacturer image", tint: "#e4f1eb", ink: "#02594e", href: "/work/scinode/manufacturer" },
+  { eyebrow: "Supplier portal · sign-up", title: "Scinode for Manufacturers", text: "Sign-up and portal for manufacturers who take on scale-up and production work.", icon: Factory, logo: { src: "/case-studies/scinode/logo-manufacturers.png", alt: "Scinode for Manufacturers by Scimplify" }, image: "Manufacturer image", tint: "#e4f1eb", ink: "#02594e", href: "/work/scinode/manufacturer" },
   {
     eyebrow: "Supplier portal · sign-up",
-    title: "Researcher",
+    title: "Scinode for Researchers",
     text: "One sign-up and one case study for two user types: CROs that run R&D projects, and independent scientists.",
     icon: GraduationCap,
     logo: { src: "/case-studies/scinode/logo-researchers.png", alt: "Scinode for Researchers by Scimplify" },
