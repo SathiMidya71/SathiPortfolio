@@ -415,7 +415,7 @@ export function Personas() {
           <div className="mt-3 grid gap-4 sm:grid-cols-2">
             {[
               { l: "CRO profile", items: profiles.cro, ink: green, tint: "#e4f1eb", note: "8 sections" },
-              { l: "Scientist profile", items: profiles.scientist, ink: purple, tint: "#ece9fd", note: "5 steps" },
+              { l: "Scientist profile", items: profiles.scientist, ink: purple, tint: "#ece9fd", note: "4 sections" },
             ].map((c) => (
               <div key={c.l}>
                 <p className="font-heading text-[16px] font-semibold" style={{ color: c.ink }}>
@@ -566,7 +566,7 @@ function ArchitectureChart() {
       {tag(312, 112, "CRO", "end")}
       {tag(312, 200, "Scientist", "end")}
       {box(340, 58, 170, 60, "CRO profile", ["8 sections"], { fill: "#e4f1eb", text: "#02594e" })}
-      {box(340, 184, 170, 60, "Scientist profile", ["5 steps"], { fill: "#ece9fd", text: "#5b4fd1" })}
+      {box(340, 184, 170, 60, "Scientist profile", ["4 sections"], { fill: "#ece9fd", text: "#5b4fd1" })}
       {/* merge */}
       <path d="M510 88 L534 88 L534 214 L510 214" fill="none" stroke={line} strokeOpacity="0.8" strokeWidth="1.6" strokeLinejoin="round" />
       {arrow("M534 150 L560 150")}
@@ -653,7 +653,7 @@ export function Architecture() {
                       </div>
                       <div className="rounded-[18px] bg-[#ece9fd] p-3.5">
                         <p className="font-heading text-[15px] font-semibold text-[#5b4fd1]">Scientist profile</p>
-                        <p className="text-[12px] text-[#5b4fd1]/80">5 steps</p>
+                        <p className="text-[12px] text-[#5b4fd1]/80">4 sections</p>
                       </div>
                     </div>
                   ) : (

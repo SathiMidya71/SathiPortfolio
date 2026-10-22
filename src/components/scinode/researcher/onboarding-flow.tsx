@@ -16,8 +16,8 @@ const nodes: N[] = [
   { col: 2, row: 1, lines: ["Choose", "profile"], kind: "diamond" },
   { col: 0, row: 2, lines: ["Lands on the", "CRO platform"], sub: "only Dashboard + Profile open" },
   { col: 1, row: 2, lines: ["Lands on the", "scientist platform"], sub: "only Dashboard + Profile open" },
-  { col: 0, row: 3, lines: ["Company profile"], sub: "8 tabs, pilot plant shapes the form" },
-  { col: 1, row: 3, lines: ["Researcher profile"], sub: "5 guided steps, autosave" },
+  { col: 0, row: 3, lines: ["Company profile"], sub: "8 sections, pilot plant shapes the form" },
+  { col: 1, row: 3, lines: ["Researcher profile"], sub: "4 sections, autosave" },
   { col: 2, row: 4, lines: ["Sign the NDA"], sub: "mandatory to send proposals" },
   { col: 2, row: 5, lines: ["Accept terms", "and submit"], sub: "profile turns read-only" },
   { col: 3, row: 6, lines: ["Review profile"], kind: "gate" },
@@ -62,7 +62,7 @@ export function OnboardingFlow() {
 
   return (
     <FlowReveal className="grid gap-4">
-      <svg viewBox={`0 0 ${W} ${H}`} className="hidden w-full md:block" role="img" aria-label="Onboarding flow: one sign-up or log-in, then the user chooses a profile and lands on the CRO or the scientist platform, each with its own profile (8 tabs for CROs, 5 guided steps for scientists); both sign the mandatory NDA, accept the terms and submit; an admin reviews and either requests changes or approves, which unlocks Opportunities, Projects and Project management.">
+      <svg viewBox={`0 0 ${W} ${H}`} className="hidden w-full md:block" role="img" aria-label="Onboarding flow: one sign-up or log-in, then the user chooses a profile and lands on the CRO or the scientist platform, each with its own profile (8 sections for CROs, 4 for scientists); both sign the mandatory NDA, accept the terms and submit; an admin reviews and either requests changes or approves, which unlocks Opportunities, Projects and Project management.">
         <defs>
           <marker id="ob-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0 0 L10 5 L0 10 Z" fill="#02594e" />
@@ -165,7 +165,7 @@ export function OnboardingFlow() {
           ["Scinode", "Sign up or log in (one account for everyone)"],
           ["Scinode", "Choose the profile: CRO / CDMO or scientist"],
           ["CRO / CDMO", "Land on the CRO platform; fill the company profile (8 tabs, pilot plant shapes the form)"],
-          ["Scientist", "Land on the scientist platform; fill the researcher profile (5 guided steps)"],
+          ["Scientist", "Land on the scientist platform; fill the researcher profile (4 sections)"],
           ["Scinode", "Sign the NDA (mandatory before sending proposals)"],
           ["Scinode", "Accept terms and submit (profile turns read-only)"],
           ["Admin", "Review: approve, or request changes"],

@@ -1,11 +1,23 @@
 import Link from "next/link"
-import { ArrowRight, Check, Eye, Lock, LockOpen, Save } from "lucide-react"
+import { Check } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
+import { FilmStage } from "@/components/scinode/researcher/film-stage"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
-import { PilotPlantToggle } from "@/components/scinode/researcher/interactive"
 import { OnboardingFlow } from "@/components/scinode/researcher/onboarding-flow"
 import { ResearchMap } from "@/components/scinode/researcher/research-map"
-import { obAccess, obContext, obFacts, obImpact, obProblems, obTabs, obTargets } from "@/lib/scinode-onboarding"
+import { ScreenGallery } from "@/components/scinode/researcher/screen-gallery"
+import {
+  obContext,
+  obDecisions,
+  obFacts,
+  obHeuristics,
+  obImpact,
+  obProblems,
+  obResults,
+  obScreens,
+  obStructure,
+  obTargets,
+} from "@/lib/scinode-onboarding"
 import { cn } from "@/lib/utils"
 
 // Profile & onboarding module page: research → insight → design decision → how it's measured.
@@ -16,7 +28,8 @@ export const onboardingSections = [
   { id: "context", label: "Context" },
   { id: "research", label: "Research" },
   { id: "paths", label: "Onboarding flow" },
-  { id: "decisions", label: "Key decisions" },
+  { id: "walkthrough", label: "Walkthrough" },
+  { id: "screens", label: "Key screens" },
   { id: "impact", label: "Success metrics" },
 ]
 
@@ -58,7 +71,7 @@ function ContextBoard() {
     d += `${i ? "L" : "M"}${a1[0].toFixed(1)},${a1[1].toFixed(1)} Q${p[0]},${p[1]} ${b1[0].toFixed(1)},${b1[1].toFixed(1)} `
   })
   d += "Z"
-  const label = (s: string) => s.replace("CRO profile tabs", "CRO profile\ntabs").replace("Scientist steps", "Scientist\nsteps").replace("Approval gate", "Approval\ngate").split("\n")
+  const label = (s: string) => s.replace("CRO sections", "CRO\nsections").replace("Scientist sections", "Scientist\nsections").replace("Approval gate", "Approval\ngate").split("\n")
 
   return (
     <FlowReveal
@@ -134,184 +147,203 @@ function ContextBoard() {
   )
 }
 
-/** Modules unlocking as the onboarding status moves on. */
-function AccessUnlock() {
+/** The case study film, then the four decisions it walks through (each tied to a heuristic). */
+function Walkthrough() {
+  const dir = "/case-studies/scinode/modules/profile-onboarding"
   return (
-    <div className="grid gap-3 md:grid-cols-3">
-      {obAccess.states.map((st, i) => {
-        const last = i === obAccess.states.length - 1
-        return (
-          <div key={st.name} className={cn("rounded-[20px] p-4", last ? "text-white" : "bg-white ring-1 ring-line")} style={last ? darkGrid : undefined}>
-            <p className={cn("text-[11px] font-semibold tracking-[0.12em] uppercase", last ? "text-[#a8e6c9]" : "text-soft")}>
-              {String(i + 1).padStart(2, "0")} · {st.name}
-            </p>
-            <p className={cn("mt-1 text-[14px] font-semibold", last ? "text-white" : "text-ink")}>{st.note}</p>
-            <ul className="mt-3 flex flex-wrap gap-1.5">
-              {obAccess.modules.map((m) => {
-                const open = st.open.includes(m)
-                const ro = st.readOnly?.includes(m)
-                return (
-                  <li
-                    key={m}
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[12px] font-medium",
-                      open && (last ? "bg-[#8fd3b4]/20 text-[#c9f0dd]" : "bg-[#e4f1eb] text-brand"),
-                      ro && "bg-[#FBF1D3] text-[#8A6514]",
-                      !open && !ro && (last ? "text-white/35" : "text-soft/70 ring-1 ring-line ring-dashed")
-                    )}
-                  >
-                    {open ? <LockOpen className="size-3" aria-hidden /> : ro ? <Eye className="size-3" aria-hidden /> : <Lock className="size-3" aria-hidden />}
-                    {m}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
+    <div className="grid gap-14">
+      <FilmStage
+        src={`${dir}/onboarding-walkthrough.mp4`}
+        poster={`${dir}/onboarding-walkthrough-poster.jpg`}
+        width={1920}
+        height={1080}
+        label="SCINODE onboarding walkthrough: from one long, flat form to structured profiles for researchers and CROs"
+      />
 
-/** Completion widget + autosave, coded. */
-function CompletionMock() {
-  const tabs = ["Company profile", "Products", "Licences & certifications", "Services & capabilities", "Equipment"]
-  const done = 3
-  const pct = 62
-  const r = 30
-  const c = 2 * Math.PI * r
-  return (
-    <div className="grid gap-4 rounded-[22px] bg-white p-5 ring-1 ring-line sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
-      <div className="flex items-center gap-4">
-        <svg viewBox="0 0 76 76" className="size-[84px]" aria-hidden>
-          <circle cx="38" cy="38" r={r} fill="none" stroke="#F1EBFC" strokeWidth="8" />
-          <circle cx="38" cy="38" r={r} fill="none" stroke="#B79CEC" strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(c * pct) / 100} ${c}`} transform="rotate(-90 38 38)" />
-          <text x="38" y="43" textAnchor="middle" fontSize="16" fontWeight="700" fill="#2B2150">
-            {pct}%
-          </text>
-        </svg>
-        <div>
-          <p className="text-[15px] font-semibold text-ink">Profile strength</p>
-          <p className="text-[12.5px] text-body">3 more tabs to submit</p>
-          <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1 text-[12px] font-semibold text-white">
-            Complete profile <ArrowRight className="size-3" aria-hidden />
-          </span>
-        </div>
-      </div>
-      <ul className="grid gap-1.5 sm:border-l sm:border-line sm:pl-5">
-        {tabs.map((t, i) => (
-          <li key={t} className="flex items-center gap-2 text-[13px]">
-            <span className={cn("grid size-4 place-items-center rounded-full", i < done ? "bg-brand text-white" : "ring-1 ring-line")}>{i < done && <Check className="size-2.5" strokeWidth={4} aria-hidden />}</span>
-            <span className={i < done ? "text-ink" : "text-body"}>{t}</span>
-            {i === done && <span className="ml-auto inline-flex items-center gap-1 text-[11px] text-soft"><Save className="size-3" aria-hidden />Saved just now</span>}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-/** 10 tabs → 8. */
-function TabCleanup() {
-  return (
-    <div className="rounded-[22px] bg-white p-5 ring-1 ring-line">
-      <div className="flex flex-wrap gap-1.5">
-        {obTabs.before.map((t) => {
-          const merged = obTabs.merged.includes(t)
-          const renamed = t === obTabs.renamed.from
-          return (
-            <span
-              key={t}
-              className={cn(
-                "inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12.5px] font-medium",
-                merged ? "bg-[#F1EBFC] text-[#6B4CB8] line-through decoration-[#6B4CB8]/50" : renamed ? "bg-[#f7f3ec] text-ink" : "bg-[#f7f3ec] text-body"
-              )}
-            >
-              {renamed ? (
-                <>
-                  <span className="text-soft line-through">{obTabs.renamed.from}</span>
-                  <ArrowRight className="size-3 text-brand" aria-hidden />
-                  <span className="font-semibold text-brand">{obTabs.renamed.to}</span>
-                </>
-              ) : (
-                t
-              )}
-              {t === "Facility & EHS" && <span className="ml-1 rounded-full bg-[#6B4CB8] px-1.5 text-[10px] font-semibold text-white">+2</span>}
-            </span>
-          )
-        })}
-      </div>
-      <p className="mt-3 flex items-center gap-2 text-[13px] text-body">
-        <span className="font-heading text-[22px] font-semibold text-[#6B4CB8]">10</span>
-        <ArrowRight className="size-4 text-soft" aria-hidden />
-        <span className="font-heading text-[22px] font-semibold text-brand">8</span>
-        tabs. Safety and waste now live inside Facility &amp; EHS.
-      </p>
-    </div>
-  )
-}
-
-const decisions = [
-  { title: "One question shapes the form", text: "\"Do you have a pilot plant?\" decides what a lab sees. CROs without one skip up to 3 sections they can't fill.", visual: <PilotPlantToggle /> },
-  { title: "Verified before modules unlock", text: "New suppliers see only their dashboard and profile. Opportunities, Projects and Project management unlock after an admin approves.", visual: <AccessUnlock /> },
-  { title: "Progress you can see", text: "A completion score on the dashboard, a mark on every tab and autosave, so a long profile can be finished in parts.", visual: <CompletionMock /> },
-  { title: "Fewer, clearer tabs", text: "Related sections were grouped and labels made plain, so each tab holds one clear topic.", visual: <TabCleanup /> },
-]
-
-function Decisions() {
-  return (
-    <div className="grid gap-12">
-      {decisions.map((d, i) => (
-        <div key={d.title} className="grid gap-4">
-          <div className="flex items-start gap-3">
-            <span className="font-heading text-[30px] leading-none font-semibold text-[#B79CEC]">{String(i + 1).padStart(2, "0")}</span>
+      <div className="grid gap-x-8 gap-y-8 pt-4 md:grid-cols-2 xl:grid-cols-4">
+        {obDecisions.map((d, k) => (
+          <div key={d.title} className="flex items-start gap-3 border-t border-line pt-5">
+            <span className="font-heading text-[28px] leading-none font-semibold text-[#B79CEC]">{String(k + 1).padStart(2, "0")}</span>
             <div>
-              <h3 className="font-sans text-[21px] leading-tight text-[#1d1d1f] md:text-[22px]">{d.title}</h3>
-              <p className="mt-1 max-w-[640px] text-[14.5px] leading-snug text-body">{d.text}</p>
+              <h4 className="font-sans text-[18px] leading-tight text-[#1d1d1f]">{d.title}</h4>
+              <p className="mt-1 text-[14px] leading-snug text-body">{d.text}</p>
+              <span className="mt-2 inline-block rounded-full bg-[#e4f1eb] px-2 py-0.5 text-[11px] font-semibold text-brand">
+                {d.h} · {obHeuristics.find((x) => x.code === d.h)?.name}
+              </span>
             </div>
           </div>
-          {d.visual}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
+  )
+}
+
+/** 32 fields on one page → grouped sections. Dots are fields, blocks are sections. */
+function FormToSections() {
+  const { before, profiles } = obStructure
+  const cro = profiles[0]
+  return (
+    <svg viewBox="0 0 220 104" className="w-full" aria-hidden>
+      {Array.from({ length: before.fields }, (_, i) => (
+        <circle key={i} data-fl="node" style={at(200 + i * 18)} cx={10 + (i % 4) * 12} cy={10 + Math.floor(i / 4) * 11} r="3.6" fill="#93c4b4" />
+      ))}
+      <text x="4" y="101" fontSize="9" fill="#6b7f7c">
+        {before.fields} fields · {before.pages} page
+      </text>
+      <path data-fl="edge" style={at(800)} pathLength={1} strokeDasharray="1" d="M66 46 L96 46" stroke="#02594e" strokeWidth="1.6" fill="none" />
+      <path data-fl="node" style={at(900)} d="M93 42 L99 46 L93 50 Z" fill="#02594e" />
+      {Array.from({ length: cro.onboarding + cro.enrichment }, (_, i) => {
+        const enrich = i >= cro.onboarding
+        return (
+          <rect
+            key={i}
+            data-fl="node"
+            style={at(1000 + i * 90)}
+            x={108 + (i % 4) * 27}
+            y={14 + Math.floor(i / 4) * 34}
+            width="23"
+            height="28"
+            rx="5"
+            fill={enrich ? "#F2D98B" : "#02594e"}
+          />
+        )
+      })}
+      <text x="160" y="101" textAnchor="middle" fontSize="9" fill="#6b7f7c">
+        {cro.onboarding} onboarding + {cro.enrichment} enrichment
+      </text>
+    </svg>
+  )
+}
+
+/** Both profiles as stacked bars: onboarding (green) + enrichment (yellow). */
+function ProfileBars() {
+  const unit = 22
+  return (
+    <svg viewBox="0 0 220 104" className="w-full" aria-hidden>
+      {obStructure.profiles.map((p, r) => {
+        const y = 18 + r * 44
+        return (
+          <g key={p.who}>
+            <text x="0" y={y - 5} fontSize="9.5" fontWeight="700" fill="#1F392D">
+              {p.who}
+            </text>
+            {Array.from({ length: p.onboarding + p.enrichment }, (_, i) => (
+              <rect
+                key={i}
+                data-fl="node"
+                style={at(250 + r * 400 + i * 70)}
+                x={i * unit}
+                y={y}
+                width={unit - 3}
+                height="18"
+                rx="4"
+                fill={i < p.onboarding ? "#02594e" : "#F2D98B"}
+              />
+            ))}
+            <text x={(p.onboarding + p.enrichment) * unit + 4} y={y + 13} fontSize="10" fontWeight="700" fill="#1F392D">
+              {p.onboarding} + {p.enrichment}
+            </text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+/** The five heuristics as a row of codes. */
+function HeuristicChips() {
+  return (
+    <ul className="grid gap-1.5">
+      {obHeuristics.map((h, i) => (
+        <li key={h.code} data-fl="node" style={at(250 + i * 110)} className="flex items-baseline gap-2 text-[11.5px] leading-snug">
+          <span className="shrink-0 rounded-[5px] bg-brand px-1.5 py-0.5 text-[10px] font-bold text-white">{h.code}</span>
+          <span className="text-ink">{h.name}</span>
+        </li>
+      ))}
+    </ul>
   )
 }
 
 function Impact() {
+  const total = (p: { onboarding: number; enrichment: number }) => p.onboarding + p.enrichment
+  const [cro, sci] = obStructure.profiles
+  const tiles = [
+    { label: "Flat form to sections", big: `${obStructure.before.fields} → ${total(cro)}`, unit: "fields → CRO sections", body: <FormToSections /> },
+    { label: "Two profiles, one structure", big: `${total(cro)} · ${total(sci)}`, unit: "sections, CRO · scientist", body: <ProfileBars /> },
+    { label: "Heuristics applied", big: String(obHeuristics.length), unit: "Nielsen heuristics", body: <HeuristicChips /> },
+  ]
   return (
-    <div className="grid gap-6">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {obTargets.map((t) => {
-          const frac = t.kind === "pct" ? t.value / 100 : t.value / (t.max ?? 1)
-          return (
-            <div key={t.label} className="rounded-[20px] p-5 text-white" style={darkGrid}>
-              <p className="text-[11px] font-semibold tracking-[0.12em] text-white/55 uppercase">{t.label}</p>
-              <p className="mt-2 font-heading text-[40px] leading-none font-semibold tracking-[-0.03em]" style={mint}>
-                {t.prefix}
-                {t.value}
-                {t.unit}
-              </p>
-              <div className="relative mt-4 h-2 rounded-full bg-white/10">
-                <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#3f8f7f] to-[#8fd3b4]" style={{ width: `${frac * 100}%` }} />
-                <span className="absolute -top-1 h-4 w-0.5 rounded bg-white" style={{ left: `${frac * 100}%` }} />
-              </div>
-              <p className="mt-2 text-[11px] text-white/45">{t.kind === "pct" ? "Target, out of 100%" : `Target, on a ${t.max}${t.unit.trim()} scale`}</p>
+    <div className="grid gap-8">
+      {/* Results: live platform figures */}
+      <div className="rounded-[24px] p-5 text-white sm:p-7" style={darkGrid}>
+        <p className="text-[11px] font-semibold tracking-[0.12em] text-white/55 uppercase">Results so far</p>
+        <dl className="mt-3 grid grid-cols-2 gap-6">
+          {obResults.map((r, i) => (
+            <div key={r.label} className={cn(i > 0 && "border-l border-white/10 pl-6")}>
+              <dd className="font-heading text-[56px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[72px]" style={mint}>
+                {r.n}
+              </dd>
+              <dt className="mt-2 text-[13px] font-semibold text-white/70">{r.label}</dt>
             </div>
-          )
-        })}
-      </div>
-      <p className="-mt-2 inline-block w-fit rounded-full bg-[#FBF1D3] px-3 py-1 text-[12px] font-semibold text-[#8A6514]">Targets set with the product manager; results to follow after launch</p>
-
-      <div>
-        <p className="text-[12px] font-semibold tracking-[0.12em] text-[#6B4CB8] uppercase">What I delivered</p>
-        <ul className="mt-3 grid gap-2.5 md:grid-cols-2">
-          {obImpact.map((x) => (
-            <li key={x} className="flex gap-2.5 rounded-[16px] bg-white p-4 text-[14.5px] leading-snug text-ink ring-1 ring-line">
-              <Check className="mt-0.5 size-4 shrink-0 text-brand" strokeWidth={3} aria-hidden />
-              {x}
-            </li>
           ))}
-        </ul>
+        </dl>
+        <p className="mt-5 text-[11.5px] text-white/45">Current platform figures</p>
+      </div>
+
+      {/* What I delivered: each line sits in the tile that measures it; the verification line spans below */}
+      <div className="grid gap-3">
+        <p className="text-[12px] font-semibold tracking-[0.12em] text-[#6B4CB8] uppercase">What I delivered</p>
+        <FlowReveal className="grid gap-3 md:grid-cols-3">
+          {tiles.map((t, i) => (
+            <figure key={t.label} data-fl="node" style={at(i * 120)} className="flex flex-col rounded-[18px] bg-[#e4f1eb] p-4">
+              <figcaption className="text-[10.5px] font-semibold tracking-[0.1em] text-brand uppercase">{t.label}</figcaption>
+              <p className="mt-1 flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
+                <span className="font-heading text-[30px] leading-none font-semibold whitespace-nowrap text-[#1F392D]">{t.big}</span>
+                <span className="text-[11.5px] text-brand">{t.unit}</span>
+              </p>
+              <div className="mt-3 mb-4">{t.body}</div>
+              <p className="mt-auto flex gap-2 border-t border-[#c3dcd1] pt-3 text-[13.5px] leading-snug text-ink">
+                <Check className="mt-0.5 size-3.5 shrink-0 text-brand" strokeWidth={3} aria-hidden />
+                {obImpact[i]}
+              </p>
+            </figure>
+          ))}
+          {obImpact.slice(tiles.length).map((x, k) => (
+            <p
+              key={x}
+              data-fl="node"
+              style={at((tiles.length + k) * 120)}
+              className="flex gap-2 rounded-[18px] bg-[#e4f1eb] px-4 py-3 text-[13.5px] leading-snug text-ink md:col-span-3"
+            >
+              <Check className="mt-0.5 size-3.5 shrink-0 text-brand" strokeWidth={3} aria-hidden />
+              {x}
+            </p>
+          ))}
+        </FlowReveal>
+      </div>
+
+      {/* Targets from the PRD */}
+      <div className="grid gap-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {obTargets.map((t) => {
+            const frac = t.kind === "pct" ? t.value / 100 : t.value / (t.max ?? 1)
+            return (
+              <div key={t.label} className="rounded-[20px] bg-white p-5 ring-1 ring-line">
+                <p className="text-[11px] font-semibold tracking-[0.12em] text-soft uppercase">{t.label}</p>
+                <p className="mt-2 font-heading text-[34px] leading-none font-semibold tracking-[-0.03em] text-[#1F392D]">
+                  {t.prefix}
+                  {t.value}
+                  {t.unit}
+                </p>
+                <div className="relative mt-4 h-2 rounded-full bg-[#e4f1eb]">
+                  <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#3f8f7f] to-[#8fd3b4]" style={{ width: `${frac * 100}%` }} />
+                </div>
+                <p className="mt-2 text-[11px] text-soft">{t.kind === "pct" ? "Target, out of 100%" : `Target, on a ${t.max}${t.unit.trim()} scale`}</p>
+              </div>
+            )
+          })}
+        </div>
+        <p className="inline-block w-fit rounded-full bg-[#FBF1D3] px-3 py-1 text-[12px] font-semibold text-[#8A6514]">Targets set with the product manager; not results yet</p>
       </div>
     </div>
   )
@@ -341,8 +373,12 @@ export function OnboardingSections() {
         <OnboardingFlow />
       </EdSection>
 
-      <EdSection id="decisions" label="Key decisions" title={["Where research became", "interface"]}>
-        <Decisions />
+      <EdSection id="walkthrough" label="Walkthrough" title={["From a flat form", "to structured profiles"]}>
+        <Walkthrough />
+      </EdSection>
+
+      <EdSection id="screens" label="Key screens" title={["Two profiles,", "one structure"]}>
+        <ScreenGallery screens={obScreens} width={2272} height={1080} label="Profile and onboarding screens" />
       </EdSection>
 
       <EdSection id="impact" label="Success metrics" title={["What I delivered,", "and how it's measured"]}>

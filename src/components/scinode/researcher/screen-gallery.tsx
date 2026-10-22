@@ -17,11 +17,13 @@ export function ScreenGallery({
   width,
   height,
   interval = 4500,
+  label = "Project management screens",
 }: {
   screens: readonly GalleryScreen[]
   width: number
   height: number
   interval?: number
+  label?: string
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const [i, setI] = useState(0)
@@ -55,7 +57,7 @@ export function ScreenGallery({
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         aria-roledescription="carousel"
-        aria-label="Project management screens"
+        aria-label={label}
       >
         <div className="relative" style={{ aspectRatio: `${width} / ${height}` }}>
           {screens.map((x, k) => (
@@ -88,7 +90,10 @@ export function ScreenGallery({
       </div>
 
       {/* Thumbnails: click to jump; the active one carries the progress bar */}
-      <ol className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:grid sm:grid-cols-10 sm:overflow-visible sm:px-0 sm:pb-0">
+      <ol
+        className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:grid sm:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))] sm:overflow-visible sm:px-0 sm:pb-0"
+        style={{ "--cols": Math.max(screens.length, 8) } as React.CSSProperties}
+      >
         {screens.map((x, k) => (
           <li key={x.src} className="w-[84px] shrink-0 snap-start sm:w-auto">
             <button

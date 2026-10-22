@@ -183,8 +183,8 @@ export const personas = [
 /** The same use cases for both; only the profile is different. */
 export const shared = ["Get verified", "Find projects", "Send proposals", "Run projects"]
 export const profiles = {
-  cro: ["Company profile", "Products", "Licenses & certifications", "Services & capabilities", "Equipment", "Facility & EHS", "Infrastructure", "Terms"],
-  scientist: ["Professional profile", "Research group", "Technology & IP", "Lab infrastructure", "Verification"],
+  cro: ["Company profile", "Products", "Services & capabilities", "Equipments", "Terms & conditions", "License & certifications", "Facility & EHS", "Utility"],
+  scientist: ["Profile", "Industrial capabilities", "Compliance & declaration", "Track record"],
 }
 
 /** User journey map in the shape of the platform workflow (Discover → Execute), from the CRO and scientist side.
@@ -210,7 +210,7 @@ export const flow = [
 
 /** Key design decisions: one line each; the screens come from Sathi. */
 export const decisions = [
-  { title: "One platform, two profiles", text: "CROs fill 8 short sections; scientists follow 5 timed steps. Everything after the profile is shared." },
+  { title: "One platform, two profiles", text: "CROs fill 8 short sections; scientists fill 4. Everything after the profile is shared." },
   { title: "A profile that adapts", text: "One question, \"Do you have a pilot plant?\", hides the sections a CRO doesn't need." },
   { title: "Verified before access", text: "Projects and proposals unlock only after approval, with a clear status while you wait." },
   { title: "Matched by chemistry", text: "Every project shows its fit and a brief preview before a lab commits." },
@@ -262,7 +262,7 @@ export const evolution = [
   { area: "Relevance", before: "Every lab saw every field", after: "A pilot plant question hides what doesn't apply" },
   { area: "Forms", before: "Every equipment field required", after: "Only 2 required; long lists become search" },
   { area: "Access", before: "Browse with no checks", after: "Verification unlocks projects and proposals" },
-  { area: "Scientists", before: "Squeezed into the CRO form", after: "Their own 5 timed steps" },
+  { area: "Scientists", before: "Squeezed into the CRO form", after: "Their own 4-section profile" },
   { area: "Execution", before: "A weekly update module", after: "Stage-gated lab workflow with approvals" },
 ]
 
@@ -300,7 +300,7 @@ export const modules: readonly ResearcherModule[] = [
       width: 2000,
       height: 1125,
     },
-    tagline: "One sign-up, two profiles: CROs fill 8 short sections, scientists follow 5 timed steps.",
+    tagline: "One sign-up, two profiles: CROs fill 8 short sections, scientists fill 4.",
     problem: "Labs couldn't show their equipment, team or past work online, so every new partner started with emails and site visits.",
     quotes: ["If I gave you 101% purity when you asked for 100%, show that. Showcase my quality and facilities."],
     steps: ["Sign up", "CRO or scientist?", "Build the profile", "Submit for review", "Approved or changes requested"],
