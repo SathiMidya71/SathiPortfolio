@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, Check, Filter, Lock, Globe2, MessagesSquare, RotateCcw, Users } from "lucide-react"
+import { ArrowDown, ArrowRight, Check, CircleSlash, FileCheck2, Filter, Lock, Globe2, MessagesSquare, RotateCcw, Send, Users } from "lucide-react"
 import { EdSection } from "@/components/scinode/researcher/ed-section"
 import { FlowReveal } from "@/components/scinode/researcher/flow-reveal"
 import { ImageBox } from "@/components/scinode/wire"
@@ -333,61 +333,84 @@ function ProposalForm() {
 
 /* ---------- Tracking ---------- */
 
-function Stages({ title, stages, tint, ink }: { title: string; stages: readonly string[]; tint: string; ink: string }) {
+/** One proposal type as a horizontal 5-step track (vertical on phones). Stage 3 is where quotes are negotiated. */
+function Track({ title, stages, tint, ink, delay }: { title: string; stages: readonly string[]; tint: string; ink: string; delay: number }) {
   return (
-    <div className="rounded-[20px] bg-white p-4 ring-1 ring-line">
+    <div className="grid gap-3 md:grid-cols-[150px_minmax(0,1fr)] md:items-center">
       <p className="text-[11.5px] font-semibold tracking-[0.12em] uppercase" style={{ color: ink }}>
         {title}
       </p>
-      <ol className="mt-3 grid gap-0">
-        {stages.map((s, i) => (
-          <li key={s} className="relative flex items-center gap-3 pb-3 last:pb-0">
-            {i < stages.length - 1 && <span className="absolute top-7 left-[13px] h-[calc(100%-1.25rem)] w-0.5" style={{ background: tint }} aria-hidden />}
-            <span className="grid size-7 shrink-0 place-items-center rounded-full text-[11.5px] font-bold" style={{ background: i === stages.length - 1 ? "#1F392D" : tint, color: i === stages.length - 1 ? "#fff" : ink }}>
-              {i + 1}
-            </span>
-            <span className="text-[14px] font-medium text-ink">{s}</span>
-          </li>
-        ))}
+      <ol className="relative grid gap-2 md:grid-cols-5 md:gap-0">
+        <span data-fl="lane" style={at(delay)} className="absolute top-[13px] right-[10%] left-[10%] hidden h-0.5 origin-left md:block" aria-hidden>
+          <span className="block h-full w-full" style={{ background: tint }} />
+        </span>
+        {stages.map((s, i) => {
+          const last = i === stages.length - 1
+          const loop = i === 2
+          return (
+            <li key={s} data-fl="node" style={at(delay + 120 + i * 110)} className="relative flex items-center gap-3 md:flex-col md:gap-2 md:text-center">
+              <span
+                className={cn("grid size-7 shrink-0 place-items-center rounded-full text-[11.5px] font-bold", loop && "ring-2 ring-[#B79CEC] ring-offset-2 ring-offset-white")}
+                style={{ background: last ? "#1F392D" : tint, color: last ? "#fff" : ink }}
+              >
+                {i + 1}
+              </span>
+              <span className="text-[13.5px] leading-tight font-medium text-ink">{s}</span>
+            </li>
+          )
+        })}
       </ol>
     </div>
   )
 }
 
 function Tracking() {
+  const dashIcons = [Send, Check, CircleSlash, FileCheck2]
   return (
-    <div className="grid gap-4">
-      <div className="grid gap-2 sm:grid-cols-4">
-        {opDashboard.map((d, i) => (
-          <div key={d} className="rounded-[16px] p-4 text-white" style={darkGrid}>
-            <span className="block h-1.5 w-8 rounded-full" style={{ background: ["#8fd3b4", "#B79CEC", "#F2D98B", "#a8e6c9"][i] }} />
-            <p className="mt-3 text-[13.5px] font-semibold">{d}</p>
-          </div>
-        ))}
-      </div>
-      <p className="-mt-1 text-[12.5px] text-soft">The proposal dashboard: one count per outcome, above a searchable list sorted by date and type.</p>
-      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.15fr)]">
-        <Stages title="Capability proposal" stages={opStages.capability} tint="#e4f1eb" ink="#02594e" />
-        <Stages title="Catalogue proposal" stages={opStages.catalogue} tint="#FBF1D3" ink="#8A6514" />
-        <div className="rounded-[20px] bg-[#F1EBFC] p-4">
-          <p className="flex items-center gap-2 text-[11.5px] font-semibold tracking-[0.12em] text-[#4A307D] uppercase">
-            <RotateCcw className="size-3.5" aria-hidden /> Quote negotiation loop
-          </p>
-          <ol className="mt-3 grid gap-2">
-            {opQuoteLoop.map((q, i) => (
-              <li key={i} className="grid gap-1">
-                <span className="flex items-start gap-2 rounded-[12px] bg-white p-2.5 text-[13px] text-ink">
-                  <span className={cn("shrink-0 rounded-full px-2 py-0.5 text-[10.5px] font-semibold", q.who === "User" ? "bg-[#e4f1eb] text-brand" : "bg-[#4A307D] text-white")}>{q.who}</span>
-                  {q.text}
+    <FlowReveal className="grid gap-5">
+      {/* the proposal dashboard: one count per outcome */}
+      <div data-fl="node" style={at(0)} className="grid gap-2">
+        <div className="grid grid-cols-2 overflow-hidden rounded-[16px] text-white md:grid-cols-4" style={darkGrid}>
+          {opDashboard.map((d, i) => {
+            const Icon = dashIcons[i]
+            return (
+              <div key={d} className={cn("flex items-center gap-2.5 px-4 py-3.5", i > 0 && "md:border-l md:border-white/10", i % 2 === 1 && "max-md:border-l max-md:border-white/10", i > 1 && "max-md:border-t max-md:border-white/10")}>
+                <span className="grid size-8 shrink-0 place-items-center rounded-[9px]" style={{ background: ["#8fd3b4", "#B79CEC", "#F2D98B", "#a8e6c9"][i] + "33", color: ["#a8e6c9", "#d6c6f5", "#F2D98B", "#a8e6c9"][i] }}>
+                  <Icon className="size-4" aria-hidden />
                 </span>
-                {i < opQuoteLoop.length - 1 && <ArrowDown className="mx-auto size-3.5 text-[#6B4CB8]" aria-hidden />}
+                <span className="text-[13px] leading-tight font-semibold">{d}</span>
+              </div>
+            )
+          })}
+        </div>
+        <p className="text-[12.5px] text-soft">The proposal dashboard: one count per outcome, above a searchable list sorted by date and type.</p>
+      </div>
+
+      {/* both proposal types, then the quote loop that lives inside stage 3 */}
+      <div className="grid gap-5 rounded-[22px] bg-white p-5 ring-1 ring-line sm:p-6">
+        <Track title="Capability proposal" stages={opStages.capability} tint="#e4f1eb" ink="#02594e" delay={150} />
+        <Track title="Catalogue proposal" stages={opStages.catalogue} tint="#FBF1D3" ink="#8A6514" delay={500} />
+
+        <div data-fl="node" style={at(1000)} className="rounded-[18px] bg-[#F1EBFC] p-4">
+          <p className="flex flex-wrap items-center gap-2 text-[11.5px] font-semibold tracking-[0.12em] text-[#4A307D] uppercase">
+            <RotateCcw className="size-3.5" aria-hidden /> Quote negotiation loop
+            <span className="rounded-full bg-white px-2 py-0.5 text-[10.5px] tracking-normal normal-case ring-2 ring-[#B79CEC]">inside stage 3</span>
+          </p>
+          <ol className="mt-3 grid gap-2 md:grid-cols-[repeat(4,minmax(0,1fr))] md:gap-6">
+            {opQuoteLoop.map((q, i) => (
+              <li key={i} data-fl="node" style={at(1100 + i * 120)} className="relative flex items-start gap-2 rounded-[12px] bg-white p-2.5 text-[13px] leading-snug text-ink">
+                <span className={cn("shrink-0 rounded-full px-2 py-0.5 text-[10.5px] font-semibold", q.who === "User" ? "bg-[#e4f1eb] text-brand" : "bg-[#4A307D] text-white")}>{q.who}</span>
+                {q.text}
+                {i < opQuoteLoop.length - 1 && <ArrowRight className="absolute top-1/2 -right-5 hidden size-3.5 -translate-y-1/2 text-[#6B4CB8] md:block" aria-hidden />}
               </li>
             ))}
           </ol>
-          <p className="mt-3 text-[12.5px] font-medium text-[#4A307D]">Repeats until one side accepts; every version stays visible.</p>
+          <p className="mt-3 flex items-center gap-1.5 text-[12.5px] font-medium text-[#4A307D]">
+            <RotateCcw className="size-3.5" aria-hidden /> Repeats until one side accepts; every version stays visible.
+          </p>
         </div>
       </div>
-    </div>
+    </FlowReveal>
   )
 }
 
