@@ -104,7 +104,11 @@ export function ScinodeMap(where: Where) {
                           )}
                         >
                           <span className={cn("tabular-nums", on ? "text-white/70" : "text-soft")}>{nn(i)}</span>
-                          {m.title}
+                          <span className="min-w-0 flex-1">
+                            {m.title}
+                            {m.shared && <span className={cn("ml-1 text-[9.5px] font-semibold tracking-[0.06em] uppercase", on ? "text-white/70" : "text-[#6B4CB8]")}>shared</span>}
+                            {m.tbc && !on && <span className="ml-1 text-[9.5px] font-semibold tracking-[0.06em] text-soft uppercase">soon</span>}
+                          </span>
                         </Link>
                       </li>
                     )
@@ -173,6 +177,7 @@ export function KeepExploring(where: Where) {
                   </span>
                   <span className="mt-2 text-[15.5px] leading-tight font-semibold text-ink md:mt-3">{x.title}</span>
                   <span className="mt-1 line-clamp-1 text-[12.5px] leading-snug text-body md:line-clamp-2">{x.summary}</span>
+                  {x.shared && <span className="mt-2 w-fit rounded-full bg-[#F1EBFC] px-2 py-0.5 text-[10.5px] font-semibold text-[#4A307D]">Shared by all suppliers</span>}
                 </Link>
               </li>
             )

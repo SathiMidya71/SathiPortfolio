@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils"
 // The "Modules I designed" layer of Scinode for Researchers: cards on the main page, and the pieces every
 // module page shares (module switcher, draft flow).
 
-export const moduleHref = (slug: string) => `/work/scinode/researcher/${slug}`
+export const moduleHref = (slug: string) => modules.find((m) => m.slug === slug)?.href ?? `/work/scinode/researcher/${slug}`
 const nn = (i: number) => String(i + 1).padStart(2, "0")
 
-/** Four clickable module cards on the main case study. */
+/** Clickable module cards on the main case study. */
 export function ModuleCards() {
   return (
     <ul className="grid gap-5 md:grid-cols-2">
@@ -48,7 +48,7 @@ export function ModuleCards() {
   )
 }
 
-/** Numbered switcher between the four modules (current one filled). */
+/** Numbered switcher between the modules (current one filled). */
 export function ModuleSwitcher({ current }: { current: string }) {
   return (
     <nav aria-label="Modules" className="flex flex-wrap gap-2">

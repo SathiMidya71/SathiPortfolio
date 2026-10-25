@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils"
 type Params = { params: Promise<{ module: string }> }
 
 export function generateStaticParams() {
-  return modules.map((m) => ({ module: m.slug }))
+  return modules.filter((m) => !m.shared).map((m) => ({ module: m.slug }))
 }
 export const dynamicParams = false
 

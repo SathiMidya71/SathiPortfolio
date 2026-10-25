@@ -4,7 +4,7 @@ import { modules as researcherModules } from "@/lib/scinode-researcher"
 // Wayfinding for the SCINODE case study: Work → SCINODE (ecosystem) → platform → module.
 // One map of every page, so each page can show where the reader is and what else to explore.
 
-export type NavModule = { slug: string; title: string; summary: string; href: string; tbc?: boolean }
+export type NavModule = { slug: string; title: string; summary: string; href: string; tbc?: boolean; shared?: boolean }
 export type NavPlatform = { key: string; name: string; kind: string; href: string; modules: NavModule[]; tbc?: boolean }
 
 export const scinodeHome = { name: "SCINODE", href: "/work/scinode", platformsHref: "/work/scinode#my-work" }
@@ -17,7 +17,7 @@ const areaPlatform = (slug: string, name: string): NavPlatform => {
     kind: a.portal === "customer" ? "Customer portal" : "Supplier portal",
     href: `/work/scinode/${slug}`,
     tbc: a.tbc,
-    modules: a.modules.map((m) => ({ slug: m.slug, title: m.name, summary: m.summary, href: `/work/scinode/${slug}/${m.slug}`, tbc: m.tbc })),
+    modules: a.modules.map((m) => ({ slug: m.slug, title: m.name, summary: m.summary, href: m.href ? `${m.href}?from=${slug}` : `/work/scinode/${slug}/${m.slug}`, tbc: m.tbc, shared: !!m.href })),
   }
 }
 
@@ -30,7 +30,7 @@ export const platforms: NavPlatform[] = [
     name: "Scinode for Researchers",
     kind: "Supplier portal",
     href: "/work/scinode/researcher",
-    modules: researcherModules.map((m) => ({ slug: m.slug, title: m.title, summary: m.tagline, href: `/work/scinode/researcher/${m.slug}` })),
+    modules: researcherModules.map((m) => ({ slug: m.slug, title: m.title, summary: m.tagline, href: m.href ?? `/work/scinode/researcher/${m.slug}`, shared: m.shared })),
   },
 ]
 

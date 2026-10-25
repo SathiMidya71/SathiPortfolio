@@ -133,7 +133,7 @@ export default function ResearcherPage() {
           <Architecture />
         </EdSection>
 
-        <EdSection id="modules" label="Modules I designed" title={["Four modules,", "one story each"]}>
+        <EdSection id="modules" label="Modules I designed" title={["Three modules,", "one story each"]}>
           <p className="-mt-2 max-w-[640px] text-[16px] leading-snug text-body">
             Each module has its own short case study: the problem, the research behind it, the flow, a walkthrough and the decisions that shaped it.
           </p>

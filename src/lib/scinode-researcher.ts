@@ -285,6 +285,9 @@ export type ResearcherModule = {
   steps: readonly string[]
   /** indexes into `decisions` */
   decisionIdx: readonly number[]
+  /** set for a module shared with other user types: its page lives outside /researcher */
+  href?: string
+  shared?: boolean
   /** hero image (also the module card image); a placeholder shows until Sathi sends one */
   hero?: { src: string; alt: string; width: number; height: number }
   extraDecisions?: readonly { title: string; text: string }[]
@@ -308,22 +311,16 @@ export const modules: readonly ResearcherModule[] = [
     extraDecisions: [{ title: "Forms that respect time", text: "Time badges on every step and auto-save between steps, so a long profile never feels endless." }],
   },
   {
-    slug: "opportunities",
-    title: "Opportunities",
-    tagline: "Projects matched by chemistry, with a clear brief before a lab commits.",
-    problem: "Projects arrived that didn't fit the lab's chemistry, and labs had to say yes before they knew what was really needed.",
-    quotes: ["Project matching should be insanely good. Don't send peptide projects to someone who does deuterium.", "Chemistry is high risk. They only say yes if they're confident."],
-    steps: ["Open projects & exclusive invites", "Brief preview", "Check the fit", "Decide to propose"],
-    decisionIdx: [3],
-  },
-  {
-    slug: "proposals",
-    title: "Proposals",
-    tagline: "From invitation to won, each step shows what to do next.",
-    problem: "Briefs, quotes and follow-ups lived in email threads, so labs lost track of what they had sent and where it stood.",
-    quotes: ["I need to know what purity and what reports they want. I can give HPLC, not NMR."],
-    steps: ["Invitation", "Prepare the proposal", "Submit", "Track status", "Won or not won"],
-    decisionIdx: [4],
+    // shared by every supplier user type: one page, outside the researcher folder
+    slug: "opportunities-proposals",
+    href: "/work/scinode/suppliers/opportunities-proposals",
+    shared: true,
+    title: "Opportunities & proposals",
+    tagline: "From a matched opportunity to a purchase order, with Scimplify mediating every step.",
+    problem: "Projects arrived that didn't fit the lab's chemistry, and briefs, quotes and follow-ups lived in email threads.",
+    quotes: ["Project matching should be insanely good. Don't send peptide projects to someone who does deuterium."],
+    steps: ["Matched opportunities", "Submit a proposal", "Review & quote", "Purchase order"],
+    decisionIdx: [3, 4],
   },
   {
     slug: "project-management",

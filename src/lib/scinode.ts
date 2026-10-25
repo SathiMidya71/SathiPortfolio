@@ -45,7 +45,7 @@ export const portalNames: Record<PortalKey, string> = {
 // The business & admin portal was designed by teammates (shown for context only).
 // Everything marked tbc is a placeholder until she sends content.
 
-export type AreaModule = { slug: string; name: string; summary: string; tbc?: boolean }
+export type AreaModule = { slug: string; name: string; summary: string; tbc?: boolean; /** shared module page outside this area */ href?: string }
 
 export type Area = {
   slug: string
@@ -82,8 +82,11 @@ export const areas: Area[] = [
     kind: "Manufacturer portal",
     audience: "Manufacturers who take on scale-up and production work.",
     steps: ["04", "05", "06"],
-    modules: [{ slug: "modules", name: "Manufacturer modules", summary: "Placeholder: modules and flows for manufacturers.", tbc: true }],
-    tbc: true,
+    modules: [
+      { slug: "profile-onboarding", name: "Profile & onboarding", summary: "Facility, products and capabilities, then the partner NDA on the first purchase order.", tbc: true },
+      { slug: "opportunities-proposals", name: "Opportunities & proposals", summary: "From a matched opportunity to a purchase order, with Scimplify mediating every step.", href: "/work/scinode/suppliers/opportunities-proposals" },
+      { slug: "orders-execution", name: "Orders & execution", summary: "Track every order from production to logistics and shipment.", tbc: true },
+    ],
   },
   {
     slug: "cro",

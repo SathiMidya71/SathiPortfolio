@@ -24,6 +24,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react"
+import { moduleHref } from "@/components/scinode/researcher/modules"
 import {
   affinity,
   colourStudy,
@@ -483,8 +484,8 @@ const stepModule: Record<string, string> = {
   "CRO profile": "profile-onboarding",
   "Scientist profile": "profile-onboarding",
   Verification: "profile-onboarding",
-  Opportunities: "opportunities",
-  Proposals: "proposals",
+  Opportunities: "opportunities-proposals",
+  Proposals: "opportunities-proposals",
   Projects: "project-management",
   "Project management": "project-management",
 }
@@ -494,7 +495,7 @@ function Linked({ title, x, y, w, h, children }: { title: string; x: number; y: 
   const slug = stepModule[title]
   if (!slug) return <g>{children}</g>
   return (
-    <a href={`/work/scinode/researcher/${slug}`} className="group cursor-pointer outline-none [&:focus-visible_rect]:stroke-[#02594e] [&:focus-visible_rect]:stroke-[2.5]">
+    <a href={moduleHref(slug)} className="group cursor-pointer outline-none [&:focus-visible_rect]:stroke-[#02594e] [&:focus-visible_rect]:stroke-[2.5]">
       <title>{`Open the ${title} module`}</title>
       <g className="transition-transform duration-200 group-hover:-translate-y-[3px]">
         {children}
