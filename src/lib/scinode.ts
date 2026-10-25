@@ -83,9 +83,9 @@ export const areas: Area[] = [
     audience: "Manufacturers who take on scale-up and production work.",
     steps: ["04", "05", "06"],
     modules: [
-      { slug: "profile-onboarding", name: "Profile & onboarding", summary: "Facility, products and capabilities, then the partner NDA on the first purchase order.", tbc: true },
+      { slug: "profile-onboarding", name: "Profile & onboarding", summary: "Facility, products and capabilities, then the partner NDA on the first purchase order." },
       { slug: "opportunities-proposals", name: "Opportunities & proposals", summary: "From a matched opportunity to a purchase order, with Scimplify mediating every step.", href: "/work/scinode/suppliers/opportunities-proposals" },
-      { slug: "orders-execution", name: "Orders & execution", summary: "Track every order from production to logistics and shipment.", tbc: true },
+      { slug: "orders-execution", name: "Orders & execution", summary: "Track every order from production to logistics and shipment." },
     ],
   },
   {

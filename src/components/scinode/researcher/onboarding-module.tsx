@@ -44,7 +44,14 @@ const mint = { backgroundImage: "linear-gradient(180deg,#e6f7ef 0%,#8fd3b4 100%)
 
 /** Radial diagram (after Sathi's reference): the four scope facts as nodes, their values as pills,
  *  a rounded shape drawn from the values, and the three problems with their fixes beside it. */
-function ContextBoard() {
+export type ContextFact = { n: string; label: string }
+export type ContextProblem = { title: string; text: string; fix: string }
+
+export function ContextBoard({
+  facts = obFacts,
+  problems = obProblems,
+  centre = ["Supplier", "onboarding"],
+}: { facts?: readonly ContextFact[]; problems?: readonly ContextProblem[]; centre?: [string, string] } = {}) {
   const C = 250
   const ring = [48, 88, 128, 168]
   const nodeR = 44
@@ -57,7 +64,8 @@ function ContextBoard() {
     [-1, 0],
   ]
   // an even rounded diamond, as in the reference; the values sit on its points
-  const reach = obFacts.map(() => 118)
+  const reach = facts.map(() => 118)
+  const centreSize = Math.max(...centre.map((w) => w.length)) > 10 ? 21 : 25
   const pts = dirs.map(([dx, dy], i) => [C + dx * reach[i], C + dy * reach[i]])
   // rounded quadrilateral: corners softened with quadratic curves
   const k = 0.38
@@ -71,7 +79,8 @@ function ContextBoard() {
     d += `${i ? "L" : "M"}${a1[0].toFixed(1)},${a1[1].toFixed(1)} Q${p[0]},${p[1]} ${b1[0].toFixed(1)},${b1[1].toFixed(1)} `
   })
   d += "Z"
-  const label = (s: string) => s.replace("CRO sections", "CRO\nsections").replace("Scientist sections", "Scientist\nsections").replace("Approval gate", "Approval\ngate").split("\n")
+  // "\n" in a label sets its line break; otherwise the researcher labels break as before
+  const label = (s: string) => s.includes("\n") ? s.split("\n") : s.replace("CRO sections", "CRO\nsections").replace("Scientist sections", "Scientist\nsections").replace("Approval gate", "Approval\ngate").split("\n")
 
   return (
     <FlowReveal
@@ -84,7 +93,7 @@ function ContextBoard() {
           backgroundSize: "28px 28px",
         }}
       >
-        <svg viewBox="-14 -14 528 528" className="mx-auto w-full max-w-[470px]" role="img" aria-label={`Supplier onboarding at a glance: ${obFacts.map((f) => `${f.n} ${f.label.toLowerCase()}`).join(", ")}.`}>
+        <svg viewBox="-14 -14 528 528" className="mx-auto w-full max-w-[470px]" role="img" aria-label={`${centre.join(" ")} at a glance: ${facts.map((f) => `${f.n} ${f.label.replace("\n", " ").toLowerCase()}`).join(", ")}.`}>
           <g data-fl="lane" style={at(0)}>
             {ring.map((r) => (
               <circle key={r} cx={C} cy={C} r={r} fill="none" stroke="#6B4CB8" strokeOpacity="0.18" />
@@ -94,13 +103,13 @@ function ContextBoard() {
           </g>
           <path data-fl="edge" style={at(300)} pathLength={1} strokeDasharray="1" d={d} fill="none" stroke="#6B4CB8" strokeWidth="3.5" strokeLinejoin="round" />
           <path data-fl="lane" style={at(700)} d={d} fill="#B79CEC" fillOpacity="0.16" />
-          <text x={C} y={C - 6} textAnchor="middle" className="font-heading" fontSize="25" fontWeight="600" fill="#1d1d1f">
-            Supplier
+          <text x={C} y={C - 6} textAnchor="middle" className="font-heading" fontSize={centreSize} fontWeight="600" fill="#1d1d1f">
+            {centre[0]}
           </text>
-          <text x={C} y={C + 24} textAnchor="middle" className="font-heading" fontSize="25" fontWeight="600" fill="#1d1d1f">
-            onboarding
+          <text x={C} y={C + 24} textAnchor="middle" className="font-heading" fontSize={centreSize} fontWeight="600" fill="#1d1d1f">
+            {centre[1]}
           </text>
-          {obFacts.map((f, i) => {
+          {facts.map((f, i) => {
             const [dx, dy] = dirs[i]
             const nx = C + dx * nodeAt
             const ny = C + dy * nodeAt
@@ -128,7 +137,7 @@ function ContextBoard() {
       <div>
         <p className="text-[12px] font-semibold tracking-[0.12em] text-[#8A6514] uppercase">The problem</p>
         <ol className="mt-3 grid gap-3">
-          {obProblems.map((p, i) => (
+          {problems.map((p, i) => (
             <li key={p.title} data-fl="node" style={at(900 + i * 150)} className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 border-t border-line pt-3">
               <span className="font-heading text-[22px] leading-none font-semibold text-[#C9A23F] tabular-nums">{String(i + 1).padStart(2, "0")}</span>
               <div>

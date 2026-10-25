@@ -16,7 +16,16 @@ const tones = [
 const rows = ["What we heard", "What it means", "What I designed"]
 const at = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties
 
-export function ResearchMap() {
+export type ResearchItem = {
+  method: string
+  quote?: string
+  stat?: { value: string; label: string }
+  question?: string
+  insight: string
+  decision: string
+}
+
+export function ResearchMap({ items = obResearch }: { items?: readonly ResearchItem[] }) {
   return (
     <FlowReveal className="grid gap-3 lg:grid-cols-[110px_repeat(4,minmax(0,1fr))] lg:gap-x-3 lg:gap-y-0">
       {/* row labels (desktop) */}
@@ -30,7 +39,7 @@ export function ResearchMap() {
         </p>
       ))}
 
-      {obResearch.map((r, i) => {
+      {items.map((r, i) => {
         const t = tones[i]
         const col = { "--c": i + 2 } as React.CSSProperties
         return (

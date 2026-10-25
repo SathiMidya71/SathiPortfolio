@@ -33,11 +33,13 @@ export const pmSections = [
   { id: "impact", label: "Success metrics" },
 ]
 
-const tone = {
+export const tone = {
   lead: { ink: "#1F392D", tint: "#dfe8e3", label: "text-[#1F392D]" },
   admin: { ink: "#6b7f7c", tint: "#f2ece3", label: "text-[#56635f]" },
   res: { ink: "#02594e", tint: "#e4f1eb", label: "text-brand" },
+  cust: { ink: "#6e62e5", tint: "#ece9fd", label: "text-[#5b4fd1]" },
 } as const
+export type PortalTone = keyof typeof tone
 const laneTone: Record<string, keyof typeof tone> = { "Super admin": "admin", "Project manager": "admin", "Group leader": "res", "Procurement head": "res" }
 
 /** Build-in timing for the flowcharts (see FlowReveal): lanes first, then one step every `step` ms. */
@@ -45,7 +47,10 @@ const at = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties
 const flowStart = 350
 
 /** Context board: the scope in big numbers and each problem with its fix, on the hero's dark green grid. */
-function ContextBoard() {
+export function PmContextBoard({
+  facts = pmFacts,
+  problems = pmProblems,
+}: { facts?: readonly { n: string; label: string }[]; problems?: readonly { title: string; text: string; fix: string }[] } = {}) {
   const icons = [
     { before: Unlink, after: Link2 },
     { before: Mails, after: Workflow },
@@ -62,7 +67,7 @@ function ContextBoard() {
       }}
     >
       <dl className="grid grid-cols-2 gap-y-5 md:grid-cols-4">
-        {pmFacts.map((f, i) => (
+        {facts.map((f, i) => (
           <div key={f.label} className={cn("pr-4", i > 0 && "md:border-l md:border-white/10 md:pl-6", i % 2 === 1 && "max-md:border-l max-md:border-white/10 max-md:pl-4")}>
             <dd
               className="font-heading text-[52px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[64px]"
@@ -76,7 +81,7 @@ function ContextBoard() {
       </dl>
 
       <ul className="mt-7 grid gap-3 md:grid-cols-3">
-        {pmProblems.map((p, i) => {
+        {problems.map((p, i) => {
           const { before: Before, after: After } = icons[i]
           return (
             <li key={p.title} className="flex flex-col rounded-[16px] bg-white/[0.06] p-4 ring-1 ring-white/10 backdrop-blur-sm">
@@ -103,10 +108,13 @@ function ContextBoard() {
   )
 }
 
-function Surfaces() {
+export function Surfaces({
+  surfaces = pmSurfaces,
+  note = "Two-way sync: what admins approve and the lab updates shows up for leadership automatically.",
+}: { surfaces?: readonly { key: PortalTone; name: string; roles: readonly string[]; job: string }[]; note?: string } = {}) {
   return (
     <div className="grid items-stretch gap-3 lg:grid-cols-[1fr_40px_1fr_40px_1fr]">
-      {pmSurfaces.map((s, i) => {
+      {surfaces.map((s, i) => {
         const t = tone[s.key]
         return (
           <div key={s.key} className="contents">
@@ -122,7 +130,7 @@ function Surfaces() {
                 ))}
               </ul>
             </div>
-            {i < pmSurfaces.length - 1 && (
+            {i < surfaces.length - 1 && (
               <div className="grid place-items-center py-1 lg:py-0" aria-hidden>
                 <span className="grid size-9 place-items-center rounded-full bg-brand text-white">
                   <ArrowLeftRight className="size-4 rotate-90 lg:rotate-0" />
@@ -132,7 +140,7 @@ function Surfaces() {
           </div>
         )
       })}
-      <p className="text-[12.5px] text-soft lg:col-span-5">Two-way sync: what admins approve and the lab updates shows up for leadership automatically.</p>
+      <p className="text-[12.5px] text-soft lg:col-span-5">{note}</p>
     </div>
   )
 }
@@ -565,7 +573,7 @@ export function ProjectManagementSections() {
     <>
       <EdSection id="context" label="Context" title={["Three portals,", "one project"]}>
         <p className="max-w-[820px] font-heading text-[22px] leading-snug font-medium text-ink md:text-[26px]">{pmContext}</p>
-        <ContextBoard />
+        <PmContextBoard />
       </EdSection>
 
       <EdSection id="users" label="Who uses it" title={["Six roles,", "the right view each"]}>
