@@ -63,7 +63,7 @@ export function PilotPlantToggle() {
 }
 
 /** First concept vs what shipped: flip all cards with one switch. */
-export function EvolutionFlip() {
+export function EvolutionFlip({ items = evolution }: { items?: readonly { area: string; before: string; after: string }[] }) {
   const [shipped, setShipped] = useState(false)
   return (
     <div>
@@ -84,7 +84,7 @@ export function EvolutionFlip() {
         ))}
       </div>
       <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {evolution.map((e, i) => (
+        {items.map((e, i) => (
           <li key={e.area} className="[perspective:1200px]">
             <button
               onClick={() => setShipped((s) => !s)}

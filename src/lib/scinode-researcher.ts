@@ -248,6 +248,10 @@ export const colourStudy = {
   ],
 }
 
+/** Caption under the outcome rings, and the source line under research quotes. */
+export const targetsNote: string = "Targets set with the PM. Results to come."
+export const quoteSource: string = "From interviews"
+
 /** PM targets for the profile module. Shown as targets, never as results. */
 export const targets = [
   { value: 90, suffix: "%", prefix: ">", label: "profile completion" },
