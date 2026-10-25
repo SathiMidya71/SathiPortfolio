@@ -133,6 +133,8 @@ The site is inspired by https://www.benshih.design/: its layout patterns, type s
 
 - **Profile & onboarding module** (`/work/scinode/researcher/profile-onboarding`, `onboarding-module.tsx`, data `scinode-onboarding.ts`): a research-led case study (research → insight → design decision, not a feature list). Research is Sathi's own (CRO interviews, competitive analysis, personas); the PM's PRDs (Supplier Profile V2, Scientist Onboarding) are background only, and their KPIs (>90% completion, >80% activation, <20 min, <24 h approval) are shown as targets, never results. Scientist persona is a proto-persona. Don't invent per-step times or results.
 
+- **Private notes:** `notes-private/` is git-ignored (the repo is public). It holds the PM notes for Scinode for Manufacturers (`scinode-manufacturers.md`: naming rules, problem, lifecycle, adaptive proposal form, proposal timelines, orders) and the proposed SCINODE structure (`scinode-structure.md`). Read them before writing manufacturer or Opportunities & proposals content. Never commit them; never publish ATOMS/IONS/Scira/ICMS/MCMS, client names/logos or unverified deck figures.
+
 ## SCINODE wayfinding (Work → SCINODE → platform → module)
 - The SCINODE case study nests 3–4 levels deep, so every SCINODE page uses `src/components/scinode/wayfinding.tsx` with the page map in `src/lib/scinode-nav.ts` (platforms in the order of the "Explore what I designed" cards; CRO and scientist belong to the researcher platform):
   - `Trail`: breadcrumb at the top (All work › SCINODE › platform › module) plus a "Module n of N" chip.
