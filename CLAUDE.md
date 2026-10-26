@@ -149,6 +149,7 @@ The site is inspired by https://www.benshih.design/: its layout patterns, type s
 - Mobile scale (Apple HIG / Material): page title 32–34px (home hero 40px), section heading 26px, sub-heading 20–24px, body 15–16px, never text under 11px except inside coded product screens; big display numbers ≤ 64px, decorative numerals ≤ 80px.
 - Mobile rhythm: section tops 88–96px (`mt-12/14 pt-10`), header-to-content 24px, side gutter 20px (`px-5`).
 - Any grid that can hold a wide figure or table needs `grid-cols-[minmax(0,1fr)]`, or the item stretches the column off-screen (this caused a 430px overflow on Arc Connect).
+- Deep Research persona and empathy map on phones (< md): `PersonaMobile` (`deep-research/persona-mobile.tsx`: round portrait beside name/role, facts as two tiles, quote, about, then Goals / Frustrations / Needs as a segmented tab bar) and `EmpathyMobile` (`deep-research/empathy-mobile.tsx`: small portrait + name, the four quadrants as a 2×2 tab picker in their tints with item counts, only the chosen quadrant's notes below, then a Pains / Gains toggle). Tap targets ≥ 44px, ARIA tabs. Desktop keeps the persona board and the whiteboard cross.
 - Verify with the mobile audit (390px: no horizontal overflow, nothing outside the viewport, heading sizes) on every page.
 
 ## Asset pipeline (how existing assets were made)

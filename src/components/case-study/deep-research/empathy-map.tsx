@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Brain, Hand, Heart, MessageCircle } from "lucide-react"
 import type { Block } from "@/lib/case-studies/types"
 import { cn } from "@/lib/utils"
+import { EmpathyMobile } from "./empathy-mobile"
 
 // Empathy map drawn like a whiteboard: a dashed cross with the persona's portrait in the middle,
 // handwritten quadrant labels, and pains / gains underneath.
@@ -17,7 +18,12 @@ const quads = [
 
 export function EmpathyMapView({ block }: { block: EmpathyBlock }) {
   return (
-    <div>
+    <>
+    {/* phones: one quadrant at a time */}
+    <div className="md:hidden">
+      <EmpathyMobile name={block.name} photo={block.photo} says={block.says} thinks={block.thinks} does={block.does} feels={block.feels} pains={block.pains} gains={block.gains} />
+    </div>
+    <div className="max-md:hidden">
       <div className="relative">
         {/* portrait at the centre of the cross */}
         {block.photo && (
@@ -102,5 +108,6 @@ export function EmpathyMapView({ block }: { block: EmpathyBlock }) {
         ))}
       </div>
     </div>
+    </>
   )
 }

@@ -31,6 +31,7 @@ import { MarkedImageView } from "./deep-research/marked-image"
 import { MediaView } from "./deep-research/media"
 import { PegboardView } from "./deep-research/pegboard"
 import { PersonaBoard } from "./deep-research/persona-board"
+import { PersonaMobile } from "./deep-research/persona-mobile"
 import { ColorStageView, DrJourneyMap, ProblemSolutionView } from "./deep-research/showcase"
 import { DesignSystemView } from "./design-system"
 import { HomeBoardView, IllustrationsView, ShowcaseView, PhoneFlowView, VideoView } from "./mobile-blocks"
@@ -182,7 +183,7 @@ export function BlockView({ block }: { block: Block }) {
                   <PersonaBoard p={p} />
                 </div>
                 <div className="md:hidden">
-                  <RichPersona p={p} />
+                  <PersonaMobile p={p} />
                 </div>
               </div>
             ))}
