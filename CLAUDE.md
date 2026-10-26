@@ -4,6 +4,7 @@ You are helping me, **Sathi Midya** (Product Designer, Bangalore), continue buil
 
 ## Where things live
 - **Repo:** https://github.com/SathiMidya71/portfolio-website (my personal account, branch `main`). Never use my work GitHub account `sathi-design`.
+- **Live site:** https://sathi-portfolio.vercel.app (Vercel). Every push to `main` deploys automatically, so anything pushed to `main` is public within minutes; check phone and desktop before pushing.
 - **Local folder:** `~/Desktop/Sathi Portfolio Website`
 - **Run locally:** always on port **9002**. `npm install`, then `npm run dev` (the script sets `-p 9002`) and open http://localhost:9002
   - On Sathi's Mac, Turbopack fails to load the Roboto Google font ("next/font/google queries have exactly one entry"), so run `npx next dev -p 9002` (webpack) there instead.
