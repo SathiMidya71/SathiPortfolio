@@ -149,7 +149,7 @@ export function ShowcaseView({ block }: { block: ShowcaseBlock }) {
           <p
             aria-hidden
             className={cn(
-              "mt-1 text-[64px] leading-[0.95] font-normal tracking-[-0.03em] select-none sm:text-[96px] md:text-[120px]",
+              "mt-1 text-[48px] leading-[0.95] font-normal tracking-[-0.03em] select-none sm:text-[96px] md:text-[120px]",
               dark ? "text-white/[0.08]" : "text-ink/[0.07]"
             )}
           >
@@ -206,7 +206,7 @@ export function HomeBoardView({ block }: { block: HomeBoardBlock }) {
           aria-label={block.video.label}
         />
         <div className="flex flex-col items-center text-center">
-          <h3 className="text-[56px] leading-none font-normal tracking-[-0.03em] text-[#2b2b2b] md:text-[72px]">{block.title}</h3>
+          <h3 className="text-[40px] leading-none font-normal tracking-[-0.03em] text-[#2b2b2b] md:text-[72px]">{block.title}</h3>
           <Image
             src={block.illustration.src}
             alt={block.illustration.alt}

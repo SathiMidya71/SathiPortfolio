@@ -16,7 +16,7 @@ export function Contact() {
       <Reveal>
         <Card className={`${surface} items-center px-6 py-10 text-center sm:px-10 sm:py-14`}>
           <p className="text-[19px] font-medium text-ink sm:text-2xl">Let&apos;s work together</p>
-          <h2 className="mt-4 mb-4 text-[38px] leading-none tracking-[-1.28px] text-brand md:text-[48px] lg:text-[64px]">
+          <h2 className="mt-4 mb-4 text-[30px] leading-[1.05] tracking-[-0.8px] text-brand md:text-[48px] md:leading-none md:tracking-[-1.28px] lg:text-[64px]">
             Have a product problem worth solving?
           </h2>
           <p className="mx-auto mb-7 max-w-[520px] text-lg text-body">

@@ -12,7 +12,7 @@ import { Section, btnPill, surface } from "./section"
 /** About me as an opening journal (below the case studies). */
 export function AboutJournal() {
   return (
-    <TornPaper className="my-20 py-16 md:my-28 md:py-24">
+    <TornPaper className="my-12 py-10 md:my-28 md:py-24">
       <Section id="about" className="mb-0!">
         <p className="mb-8 text-center font-hand text-[34px] leading-none font-bold text-brand md:mb-12 md:text-[44px]">{about.eyebrow}</p>
         <Journal />
@@ -29,7 +29,7 @@ export function About() {
         <Reveal>
           <Card className={`${surface} h-full p-6 sm:p-10`}>
             <p className="mb-5 text-[19px] leading-[1.3] font-medium text-ink sm:text-2xl">{about.eyebrow}</p>
-            <h2 className="mb-6 text-[38px] leading-none tracking-[-1.28px] text-brand md:text-[48px] lg:text-[64px]">
+            <h2 className="mb-6 text-[30px] leading-[1.05] tracking-[-0.8px] text-brand md:text-[48px] md:leading-none md:tracking-[-1.28px] lg:text-[64px]">
               {about.headline[0]}
               <br />
               <span className="text-ink">{about.headline[1]}</span>

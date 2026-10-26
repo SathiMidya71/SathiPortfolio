@@ -289,7 +289,7 @@ function Impact() {
         <dl className="mt-3 grid grid-cols-2 gap-6">
           {obResults.map((r, i) => (
             <div key={r.label} className={cn(i > 0 && "border-l border-white/10 pl-6")}>
-              <dd className="font-heading text-[56px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[72px]" style={mint}>
+              <dd className="font-heading text-[44px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[72px]" style={mint}>
                 {r.n}
               </dd>
               <dt className="mt-2 text-[13px] font-semibold text-white/70">{r.label}</dt>

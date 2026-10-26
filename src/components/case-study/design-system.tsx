@@ -65,7 +65,7 @@ export function DesignSystemView({ block }: { block: DesignSystemBlock }) {
         <p className={cn(eyebrow, "font-sans")}>Typography</p>
         <div className="mt-6 text-center">
           <p
-            className="bg-clip-text text-[64px] leading-none font-bold tracking-[-0.03em] text-transparent sm:text-[96px]"
+            className="bg-clip-text text-[48px] leading-none font-bold tracking-[-0.03em] text-transparent sm:text-[96px]"
             style={{ backgroundImage: gradient }}
           >
             {block.typeface}
@@ -81,7 +81,7 @@ export function DesignSystemView({ block }: { block: DesignSystemBlock }) {
         </div>
 
         <div className="mt-12 grid items-end gap-6 md:grid-cols-[auto_1fr] md:gap-10">
-          <span className="text-[140px] leading-[0.78] font-medium tracking-[-0.04em] text-ink sm:text-[180px]">Aa</span>
+          <span className="text-[110px] leading-[0.78] font-medium tracking-[-0.04em] text-ink sm:text-[180px]">Aa</span>
           <p className="max-w-[420px] pb-2 text-xl leading-relaxed text-body">{ALPHABET}</p>
         </div>
 

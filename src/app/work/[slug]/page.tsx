@@ -59,7 +59,7 @@ export default async function CaseStudyPage({ params }: Params) {
             <ArrowLeft className="size-4" /> All work
           </Link>
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">{cs.eyebrow}</p>
-          <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[84px] lg:leading-none">
+          <h1 className="mt-4 text-[34px] leading-[1.02] tracking-[-0.02em] text-brand md:text-[64px] md:leading-[0.98] lg:text-[84px] lg:leading-none">
             {cs.title[0]}
             <br />
             <span className="bg-gradient-to-r from-brand to-brand/70 bg-clip-text pb-[0.06em] text-transparent">{cs.title[1]}</span>
@@ -134,16 +134,16 @@ export default async function CaseStudyPage({ params }: Params) {
             </section>
 
             {cs.sections.map((section, i) => (
-              <section key={section.id} id={section.id} className="mt-20 scroll-mt-28 border-t border-line pt-14 md:mt-24">
+              <section key={section.id} id={section.id} className="mt-12 scroll-mt-28 border-t border-line pt-10 md:mt-24 md:pt-14">
                 <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">
                   {String(i + 1).padStart(2, "0")} · {section.nav}
                 </p>
                 {section.title && (
-                  <h2 className="mt-3 max-w-[760px] text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">
+                  <h2 className="mt-3 max-w-[760px] text-[26px] leading-[1.12] tracking-[-0.02em] text-ink md:text-[44px] md:leading-[1.08]">
                     {section.title}
                   </h2>
                 )}
-                <div className="mt-8 grid gap-7">
+                <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6 md:mt-8 md:gap-7">
                   {section.blocks.map((block, j) => (
                     <BlockView key={j} block={block} />
                   ))}

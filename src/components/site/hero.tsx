@@ -34,7 +34,7 @@ export function Hero() {
               {profile.status}
             </span>
 
-            <h1 className="text-[48px] leading-[0.96] tracking-[-0.96px] text-brand md:text-[88px] md:leading-[0.92] md:tracking-[-1.76px]">
+            <h1 className="text-[40px] leading-[0.98] tracking-[-0.8px] text-brand md:text-[88px] md:leading-[0.92] md:tracking-[-1.76px]">
               Hi, I&apos;m {profile.firstName}.
               <br />
               <span className="bg-gradient-to-r from-brand to-brand/70 bg-clip-text pb-[0.06em] text-transparent">

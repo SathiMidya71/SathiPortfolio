@@ -61,7 +61,7 @@ export function BlockView({ block }: { block: Block }) {
     case "lead":
       if (block.emphasis)
         return (
-          <p className="max-w-[880px] font-heading text-[30px] leading-[1.15] font-normal tracking-[-0.02em] text-ink md:text-[42px]">
+          <p className="max-w-[880px] font-heading text-[24px] leading-[1.2] font-normal tracking-[-0.02em] text-ink md:text-[42px] md:leading-[1.15]">
             {block.text} <span className="font-semibold text-brand">{block.emphasis}</span>
           </p>
         )
@@ -276,7 +276,7 @@ export function BlockView({ block }: { block: Block }) {
               ))}
             </div>
             <div className={cn(roboto.className, "flex min-h-44 flex-col justify-between rounded-[16px] bg-[#000229] p-5 text-white")}>
-              <span className="text-[72px] leading-none font-medium">Aa</span>
+              <span className="text-[56px] leading-none font-medium md:text-[72px]">Aa</span>
               {block.scale && (
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   {block.scale.map((px) => (

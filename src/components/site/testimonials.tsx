@@ -113,7 +113,7 @@ export function Testimonials() {
     <Section id="kind-words">
       <div className="mx-auto w-full overflow-hidden rounded-[20px] bg-white/75 p-6 shadow-[0_1px_2px_rgba(16,24,40,0.05)] md:p-10">
         <div className="space-y-4 text-center">
-          <h2 className="text-[36px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[60px] md:leading-none">{workingWithMe.title}</h2>
+          <h2 className="text-[30px] leading-[1.02] tracking-[-0.02em] text-brand md:text-[60px] md:leading-none">{workingWithMe.title}</h2>
           <p className="text-[18px] leading-[1.35] font-medium text-body md:text-[22px]">{workingWithMe.intro}</p>
         </div>
 

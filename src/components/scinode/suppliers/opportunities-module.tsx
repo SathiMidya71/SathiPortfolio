@@ -49,7 +49,7 @@ function ContextBoard() {
       <dl className="grid grid-cols-2 gap-y-5 md:grid-cols-4">
         {opFacts.map((f, i) => (
           <div key={f.label} className={cn("pr-4", i > 0 && "md:border-l md:border-white/10 md:pl-6", i % 2 === 1 && "max-md:border-l max-md:border-white/10 max-md:pl-4")}>
-            <dd className="font-heading text-[52px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[64px]" style={mint}>
+            <dd className="font-heading text-[42px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[64px]" style={mint}>
               {f.n}
             </dd>
             <dt className="mt-2 text-[12px] font-semibold tracking-[0.12em] text-white/55 uppercase">{f.label}</dt>

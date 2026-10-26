@@ -48,7 +48,7 @@ export default async function AreaPage({ params }: Params) {
         <header className={`${shell} pt-6 md:pt-10`}>
           <Trail platform={a.slug} />
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">SCINODE · {portalNames[a.portal]}</p>
-          <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[80px] lg:leading-none">{label}</h1>
+          <h1 className="mt-4 text-[34px] leading-[1.02] tracking-[-0.02em] text-brand md:text-[64px] md:leading-[0.98] lg:text-[80px] lg:leading-none">{label}</h1>
           <p className="mt-5 max-w-[720px] text-[19px] leading-snug text-body">{a.audience}</p>
           {a.tbc && <p className="mt-4 inline-block rounded-full bg-[#ece9fd] px-3 py-1 text-[12px] font-bold text-[#5b4fd1]">CONTENT TO COME</p>}
           <div className="mt-10 rounded-[20px] border border-line bg-white/60 p-5">

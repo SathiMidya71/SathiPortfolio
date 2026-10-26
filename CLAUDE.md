@@ -144,6 +144,13 @@ The site is inspired by https://www.benshih.design/: its layout patterns, type s
   - `KeepExploring`: end-of-page block: every module of the platform as cards ("You're here" on the current one; stacked on phones), the next module (or "Start with module 01" on a platform page, or "Explore another platform" after the last module), "Up a level", and the other platforms.
 - New SCINODE pages or modules: add them to `scinode-nav.ts` (or the area/module data it reads) and use these three components instead of one-off back/next links.
 
+## Mobile rules (Oct 2026, from Sathi's phone test)
+- Phones (< 768px) get their own type and spacing; tablet and desktop must stay pixel-identical. Change only the base (unprefixed) class and pin the original value at `md:` (e.g. `text-[26px] md:text-[40px]`, `mt-14 md:mt-24`). Check desktop/tablet page heights before and after any mobile change.
+- Mobile scale (Apple HIG / Material): page title 32–34px (home hero 40px), section heading 26px, sub-heading 20–24px, body 15–16px, never text under 11px except inside coded product screens; big display numbers ≤ 64px, decorative numerals ≤ 80px.
+- Mobile rhythm: section tops 88–96px (`mt-12/14 pt-10`), header-to-content 24px, side gutter 20px (`px-5`).
+- Any grid that can hold a wide figure or table needs `grid-cols-[minmax(0,1fr)]`, or the item stretches the column off-screen (this caused a 430px overflow on Arc Connect).
+- Verify with the mobile audit (390px: no horizontal overflow, nothing outside the viewport, heading sizes) on every page.
+
 ## Asset pipeline (how existing assets were made)
 - **Tools:** Python with PIL and OpenCV, and ffmpeg. Everything goes in `public/case-studies/<slug>/`.
 - **Phone screens:**

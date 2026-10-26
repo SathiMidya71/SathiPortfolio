@@ -153,7 +153,7 @@ export function StatsPanelView({ block }: { block: StatsBlock }) {
         <span className="mx-auto grid size-16 place-items-center rounded-2xl bg-[#dbe7fd] text-[#1366de] shadow-[0_10px_24px_-12px_rgba(19,102,222,0.6)]">
           <BarChart3 className="size-8" aria-hidden />
         </span>
-        <h3 className="mt-5 text-[34px] leading-none tracking-[-0.5px] text-ink md:text-[44px]">{block.title}</h3>
+        <h3 className="mt-5 text-[28px] leading-none tracking-[-0.5px] text-ink md:text-[44px]">{block.title}</h3>
         <p className="mx-auto mt-3 max-w-[520px] text-[17px] text-body">{block.text}</p>
       </div>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -281,7 +281,7 @@ export function StatementView({ block }: { block: StatementBlock }) {
   return (
     <h3
       ref={ref}
-      className="mx-auto my-6 max-w-[900px] text-center text-[34px] leading-[1.08] font-normal tracking-[-0.03em] text-ink sm:text-[48px] md:text-[60px]"
+      className="mx-auto my-6 max-w-[900px] text-center text-[28px] leading-[1.1] font-normal tracking-[-0.03em] text-ink sm:text-[48px] sm:leading-[1.08] md:text-[60px]"
       style={{ opacity: shown ? 1 : 0, translate: shown ? "0 0" : "0 20px", transition: "opacity 700ms ease, translate 800ms cubic-bezier(.2,.7,.2,1)" }}
     >
       {block.text}{" "}
@@ -303,7 +303,7 @@ export function TabletVideoView({ block }: { block: TabletVideoBlock }) {
     <div ref={ref} className="my-6">
       {(block.title || block.text) && (
         <div className="mx-auto mb-10 max-w-[640px] text-center">
-          {block.title && <h3 className="text-[30px] leading-tight tracking-[-0.02em] text-ink md:text-[40px]">{block.title}</h3>}
+          {block.title && <h3 className="text-[26px] leading-tight tracking-[-0.02em] text-ink md:text-[40px]">{block.title}</h3>}
           {block.text && <p className="mt-3 text-[17px] leading-relaxed text-body">{block.text}</p>}
         </div>
       )}

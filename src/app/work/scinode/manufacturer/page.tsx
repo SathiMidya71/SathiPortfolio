@@ -117,7 +117,7 @@ export default function ManufacturerPage() {
         <header className={`${shell} pt-6 md:pt-10`}>
           <Trail platform="manufacturer" />
           <Image src="/case-studies/scinode/logo-manufacturers.png" alt="Scinode for Manufacturers by Scimplify" width={800} height={249} className="mt-8 h-12 w-auto" priority />
-          <h1 className="mt-5 text-[38px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[54px] lg:text-[64px] lg:leading-none">
+          <h1 className="mt-5 text-[32px] leading-[1.02] tracking-[-0.02em] text-brand md:text-[54px] md:leading-[0.98] lg:text-[64px] lg:leading-none">
             {meta.title}
             <span className="mt-3 block text-[0.5em] leading-tight text-ink/80">{meta.subtitle}</span>
           </h1>
@@ -141,7 +141,7 @@ export default function ManufacturerPage() {
               <div id="objectives" className="grid scroll-mt-24 gap-6">
                 <div>
                   <p className="text-[16px] text-soft">Research objectives</p>
-                  <h3 className="mt-1 font-sans text-[28px] leading-tight font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[34px]">
+                  <h3 className="mt-1 font-sans text-[23px] leading-tight font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[34px]">
                     Four questions <span className={cn(serif.className, "text-ink/60 italic")}>to answer</span>
                   </h3>
                 </div>

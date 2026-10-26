@@ -56,10 +56,10 @@ export function ProblemSolutionView({ block }: { block: B<"problemSolution"> }) 
             <span className="size-3 rounded-full bg-soft" aria-hidden /> Problem
           </p>
           <p className="mt-3 max-w-[380px] text-[16px] leading-relaxed text-body">{block.problem.text}</p>
-          <ol className="mt-8 grid gap-7">
+          <ol className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6 md:mt-8 md:gap-7">
             {block.problem.items.map((it) => (
               <li key={it.big}>
-                <p className="font-heading text-[34px] leading-none font-normal tracking-[-0.03em] whitespace-nowrap text-ink xl:text-[40px]">{it.big}</p>
+                <p className="font-heading text-[26px] leading-none font-normal tracking-[-0.03em] whitespace-nowrap text-ink md:text-[34px] xl:text-[40px]">{it.big}</p>
                 <p className="mt-2 max-w-[360px] text-[15.5px] leading-relaxed text-body">{it.text}</p>
               </li>
             ))}
@@ -173,7 +173,7 @@ export function DrJourneyMap() {
           <span className="inline-block rounded-full px-3.5 py-1.5 text-[13px] font-medium" style={{ background: purple, color: onPurple }}>
             Product journey
           </span>
-          <p className="mt-5 font-heading text-[40px] leading-none font-normal tracking-[-0.03em] text-ink md:text-[56px]">User flow</p>
+          <p className="mt-5 font-heading text-[32px] leading-none font-normal tracking-[-0.03em] text-ink md:text-[56px]">User flow</p>
         </div>
         <figcaption className="text-[16px] leading-relaxed text-body md:text-[17px]">
           Conversation first. One question opens the investigation, quick actions jump straight into a scientific workflow, and every path ends in evidence and the Research Vault.
@@ -257,7 +257,7 @@ export function ColorStageView({ block }: { block: B<"palette"> }) {
   return (
     <div className={cn(inter.className, "relative overflow-hidden rounded-[28px] px-5 pt-10 sm:px-10 md:pt-14")} style={{ background: stage }}>
       <div className="relative z-10 grid gap-5 md:ml-[38%]">
-        <p className="font-heading text-[44px] leading-none font-normal tracking-[-0.03em] text-[#555] md:text-[64px]">Colour</p>
+        <p className="font-heading text-[34px] leading-none font-normal tracking-[-0.03em] text-[#555] md:text-[64px]">Colour</p>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
           <span className="flex shrink-0 items-center gap-1 self-start rounded-full bg-white/70 p-1 shadow-sm">
             {neutrals.map((c) => (

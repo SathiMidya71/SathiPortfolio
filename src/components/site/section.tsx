@@ -30,7 +30,7 @@ export function SectionHeading({
     <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-6">
       <div>
         <p className="mb-2 text-[19px] leading-[1.3] font-medium text-ink sm:text-2xl">{eyebrow}</p>
-        <h2 className="text-[38px] leading-none tracking-[-1px] text-brand md:text-[48px] lg:text-[64px] lg:leading-[62.72px]">
+        <h2 className="text-[30px] leading-[1.05] tracking-[-0.6px] text-brand md:text-[48px] md:leading-none md:tracking-[-1px] lg:text-[64px] lg:leading-[62.72px]">
           {title}
         </h2>
       </div>

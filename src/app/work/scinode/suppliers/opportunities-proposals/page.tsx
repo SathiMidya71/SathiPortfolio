@@ -32,7 +32,7 @@ export default async function OpportunitiesProposalsPage({ searchParams }: { sea
           <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#F1EBFC] px-3 py-1 text-[12.5px] font-semibold text-[#4A307D]">
             Shared module · CROs, scientists and manufacturers
           </p>
-          <h1 className="mt-3 font-sans text-[38px] leading-[1.05] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[52px] lg:text-[60px]">
+          <h1 className="mt-3 font-sans text-[32px] leading-[1.08] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[52px] md:leading-[1.05] lg:text-[60px]">
             Opportunities &amp; proposals
           </h1>
           <p className={cn(serif.className, "mt-3 max-w-[760px] text-[22px] leading-snug text-ink/60 italic md:text-[26px]")}>

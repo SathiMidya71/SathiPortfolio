@@ -66,11 +66,11 @@ export function FlowSkeleton({ n = 5, label = "Module workflow (to come)" }: { n
 /** Numbered section wrapper used on the SCINODE pages. */
 export function WireSection({ id, n, eyebrow, title, children }: { id: string; n: number; eyebrow: string; title: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="mt-20 scroll-mt-28 border-t border-line pt-14 md:mt-24">
+    <section id={id} className="mt-12 scroll-mt-28 border-t border-line pt-10 md:mt-24 md:pt-14">
       <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">
         {String(n).padStart(2, "0")} · {eyebrow}
       </p>
-      <h2 className="mt-3 max-w-[760px] text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">{title}</h2>
+      <h2 className="mt-3 max-w-[760px] text-[26px] leading-[1.12] tracking-[-0.02em] text-ink md:text-[44px] md:leading-[1.08]">{title}</h2>
       <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-7">{children}</div>
     </section>
   )

@@ -56,7 +56,7 @@ export default async function ResearcherModulePage({ params }: Params) {
       <main style={{ "--tone-purple": "#B79CEC", "--tone-purple-ink": "#6B4CB8", "--accent-purple": "#F1EBFC", "--on-purple": "#2B2150", "--tone-orange": "#1F392D" } as React.CSSProperties}>
         <header className={`${shell} pt-6 md:pt-10`}>
           <Trail platform="researcher" module={m.slug} />
-          <h1 className="mt-8 font-sans text-[38px] leading-[1.05] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[52px] lg:text-[60px]">
+          <h1 className="mt-8 font-sans text-[32px] leading-[1.08] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[52px] md:leading-[1.05] lg:text-[60px]">
             {m.title}
           </h1>
           <p className={cn(serif.className, "mt-3 max-w-[760px] text-[22px] leading-snug text-ink/60 italic md:text-[26px]")}>{m.tagline}</p>

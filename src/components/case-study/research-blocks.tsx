@@ -13,7 +13,7 @@ export function InterviewsView({ block }: { block: InterviewsBlock }) {
   return (
     <div className="flex flex-col gap-4 rounded-[20px] border border-line p-5 sm:flex-row sm:items-center sm:gap-6">
       <div className="shrink-0">
-        <p className="font-heading text-[44px] leading-none font-semibold text-brand">{block.total}</p>
+        <p className="font-heading text-[36px] leading-none font-semibold text-brand md:text-[44px]">{block.total}</p>
         <p className="mt-1 max-w-[180px] text-sm text-body">{block.totalLabel}</p>
       </div>
       <ul className="flex flex-wrap gap-2 sm:border-l sm:border-line sm:pl-6">

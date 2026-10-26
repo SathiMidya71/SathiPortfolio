@@ -416,7 +416,7 @@ export function TypeHierarchyView({ block }: { block: B<"typeHierarchy"> }) {
         })}
       </ol>
       <div className="flex flex-col gap-4 rounded-[20px] bg-[#171717] p-6 text-white">
-        <p className="text-[88px] leading-none font-semibold tracking-[-0.03em]">Aa</p>
+        <p className="text-[64px] leading-none font-semibold tracking-[-0.03em] md:text-[88px]">Aa</p>
         <div>
           <p className="text-xl font-semibold">{block.font}</p>
           <p className="mt-1 text-[13px] text-white/60">Regular · Medium · Semibold · Bold</p>
@@ -480,7 +480,7 @@ export function StatsView({ block }: { block: B<"stats"> }) {
           key={st.label}
           className={cn("flex flex-col justify-between gap-6 rounded-[22px] p-6 md:p-8", i === 0 ? "bg-[#1f392d] text-white" : "bg-white/80 text-[#1f392d] ring-1 ring-black/[0.04]")}
         >
-          <p className={cn("font-heading leading-none font-bold tracking-[-0.03em]", block.items.length > 4 ? "text-[52px] md:text-[64px]" : "text-[64px] md:text-[84px]")}>{st.value}</p>
+          <p className={cn("font-heading leading-none font-bold tracking-[-0.03em]", block.items.length > 4 ? "text-[52px] md:text-[64px]" : "text-[48px] md:text-[84px]")}>{st.value}</p>
           <p className={cn("text-[17px] leading-snug md:text-lg", i === 0 ? "text-white/85" : "text-body")}>{st.label}</p>
         </li>
       ))}
@@ -511,7 +511,7 @@ export function CycleView({ block }: { block: B<"cycle"> }) {
           return (
             <li key={c.title} className="relative">
               {/* huge faint numeral behind */}
-              <span aria-hidden className="pointer-events-none block font-heading text-[104px] leading-[0.8] font-bold tracking-[-0.06em] text-[#ebe3d6] select-none">
+              <span aria-hidden className="pointer-events-none block font-heading text-[80px] leading-[0.8] font-bold md:text-[104px] tracking-[-0.06em] text-[#ebe3d6] select-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
               {/* icon disc overlapping the numeral */}
@@ -557,7 +557,7 @@ export function LessonsView({ block }: { block: B<"lessons"> }) {
     <ol className="grid gap-10 md:grid-cols-2 md:gap-0 md:divide-x md:divide-line">
       {block.items.map((l, i) => (
         <li key={l.title} className={cn(i > 0 && "md:pl-10", i < block.items.length - 1 && "md:pr-10")}>
-          <span aria-hidden className="block font-heading text-[88px] leading-[0.8] font-bold tracking-[-0.06em] text-[#ebe3d6] md:text-[112px]">
+          <span aria-hidden className="block font-heading text-[72px] leading-[0.8] font-bold tracking-[-0.06em] text-[#ebe3d6] md:text-[112px]">
             {String(i + 1).padStart(2, "0")}
           </span>
           <h4 className="-mt-5 font-heading text-[26px] leading-[1.1] font-semibold tracking-[-0.02em] text-ink md:text-[32px]">{l.title}</h4>

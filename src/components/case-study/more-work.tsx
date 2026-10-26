@@ -69,8 +69,8 @@ export function MoreWork({ heading, items }: { heading: string; items: WorkCard[
   ].filter((s) => s.href)
 
   return (
-    <section className="mt-24 border-t border-line pt-14" aria-labelledby="more-work">
-      <h2 id="more-work" className="text-[32px] leading-tight tracking-[-0.02em] text-ink md:text-[40px]">
+    <section className="mt-14 border-t border-line pt-10 md:mt-24 md:pt-14" aria-labelledby="more-work">
+      <h2 id="more-work" className="text-[26px] leading-tight tracking-[-0.02em] text-ink md:text-[40px]">
         {heading}
       </h2>
 
@@ -119,7 +119,7 @@ export function MoreWork({ heading, items }: { heading: string; items: WorkCard[
         <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[460px]">
             <p className="text-[11px] font-semibold tracking-[0.14em] text-[var(--tone-purple)] uppercase">Let&apos;s talk</p>
-            <p className="mt-3 font-heading text-[28px] leading-[1.1] font-semibold tracking-[-0.02em] text-ink md:text-[34px]">
+            <p className="mt-3 font-heading text-[24px] leading-[1.15] font-semibold tracking-[-0.02em] text-ink md:text-[34px] md:leading-[1.1]">
               Let&apos;s design something people can rely on.
             </p>
             <p className="mt-3 text-[15px] leading-relaxed text-body">

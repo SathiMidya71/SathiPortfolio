@@ -70,7 +70,7 @@ export function PmContextBoard({
         {facts.map((f, i) => (
           <div key={f.label} className={cn("pr-4", i > 0 && "md:border-l md:border-white/10 md:pl-6", i % 2 === 1 && "max-md:border-l max-md:border-white/10 max-md:pl-4")}>
             <dd
-              className="font-heading text-[52px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[64px]"
+              className="font-heading text-[42px] leading-[0.9] font-semibold tracking-[-0.04em] md:text-[64px]"
               style={{ backgroundImage: "linear-gradient(180deg,#e6f7ef 0%,#8fd3b4 100%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}
             >
               {f.n}

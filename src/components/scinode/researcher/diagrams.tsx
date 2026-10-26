@@ -764,7 +764,7 @@ export function makeDiagrams(D: PlatformData) {
         <div>
           <div>
             <p className="text-[15px] text-soft">Overview</p>
-            <h2 className="mt-1 font-sans text-[30px] leading-[1.1] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[34px] xl:text-[38px]">
+            <h2 className="mt-1 font-sans text-[26px] leading-[1.15] font-normal tracking-[-0.02em] text-[#1d1d1f] md:text-[34px] md:leading-[1.1] xl:text-[38px]">
               {D.overview.title[0]} <span className={cn(serifClass, "text-ink/60 italic")}>{D.overview.title[1]}</span>
             </h2>
           </div>
@@ -886,7 +886,7 @@ export function makeDiagrams(D: PlatformData) {
         <div className="grid gap-10 lg:hidden">
           {D.researchStats.map((s) => (
             <div key={s.value} className="border-l-2 border-brand/30 pl-5">
-              <p className="font-sans text-[56px] leading-none tracking-[-0.03em] text-[#1d1d1f]">{s.value}</p>
+              <p className="font-sans text-[44px] leading-none tracking-[-0.03em] text-[#1d1d1f] md:text-[56px]">{s.value}</p>
               <p className="mt-3 text-[16px] leading-relaxed text-soft">{s.text}</p>
               <span className="mt-3 inline-block rounded-full bg-white px-3.5 py-1.5 text-[13.5px] text-ink">{s.source}</span>
             </div>

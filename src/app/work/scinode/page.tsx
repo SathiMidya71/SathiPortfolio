@@ -49,7 +49,7 @@ export default function ScinodePage() {
         <header className={`${shell} pt-6 md:pt-10`}>
           <Trail />
           <p className="mt-10 text-sm font-semibold tracking-[0.08em] text-brand uppercase">Scimplify · R&amp;D opportunity platform</p>
-          <h1 className="mt-4 text-[42px] leading-[0.98] tracking-[-0.02em] text-brand md:text-[64px] lg:text-[84px] lg:leading-none">
+          <h1 className="mt-4 text-[34px] leading-[1.02] tracking-[-0.02em] text-brand md:text-[64px] md:leading-[0.98] lg:text-[84px] lg:leading-none">
             SCINODE
             <br />
             <span className="bg-gradient-to-r from-brand to-brand/70 bg-clip-text text-transparent">one ecosystem, three portals</span>
@@ -89,7 +89,7 @@ export default function ScinodePage() {
               [String(areas.length), "user areas I designed"],
             ].map(([v, l]) => (
               <li key={l}>
-                <p className="font-heading text-[40px] leading-none font-semibold text-brand md:text-[48px]">{v}</p>
+                <p className="font-heading text-[34px] leading-none font-semibold text-brand md:text-[48px]">{v}</p>
                 <p className="mt-2 text-[14.5px] text-body">{l}</p>
               </li>
             ))}
@@ -103,22 +103,22 @@ export default function ScinodePage() {
         {/* the problem: above the ecosystem */}
         <section id="problem" className={`${shell} mt-20 scroll-mt-24 lg:mt-28`}>
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">The problem</p>
-          <h2 className="mt-3 max-w-[820px] text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">R&amp;D needs get stuck between request and delivery</h2>
+          <h2 className="mt-3 max-w-[820px] text-[26px] leading-[1.12] tracking-[-0.02em] text-ink md:text-[44px] md:leading-[1.08]">R&amp;D needs get stuck between request and delivery</h2>
           <div className="mt-10">
             <BlockView block={problem} />
           </div>
         </section>
 
         {/* how it works: one row, full width, fits one screen */}
-        <section id="ecosystem" className={`${shell} mt-24 scroll-mt-24 lg:mt-32`}>
+        <section id="ecosystem" className={`${shell} mt-14 scroll-mt-24 md:mt-24 lg:mt-32`}>
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">How it works</p>
           <Ecosystem highlight={litSteps} className="mt-2" />
         </section>
 
         {/* the clickable ecosystem map, full width */}
-        <section id="map" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
+        <section id="map" className={`${shell} mt-14 scroll-mt-28 md:mt-24 lg:mt-32`}>
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Ecosystem map</p>
-          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">What I designed, by user</h2>
+          <h2 className="mt-3 text-[26px] leading-[1.12] tracking-[-0.02em] text-ink md:text-[44px] md:leading-[1.08]">What I designed, by user</h2>
           <p className="mt-4 max-w-[720px] text-[17px] leading-relaxed text-body">
             In the customer portal I designed the CVP module. On the supplier side I designed everything: suppliers sign up as a manufacturer or as a researcher (a CRO or a scientist), and each has its own case study. Click a green card to open it.
           </p>
@@ -128,9 +128,9 @@ export default function ScinodePage() {
         </section>
 
         {/* visual language, shared with Deep Research */}
-        <section id="visual-language" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
+        <section id="visual-language" className={`${shell} mt-14 scroll-mt-28 md:mt-24 lg:mt-32`}>
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Visual language</p>
-          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">One visual language across all portals</h2>
+          <h2 className="mt-3 text-[26px] leading-[1.12] tracking-[-0.02em] text-ink md:text-[44px] md:leading-[1.08]">One visual language across all portals</h2>
           <p className="mt-4 max-w-[720px] text-[17px] leading-relaxed text-body">
             SCINODE uses the same type and colours as SCINODE Deep Research, so the customer, admin and supplier portals feel like one product family.
           </p>
@@ -142,9 +142,9 @@ export default function ScinodePage() {
         </section>
 
         {/* the case studies she designed */}
-        <section id="my-work" className={`${shell} mt-24 scroll-mt-28 lg:mt-32`}>
+        <section id="my-work" className={`${shell} mt-14 scroll-mt-28 md:mt-24 lg:mt-32`}>
           <p className="text-sm font-semibold tracking-[0.08em] text-brand uppercase">Case studies</p>
-          <h2 className="mt-3 text-[32px] leading-[1.08] tracking-[-0.02em] text-ink md:text-[44px]">Explore what I designed</h2>
+          <h2 className="mt-3 text-[26px] leading-[1.12] tracking-[-0.02em] text-ink md:text-[44px] md:leading-[1.08]">Explore what I designed</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {workCards.map((c) => (
               <article

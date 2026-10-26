@@ -132,7 +132,7 @@ export function KeepExploring(where: Where) {
   const others = platforms.filter((x) => x.key !== p.key)
 
   return (
-    <section aria-labelledby="keep-exploring" className="mt-20 rounded-[28px] border border-line bg-white/70 p-5 sm:p-8">
+    <section aria-labelledby="keep-exploring" className="mt-12 rounded-[28px] border border-line bg-white/70 p-5 sm:p-8 md:mt-20">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-[12px] font-semibold tracking-[0.12em] text-brand uppercase">Keep exploring</p>
