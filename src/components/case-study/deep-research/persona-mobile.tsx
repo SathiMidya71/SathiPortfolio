@@ -1,11 +1,7 @@
-"use client"
-
-import { useState } from "react"
 import Image from "next/image"
-import { cn } from "@/lib/utils"
 
-// Phone layout of a persona: a compact header (round portrait beside name and role, facts inline,
-// the quote), then goals / frustrations / needs as tabs, so the card fits about one screen.
+// Phone layout of a persona: compact header (round portrait beside name and role, facts as two tiles,
+// the quote), then goals, frustrations and needs all visible as short lists. No tapping.
 
 type Persona = {
   name: string
@@ -20,13 +16,10 @@ type Persona = {
 }
 
 export function PersonaMobile({ p }: { p: Persona }) {
-  const tabs = [
-    { key: "goals", label: "Goals", items: p.goals, tone: "var(--tone-green)" },
-    { key: "frustrations", label: "Frustrations", items: p.frustrations, tone: "var(--tone-orange)" },
-    ...(p.needs ? [{ key: "needs", label: "Needs", items: p.needs, tone: "var(--tone-purple-ink)" }] : []),
+  const groups = [
+    { label: "Goals", items: p.goals, tone: "#02594e", tint: "#e4f1eb" },
+    { label: "Frustrations", items: p.frustrations, tone: "#9a4a12", tint: "#fdeee0" },
   ]
-  const [tab, setTab] = useState(tabs[0].key)
-  const cur = tabs.find((t) => t.key === tab)!
   return (
     <article className="rounded-[22px] bg-white/60 p-4 ring-1 ring-line">
       <div className="flex items-center gap-3.5">
@@ -35,47 +28,52 @@ export function PersonaMobile({ p }: { p: Persona }) {
         )}
         <div className="min-w-0">
           <h4 className="font-heading text-[21px] leading-tight font-semibold text-ink">{p.name}</h4>
-          <p className="text-[14px] leading-snug font-medium text-[var(--tone-purple-ink)]">{p.role}</p>
+          <p className="text-[15px] leading-snug font-medium text-[var(--tone-purple-ink)]">{p.role}</p>
         </div>
       </div>
 
       {p.facts && (
-        <dl className="mt-4 grid grid-cols-2 gap-2">
+        <dl className="mt-3.5 grid grid-cols-2 gap-2">
           {p.facts.map((f) => (
             <div key={f.label} className="rounded-[14px] bg-white px-3 py-2">
-              <dt className="text-[10.5px] font-semibold tracking-[0.08em] text-soft uppercase">{f.label}</dt>
-              <dd className="text-[14.5px] font-semibold text-ink">{f.value}</dd>
+              <dt className="text-[11px] font-semibold tracking-[0.08em] text-soft uppercase">{f.label}</dt>
+              <dd className="text-[15px] font-semibold text-ink">{f.value}</dd>
             </div>
           ))}
         </dl>
       )}
 
-      {p.quote && <blockquote className="mt-4 rounded-2xl bg-white px-4 py-3 font-heading text-[16px] leading-snug font-semibold text-ink">“{p.quote}”</blockquote>}
-      {p.about && <p className="mt-3 text-[14.5px] leading-relaxed text-body">{p.about}</p>}
+      {p.quote && <blockquote className="mt-3.5 rounded-2xl bg-white px-4 py-3 font-heading text-[16px] leading-snug font-semibold text-ink">“{p.quote}”</blockquote>}
+      {p.about && <p className="mt-3 text-[15px] leading-relaxed text-body">{p.about}</p>}
 
-      <div role="tablist" aria-label={`${p.name}: goals, frustrations and needs`} className="mt-5 flex gap-1 rounded-full bg-[#f2ece3] p-1">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            role="tab"
-            id={`pm-tab-${t.key}`}
-            aria-selected={tab === t.key}
-            aria-controls="pm-panel"
-            onClick={() => setTab(t.key)}
-            className={cn("min-h-[44px] flex-1 rounded-full px-2 text-[14px] font-semibold transition-colors", tab === t.key ? "bg-white text-ink shadow-sm" : "text-soft")}
-          >
-            {t.label}
-          </button>
+      <div className="mt-4 grid grid-cols-2 gap-2.5">
+        {groups.map((g) => (
+          <div key={g.label} className="rounded-[16px] p-3" style={{ background: g.tint }}>
+            <p className="text-[12px] font-semibold tracking-[0.08em] uppercase" style={{ color: g.tone }}>
+              {g.label}
+            </p>
+            <ul className="mt-2 grid gap-1.5">
+              {g.items.map((item) => (
+                <li key={item} className="text-[14px] leading-snug text-ink">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
       </div>
-      <ul id="pm-panel" role="tabpanel" aria-labelledby={`pm-tab-${tab}`} className="mt-4 grid gap-2.5 px-1">
-        {cur.items.map((item) => (
-          <li key={item} className="flex gap-2.5 text-[15px] leading-snug text-ink">
-            <span aria-hidden className="mt-[0.45em] size-1.5 shrink-0 rounded-full" style={{ background: cur.tone }} />
-            {item}
-          </li>
-        ))}
-      </ul>
+      {p.needs && (
+        <div className="mt-3">
+          <p className="text-[12px] font-semibold tracking-[0.08em] text-[var(--tone-purple-ink)] uppercase">Needs</p>
+          <ul className="mt-2 flex flex-wrap gap-1.5">
+            {p.needs.map((n) => (
+              <li key={n} className="rounded-full bg-[#f3eefc] px-3 py-1.5 text-[14px] font-medium text-[#4a307d]">
+                {n}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </article>
   )
 }
